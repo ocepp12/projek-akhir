@@ -34,7 +34,6 @@ if (isset($_POST['register'])){
     if (strlen($password_p) < 8) {
         $errors[] = "Password minimal harus 8 karakter!";
     }
-
     if (!preg_match("/[A-Z]/", $password_p)) {
         $errors[] = "Password harus memiliki setidaknya satu huruf besar!";
     }
@@ -72,7 +71,10 @@ if (isset($_POST['register'])){
     } else {
         // Jika ada error validasi input
         $pesan_error = implode("\\n", $errors);
-        echo "<script>alert('$pesan_error');</script>";
+        echo "<script>
+                alert('$pesan_error');
+                window.location.href = 'daftar.php';
+                </script>";
     }
 } // Tutup If Isset Register
 if (isset($_POST['masuk'])){
@@ -89,13 +91,17 @@ if (isset($_POST['masuk'])){
             $r1 = mysqli_fetch_array($result); 
             if(password_verify($password_p, $r1['password_p'])){
                 $_SESSION['email'] = $r1['email'];
+                $_SESSION['id_perusahaan'] = $r1['id_perusahaan'];
                 echo "<script>
                         alert('Anda berhasil login!');
                         window.location.href = 'formperusahaan.php';
                         </script>";
                 exit();
             }else{
-            echo "<script>alert('Password yang dimasukkan tidak sesuai!');</script>";
+            echo "<script>
+                alert('Password yang dimasukkan tidak sesuai!');
+                window.location.href = 'login.php';
+                </script>";
             }
         }    
     }
