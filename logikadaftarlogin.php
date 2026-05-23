@@ -90,13 +90,18 @@ if (isset($_POST['masuk'])){
         }else{
             $r1 = mysqli_fetch_array($result); 
             if(password_verify($password_p, $r1['password_p'])){
-                $_SESSION['email'] = $r1['email'];
+                $_SESSION['emaillogin'] = $r1['email'];
                 $_SESSION['id_perusahaan'] = $r1['id_perusahaan'];
-                echo "<script>
-                        alert('Anda berhasil login!');
-                        window.location.href = 'formperusahaan.php';
-                        </script>";
-                exit();
+                $_SESSION['perusahaan'] = $r1['nmaperusahaan'];
+                if (empty($r1['nmaperusahaan'])){
+                    //untuk login pertama kali
+                    header("Location: formperusahaan.php");
+                    exit();
+                }else{
+                    //untuk login yang kesekian kali
+                    header("Location: dasboardperusahaan.php");
+                    exit();;
+                }
             }else{
             echo "<script>
                 alert('Password yang dimasukkan tidak sesuai!');

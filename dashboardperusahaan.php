@@ -1,3 +1,37 @@
+<?php
+ob_start(); // supaya tidak terjadi tampilan kedipan error yang sekilas
+// Tampilkan error jika ada masalah lain agar tidak ngeblank
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Koneksi ke database
+$host = 'localhost';
+$user = 'root';
+$pass = "";
+$db   = 'sistempenggajian';
+$conn = mysqli_connect($host, $user, $pass, $db);
+
+// Cek koneksi berhasil atau tidak
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+// Mulai sesi
+session_start();
+// 1. Cek apakah user sudah login
+if (!isset($_SESSION['emaillogin'])) {
+    header("Location: login.php");
+    exit;
+}
+// 2. Ambil data terbaru dari database
+$id_perusahaan = $_SESSION['id_perusahaan'];
+$query = mysqli_query($conn, "SELECT nmaperusahaan FROM perusahaan WHERE id_perusahaan = '$id_perusahaan'");
+$perusahaan = mysqli_fetch_assoc($query);
+// Jika sudah isi, langsung lempar ke dashboard
+if (empty($perusahaan['nmaperusahaan'])) {
+    header("Location: formperusahaan.php");
+    exit; // Menghentikan kode di bawah agar tidak sempat terbaca
+}
+?>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -64,3 +98,6 @@
         </div>
     </body>
 </html>
+<?php
+ob_end_flush(); //fungsinya sama seperti ob_start yang diatas
+?>
