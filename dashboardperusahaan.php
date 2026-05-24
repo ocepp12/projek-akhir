@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 <?php
 ob_start(); // supaya tidak terjadi tampilan kedipan error yang sekilas
 // Tampilkan error jika ada masalah lain agar tidak ngeblank
@@ -87,7 +85,6 @@ $query_presensi = mysqli_query($conn, "SELECT id_karyawan, jamMasuk, sttsPresens
 ?>
 
 <!DOCTYPE html>
->>>>>>> Stashed changes
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -250,11 +247,8 @@ $query_presensi = mysqli_query($conn, "SELECT id_karyawan, jamMasuk, sttsPresens
             </main>
         </div>
     </body>
-<<<<<<< Updated upstream
 </html>
-=======
 </html>
 <?php
 ob_end_flush();
 ?>
->>>>>>> Stashed changes

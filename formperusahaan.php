@@ -1,5 +1,3 @@
-<<<<<<< Updated upstream
-=======
 <?php
 ob_start(); // supaya tidak terjadi tampilan kedipan error yang sekilas
 // Tampilkan error jika ada masalah lain agar tidak ngeblank
@@ -39,7 +37,6 @@ if (!empty($perusahaan['nmaperusahaan']) && !isset($_GET['action'])) {
     exit; // Menghentikan kode di bawah agar tidak sempat terbaca
 }
 ?>
->>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="en">
     <head>
