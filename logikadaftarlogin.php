@@ -92,11 +92,24 @@ if (isset($_POST['masuk'])){
             if(password_verify($password_p, $r1['password_p'])){
                 $_SESSION['email'] = $r1['email'];
                 $_SESSION['id_perusahaan'] = $r1['id_perusahaan'];
+<<<<<<< Updated upstream
                 echo "<script>
                         alert('Anda berhasil login!');
                         window.location.href = 'formperusahaan.php';
                         </script>";
                 exit();
+=======
+                $_SESSION['perusahaan'] = $r1['nmaPerusahaan'];
+                if (empty($r1['nmaPerusahaan'])){
+                    //untuk login pertama kali
+                    header("Location: formperusahaan.php");
+                    exit();
+                }else{
+                    //untuk login yang kesekian kali
+                    header("Location: dashboardperusahaan.php");
+                    exit();;
+                }
+>>>>>>> Stashed changes
             }else{
             echo "<script>
                 alert('Password yang dimasukkan tidak sesuai!');

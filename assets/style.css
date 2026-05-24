@@ -512,7 +512,7 @@ h2{
 .btn-signin{
     width: 100%;
     padding: 14px;
-    background: #3e9c35;
+    background: linear-gradient(to right,#3e9c35, #9CDE35);
     border: none;
     border-radius: 10px;
     color: white;
@@ -677,10 +677,10 @@ h2{
     color: #3e3e3e;
 }
 
-/* =========================================
-   11. DASHBOARD PERUSAHAAN
-   ========================================= */
-.sidebar{
+/* =========================================================================
+   11. DASHBOARD PERUSAHAAN & SIDEBAR LAYOUT
+   ========================================================================= */
+.sidebar {
     width: 260px;
     background-color: #3E9C35;
     color: white;
@@ -699,7 +699,12 @@ h2{
     left: 0;
 }
 
-.brand{
+.sidebar-footer {
+    margin-top: auto;
+    padding-bottom: 20px;
+}
+
+.brand {
     padding: 20px 25px; 
     height: 70px; 
     display: flex;
@@ -709,11 +714,11 @@ h2{
     box-sizing: border-box;
 }
 
-.brand h2 span{
+.brand h2 span {
     color: #9CDE35;
 }
 
-.nav-menu{
+.nav-menu {
     display: flex;
     flex-direction: column;
     padding: 0; 
@@ -721,7 +726,7 @@ h2{
     margin-top: 100px;
 }
 
-.nav-item{
+.nav-item {
     display: flex;
     align-items: center;
     padding: 15px 25px; 
@@ -734,20 +739,47 @@ h2{
     box-sizing: border-box;
 }
 
-.nav-item i{
+.nav-item i {
     margin-right: 15px;
     font-size: 1.2rem;
     width: 25px;
 }
 
 .nav-item:hover, 
-.nav-item.active{
+.nav-item.active {
     background-color: #9CDE35;
     color: white;
     border-radius: 0; 
 }
 
-.main-content{
+.nav-menu .nav-logout,
+.sidebar-footer .nav-logout {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    padding: 12px 20px;
+    transition: all 0.3s ease;
+}
+
+.sidebar-footer .nav-logout i {
+    color: #ffffff;
+}
+
+.sidebar-footer .nav-logout:hover {
+    background-color: #c53030;
+    color: #ffffff;            
+}
+
+.sidebar-footer .nav-logout:hover i {
+    color: #ffffff;            
+}
+
+/* =========================================================================
+   12. MAIN CONTENT, TOPBAR, & SEARCH FEATURE
+   ========================================================================= */
+.main-content {
     flex: 1;
     margin-left: 0; 
     display: flex;
@@ -756,23 +788,11 @@ h2{
     transition: margin-left 0.3s ease; 
 }
 
-.main-content.sidebar-active{
+.main-content.sidebar-active {
     margin-left: 260px;
 }
 
-.toggle-btn{
-    font-size: 1.4rem;
-    cursor: pointer;
-    color: #333;
-    padding: 10px;
-    transition: color 0.3s ease;
-}
-
-.toggle-btn:hover{
-    color: #3E9C35;
-}
-
-.topbar{
+.topbar {
     background-color: white;
     height: 70px;
     display: flex;
@@ -786,44 +806,30 @@ h2{
     z-index: 90;
 }
 
-.toggle-btn{
+.toggle-btn {
     font-size: 1.4rem;
     cursor: pointer;
     color: #333;
+    padding: 10px;
+    transition: color 0.3s ease;
 }
 
-.topbar-right{
+.toggle-btn:hover {
+    color: #3E9C35;
+}
+
+.topbar-right {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.icon-btn{
-    font-size: 1.3rem;
-    cursor: pointer;
-    color: #555;
-}
-
-.notification-badge{
-    position: relative;
-}
-
-.user-name{
+.user-name {
     font-weight: 600;
     color: #333;
 }
 
-.content-body{
-    padding: 30px;
-    flex: 1;
-    background-color: #f4f6f9;
-    display: block;
-}
-
-/* =========================================
-   12. ANIMASI FITUR PENCARIAN (TOPBAR)
-   ========================================= */
-.search-wrapper{
+.search-wrapper {
     display: flex;
     align-items: center;
     position: relative;
@@ -834,13 +840,13 @@ h2{
     border: 1px solid transparent;
 }
 
-.search-wrapper:focus-within{
+.search-wrapper:focus-within {
     border-color: #3E9C35;
     background-color: white;
     box-shadow: 0 0 5px rgba(60, 162, 60, 0.15);
 }
 
-.search-input{
+.search-input {
     width: 0;
     opacity: 0;
     border: none;
@@ -851,23 +857,268 @@ h2{
     padding: 0;
 }
 
-.search-wrapper.open .search-input{
+.search-wrapper.open .search-input {
     width: 170px;
     opacity: 1;
     padding-right: 10px;
 }
 
-.search-toggle{
+.search-toggle {
     cursor: pointer;
     font-size: 1.2rem;
     color: #555;
     transition: color 0.3s;
 }
 
-.search-toggle:hover{
+.search-toggle:hover {
     color: #3E9C35;
 }
 
-.dashboard-container{
+/* =========================================================================
+   13. DASHBOARD MAIN GRID CONFIGURATION
+   ========================================================================= */
+.content-body {
+    padding: 30px 50px;
+    box-sizing: border-box;
+    flex: 1;
+    background-color: #f4f6f9;
+    display: block;
+}
+
+.dashboard-container {
     overflow-x: hidden;
+}
+
+.dashboard-title {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.dashboard-grid {
+    display: flex;
+    gap: 24px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+/* =========================================================================
+   14. CARD COMPONENT: SINKRONISASI & DATA PERUSAHAAN (KIRI)
+   ========================================================================= */
+.card-info .card-header-title,
+.card-stats-container .card-header-title {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.card-info .card-header-title h4,
+.card-stats-container .card-header-title h4 {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1;       
+    color: #333;
+    font-size: 15px;
+    width: 100%;
+}
+
+.card-info {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    border-radius: 12px;
+    flex: 2;
+    max-width: 750px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    font-family: sans-serif;
+}
+
+.form-group-info {
+    margin-bottom: 30px;
+}
+
+.form-group-info label {
+    font-weight: bold;
+    color: #718096;
+    display: block;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.text-company-name {
+    font-size: 18px;
+    color: #3e9c35;
+    font-weight: bold;
+}
+
+.text-company-value {
+    color: #2d3748;
+    font-size: 14px;
+}
+
+.text-coordinate {
+    color: #2d3748;
+    font-size: 14px;
+    font-family: monospace;
+    background: #f7fafc;
+    padding: 4px 8px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-top: 2px;
+    border: 1px solid #edf2f7;
+}
+
+.text-radius {
+    color: #2d3748;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.icon-radius {
+    color: #3182ce;
+}
+
+.btn-ubah {
+    text-decoration: none; 
+    display: inline-block; 
+    text-align: center;
+    background: linear-gradient(to right,#3e9c35, #9CDE35);
+    color: #ffffff;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.btn-ubah:hover {
+    background: linear-gradient(to right,#317d2a, #7db12a);
+    transform: translateY(-1px);
+    color: #f2f2f2;
+}
+
+/* =========================================================================
+   15. CARD COMPONENT: AKTIVITAS PRESENSI TERBARU (KANAN)
+   ========================================================================= */
+.card-stats-container {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 20px;
+    flex: 1;
+    max-width: 550px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    box-sizing: border-box;
+}
+
+.presence-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Baris Item Presensi */
+.presence-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background-color: #f7fafc;
+    border-radius: 8px;
+    border-left: 4px solid #48bb78; /* Aksen batas kiri ijo khas presensi sukses */
+    transition: transform 0.2s ease;
+}
+
+.presence-item:hover {
+    transform: translateX(3px);
+}
+
+.presence-badge {
+    width: 38px;
+    height: 38px;
+    background-color: #e6fffa;
+    color: #319795;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+}
+
+.presence-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.p-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3748;
+}
+
+.p-time {
+    font-size: 12px;
+    color: #718096;
+    margin-top: 3px;
+}
+
+.status-badge {
+    color: #38a169;
+    text-transform: uppercase;
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.text-empty-presence {
+    font-size: 13px;
+    color: #a0aec0;
+    text-align: center;
+    font-style: italic;
+    margin: 15px 0;
+}
+
+/* =========================================================================
+   16. MISC / ALERT SYSTEM
+   ========================================================================= */
+.alert-incomplete {
+    background: #fff5f5;
+    border: 1px solid #feb2b2;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 550px;
+    font-family: sans-serif;
+    color: #c53030;
+}
+
+.alert-incomplete h4 {
+    margin-top: 0;
+}
+
+.alert-incomplete p {
+    font-size: 14px;
+    color: #742a2a;
+    line-height: 1.5;
+}
+
+.btn-fill-form {
+    display: inline-block;
+    background: #c53030;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    transition: background 0.2s ease;
+}
+
+.btn-fill-form:hover {
+    background: #9b2c2c;
 }

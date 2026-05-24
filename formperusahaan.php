@@ -1,3 +1,45 @@
+<<<<<<< Updated upstream
+=======
+<?php
+ob_start(); // supaya tidak terjadi tampilan kedipan error yang sekilas
+// Tampilkan error jika ada masalah lain agar tidak ngeblank
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Koneksi ke database
+$host = 'localhost';
+$user = 'root';
+$pass = "";
+$db   = 'sistempenggajian';
+$conn = mysqli_connect($host, $user, $pass, $db);
+
+// Cek koneksi berhasil atau tidak
+if (!$conn) {
+    die("Koneksi gagal: " . mysqli_connect_error());
+}
+// Mulai sesi
+session_start();
+// 1. Cek apakah user sudah login
+if (!isset($_SESSION['emaillogin'])) {
+    header("Location: login.php");
+    exit;
+}
+// 2. Ambil data terbaru dari database (DIUBAH sedikit biar narik data alamat, wa, dan lokasi juga buat autofill)
+$id_perusahaan = $_SESSION['id_perusahaan'];
+$query = mysqli_query($conn, "SELECT p.*, l.latitude, l.longitude, l.radius 
+                              FROM perusahaan p 
+                              LEFT JOIN lokasi l ON p.id_lokasi = l.id_lokasi 
+                              WHERE p.id_perusahaan = '$id_perusahaan'");
+$perusahaan = mysqli_fetch_assoc($query);
+
+// Jika sudah isi, langsung lempar ke dashboard (DITAMBAHIN pengecekan !isset($_GET['action']))
+// Jadi kalau ada ?action=edit dari dashboard, baris redirect ini bakal di-bypass/dilewati.
+if (!empty($perusahaan['nmaperusahaan']) && !isset($_GET['action'])) {
+    header("Location: dashboardperusahaan.php");
+    exit; // Menghentikan kode di bawah agar tidak sempat terbaca
+}
+?>
+>>>>>>> Stashed changes
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -24,43 +66,36 @@
                 
                 <form action="simpan_perusahaan.php" method="post">
                     
-                    <!-- 1. NAMA PERUSAHAAN -->
                     <div class="input-group">
                         <label for="nama_perusahaan">NAMA PERUSAHAAN</label>
-                        <input type="text" name="nama_perusahaan" id="nama_perusahaan" placeholder="Masukkan Nama Perusahaan" required>
+                        <input type="text" name="nama_perusahaan" id="nama_perusahaan" placeholder="Masukkan Nama Perusahaan" value="<?= htmlspecialchars($perusahaan['nmaperusahaan'] ?? ''); ?>" required>
                     </div>
 
-                    <!-- 2. ALAMAT -->
                     <div class="input-group">
                         <label for="alamat">ALAMAT PERUSAHAAN</label>
-                        <textarea name="alamat" id="alamat" placeholder="Masukkan Alamat Lengkap" rows="3" required></textarea>
+                        <textarea name="alamat" id="alamat" placeholder="Masukkan Alamat Lengkap" rows="3" required><?= htmlspecialchars($perusahaan['alamat'] ?? ''); ?></textarea>
                     </div>
 
-                    <!-- 3. NOMOR WA -->
                     <div class="input-group">
                         <label for="no_wa">NOMOR WHATSAPP</label>
-                        <input type="tel" name="no_wa" id="no_wa" placeholder="Masukkan Nomor WhatsApp" required>
+                        <input type="tel" name="no_wa" id="no_wa" placeholder="Masukkan Nomor WhatsApp" value="<?= htmlspecialchars($perusahaan['noWa'] ?? ''); ?>" required>
                     </div>
 
-                    <!-- 4. LATITUDE -->
                     <div class="input-group">
                         <label for="latitude">LATITUDE</label>
-                        <input type="text" name="latitude" id="latitude" placeholder="Contoh: -6.2088" required>
+                        <input type="text" name="latitude" id="latitude" placeholder="Contoh: -6.2088" value="<?= htmlspecialchars($perusahaan['latitude'] ?? ''); ?>" required>
                     </div>
 
-                    <!-- 5. LONGITUDE -->
                     <div class="input-group">
                         <label for="longitude">LONGITUDE</label>
-                        <input type="text" name="longitude" id="longitude" placeholder="Contoh: 106.8456" required>
+                        <input type="text" name="longitude" id="longitude" placeholder="Contoh: 106.8456" value="<?= htmlspecialchars($perusahaan['longitude'] ?? ''); ?>" required>
                     </div>
 
-                    <!-- 6. RADIUS -->
                     <div class="input-group">
                         <label for="radius">RADIUS ABSENSI (METER)</label>
-                        <input type="number" name="radius" id="radius" placeholder="Contoh: 100" min="1" required>
+                        <input type="number" name="radius" id="radius" placeholder="Contoh: 100" min="1" value="<?= htmlspecialchars($perusahaan['radius'] ?? ''); ?>" required>
                     </div>
 
-                    <!-- BUTTON SUBMIT -->
                     <button type="submit" name="submit_perusahaan" class="btn-signin">Simpan Data</button>
                     
                     <div class="footer">
