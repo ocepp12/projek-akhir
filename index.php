@@ -19,7 +19,7 @@
         <a href="index.php" class="logo-link">
             <img src="assets/logo.svg" class="logo" alt="logo">
         </a>
-
+        
         <nav>
             <ul>
                 <li><a href="index.php">Beranda</a></li>
@@ -34,8 +34,8 @@
     </div>
 
 <!-- Teks Pembuka -->
-    <h1>Kelola Payroll, Penjualan & Absensi Dengan Kami</h1>
-    <p>Optimalkan efisiensi operasional bisnis Anda dengan sistem manajemen payroll, penjualan dan absensi yang terintegrasi. Kami menghadirkan solusi digital yang akurat untuk membantu Anda mengelola data karyawan, perhitungan gaji, hingga pemantauan kehadiran secara real-time dalam satu platform yang aman dan mudah digunakan.</p>
+    <h1>Kelola Payroll, Penjualan oleh Sales & Absensi Dengan Kami</h1>
+    <p>Optimalkan efisiensi operasional bisnis Anda dengan sistem manajemen payroll, penjualan yang dilakukan oleh sales dan absensi yang terintegrasi. Kami menghadirkan solusi digital yang akurat untuk membantu Anda mengelola data karyawan, perhitungan gaji, hingga pemantauan kehadiran secara real-time dalam satu platform yang aman dan mudah digunakan.</p>
 
         <a href="daftar.php" class="daftar-link">
             <button class="button-daftar" type="button">Daftar Sekarang</button>
@@ -62,8 +62,8 @@
 <!-- Fitur Fitur dan Penjelasan Fitur -->
     <div class="container-utama">
         <div class="kolom-teks">
-            <h1>Urus Stok Lebih Mudah & Cepat</h1>
-            <p>Catat semua permintaan barang yang diperlukan untuk pembelian atau pemenuhan stok dengan cepat dan akurat. Proses pemindahan barang antar gudang pada bisnis Anda jadi lebih mudah dan berjalan lancar. Secara otomatis menyesuaikan data inventaris ketika ada selisih antara hitungan fisik dan sistem, sehingga setiap item tercatat dengan tepat.</p>
+            <h1>Urus Penggajian Lebih Mudah & Cepat</h1>
+            <p>Catat semua elemen gaji yang diperlukan untuk memenuhi kebutuhan karyawan dengan cepat dan akurat. Anda dapat memilih tunjangan karyawan sesuai dengan kebutuhan bisnis. Bukan hanya itu, anda juga bisa memasukan pinjaman karyawan, bonus penjualan sesuai dengan performa karyawan yang diintegrasikan dengan penjualan dan potongan kehadiran yang sudah terintegrasi dengan presensi. Perhitungan gaji secara otomatis menyesuaikan dengan data karyawan, sehingga setiap periode tercatat dengan tepat.</p>
         </div>
         <div class="kolom-gambar">
             <img src="assets/1.jpg" class="gambar" alt="gambar">
@@ -71,8 +71,8 @@
     </div>
         <div class="container-utama reverse">
         <div class="kolom-teks">
-            <h1>Optimalkan Penjualan Bisnis Anda</h1>
-            <p>Pastikan Penawaran Penjualan Anda tercatat dengan rapi dan mudah diakses untuk setiap transaksi. Kelola setiap Pesanan Penjualan dengan mulus sehingga bisnis cepat berkembang. Buat surat jalan dengan mudah dan catat setiap pengiriman dalam transaksi penjualan hanya dengan beberapa klik.</p>
+            <h1>Efisiensi Penjualan dari Sales Anda</h1>
+            <p>Pastikan Penawaran Penjualan Anda tercatat dengan rapi dan mudah diakses untuk setiap transaksi. Kelola setiap Pesanan Penjualan dari sales dengan mulus dan efisien sehingga bisnis cepat berkembang. Buat faktur penjualan dengan mudah hanya dengan memverifikasi pesanan yang sudah disesuaikan hanya dengan beberapa klik.</p>
         </div>
         <div class="kolom-gambar">
             <img src="assets/2.jpg" class="gambar" alt="gambar">
@@ -80,8 +80,8 @@
     </div>
     <div class="container-utama">
         <div class="kolom-teks">
-            <h1>Ciptakan pengelolaan Kas yang Lebih Baik</h1>
-            <p>Pastikan setiap transaksi pembayaran bisnis Anda tercatat dengan rapi, jelas, dan akurat. Cocokkan data bank dan sistem Anda dengan cepat sehingga semua transaksi tercatat dengan tepat. Transfer dana tercatat secara rinci sehingga memudahkan pelacakan setiap detail transaksi.</p>
+            <h1>Ciptakan pengelolaan SDM Lebih Baik</h1>
+            <p>Pastikan setiap karyawan memiliki data yang tercatat dengan rapi, jelas, dan akurat. Cocokkan data karyawan dan sistem Anda dengan cepat sehingga semua karyawan tercatat dengan tepat. Sesuaikan jabatan dan level karyawan dengan mudah hanya dengan beberapa klik saja.</p>
         </div>
         <div class="kolom-gambar">
             <img src="assets/3.jpg" class="gambar" alt="gambar">
@@ -89,8 +89,8 @@
     </div>
     <div class="container-utama reverse">
         <div class="kolom-teks">
-            <h1>Buat Laporan dengan Mudah</h1>
-            <p>Ketahui performa bisnis secara menyeluruh dari data pendapatan, biaya, dan laba bersih yang tersaji jelas. Dapatkan gambaran kondisi keuangan bisnis mulai dari aset, kewajiban, dan modal perusahaan secara terstruktur. Selain melihat alur uang masuk dan keluar, Anda juga bisa mengategorikan aktivitas operasional bisnis dengan mudah.</p>
+            <h1>Buat Laporan Gaji dengan Mudah</h1>
+            <p>Ketahui pengeluaran gaji secara menyeluruh dari data yang tersaji jelas. Selain melihat pengeluaran gaji secara keseluruhan, Anda juga bisa melihat pengeluaran dari setiap elemen gaji seperti bonus penjualan dan tunjangan BPJS.</p>
         </div>
         <div class="kolom-gambar">
             <img src="assets/4.jpg" class="gambar" alt="gambar">
@@ -98,8 +98,8 @@
     </div>
     <div class="container-utama">
         <div class="kolom-teks">
-            <h1>Layanan Lengkap untuk Atur Bisnis</h1>
-            <p>Urus transaksi internasional tanpa ribet! Catat utang piutang dalam mata asing secara praktis dan efisien. Dapatkan laporan terperinci berdasarkan cabang untuk memantau dan menganalisis performa dengan lebih mudah. Nikmati kemudahan perhitungan pajak yang langsung terintegrasi dengan aplikasi perpajakan sehingga pengelolaan pajak jadi lebih cepat tanpa kesalahan.</p>
+            <h1>Layanan Lengkap untuk Presensi</h1>
+            <p>Urus presensi karyawan tanpa ribet! Presensi ini dilengkapi dengan poto dan lokasi yang sudah tersistem. Dapatkan rekap presensi terperinci berdasarkan inputan dari karyawan untuk memantau dan menganalisis kedisiplinan dengan mudah. Nikmati kemudahan perhitungan presensi yang langsung terintegrasi dengan perhitungan gaji sehingga jadi lebih cepat tanpa kesalahan.</p>
         </div>
         <div class="kolom-gambar">
             <img src="assets/5.jpg" class="gambar" alt="gambar">
