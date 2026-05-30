@@ -151,23 +151,74 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 // =================================================================
-    // FITUR UTAMA: SHOW/HIDE PASSWORD (DINAMIS LOGIN & DAFTAR)
-    // =================================================================
-    const togglePassword = document.querySelector('#togglePassword');
-    
-    if (togglePassword) {
-        togglePassword.addEventListener('click', function () {
-            // Cari elemen password secara dinamis, baik itu id password_log (login) maupun password_p (daftar)
-            const passwordInput = document.querySelector('#password_log') || document.querySelector('#password_p');
+// FITUR UTAMA: SHOW/HIDE PASSWORD (DINAMIS LOGIN & DAFTAR)
+// =================================================================
+const togglePassword = document.querySelector('#togglePassword');
+
+if (togglePassword) {
+    togglePassword.addEventListener('click', function () {
+        // Cari elemen password secara dinamis, baik itu id password_log (login) maupun password_p (daftar)
+        const passwordInput = document.querySelector('#password_log') || document.querySelector('#password_p');
+        
+        if (passwordInput) {
+            // Tukar tipe input
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
             
-            if (passwordInput) {
-                // Tukar tipe input
-                const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                passwordInput.setAttribute('type', type);
-                
-                // Tukar ikon mata
-                this.classList.toggle('fa-eye');
-                this.classList.toggle('fa-eye-slash');
-            }
-        });
+            // Tukar ikon mata
+            this.classList.toggle('fa-eye');
+            this.classList.toggle('fa-eye-slash');
+        }
+    });
+}
+
+// =================================================================
+// 5. FITUR TAMBAHAN: GRAFIK REKAP JABATAN (CHART.JS)
+// =================================================================
+document.addEventListener("DOMContentLoaded", function () {
+    const canvasGrafik = document.getElementById('grafikJabatan');
+    
+    // Validasi: Jalankan script hanya jika element canvas tersebut memang ada di halaman aktif
+    if (canvasGrafik) {
+        // Ekstrak string JSON dari atribut HTML data-*
+        const rawLabels = canvasGrafik.getAttribute('data-labels');
+        const rawValues = canvasGrafik.getAttribute('data-values');
+        
+        if (rawLabels && rawValues) {
+            // Ubah string JSON kembali menjadi Array JavaScript asli
+            const labelsData = JSON.parse(rawLabels);
+            const valuesData = JSON.parse(rawValues);
+            
+            const ctx = canvasGrafik.getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut', // Tipe donat (bisa diganti 'pie' kalau mau bulat penuh)
+                data: {
+                    labels: labelsData,
+                    datasets: [{
+                        data: valuesData,
+                        // Palet warna Grafik
+                        backgroundColor: ['#3E9C35', '#48bb78', '#319795', '#2b6cb0', '#718096'],
+                        borderWidth: 2,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom', // Keterangan label dipindah ke bawah grafik
+                            labels: {
+                                font: {
+                                    family: 'Inherit', /* Mengikuti font default halaman */
+                                    size: 12
+                                },
+                                padding: 15
+                            }
+                        }
+                    },
+                    cutout: '60%' // Mengatur ketebalan bolongan tengah donat (makin besar % makin tipis)
+                }
+            });
+        }
     }
+});

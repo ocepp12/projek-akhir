@@ -1,6 +1,5 @@
 <?php
-ob_start(); // supaya tidak terjadi tampilan kedipan error yang sekilas
-// Tampilkan error jika ada masalah lain agar tidak ngeblank
+ob_start(); 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -11,77 +10,78 @@ $pass = "";
 $db   = 'sistempenggajian';
 $conn = mysqli_connect($host, $user, $pass, $db);
 
-// Cek koneksi berhasil atau tidak
 if (!$conn) {
     die("Koneksi gagal: " . mysqli_connect_error());
 }
-// Mulai sesi
+
 session_start();
-// 1. Cek apakah user sudah login
+
 if (!isset($_SESSION['emaillogin'])) {
     header("Location: login.php");
     exit;
 }
 
-// =========================================================================
-// PENYELAMAT SESSION LOGIN:
-// Jika id_perusahaan di session kosong, kita tembak langsung cari berdasarkan email loginnya
-// =========================================================================
 if (!isset($_SESSION['id_perusahaan']) || empty($_SESSION['id_perusahaan'])) {
-    $email_user = $_SESSION['emaillogin'];
+    $email_user = mysqli_real_escape_string($conn, $_SESSION['emaillogin']);
     $cek_user = mysqli_query($conn, "SELECT id_perusahaan FROM user WHERE email = '$email_user'");
     $data_user = mysqli_fetch_assoc($cek_user);
     if (!empty($data_user['id_perusahaan'])) {
         $_SESSION['id_perusahaan'] = $data_user['id_perusahaan'];
     }
 }
-// =========================================================================
 
-// 2. Ambil data terbaru dari database
-$id_perusahaan = $_SESSION['id_perusahaan'] ?? '';
+$id_perusahaan = mysqli_real_escape_string($conn, $_SESSION['id_perusahaan'] ?? '');
 
-// Cari data perusahaan (Pakai LOWER/UPPER SQL biar gak sensitif huruf besar kecil)
+// Ambil nama perusahaan
 $query = mysqli_query($conn, "SELECT nmaPerusahaan FROM perusahaan WHERE id_perusahaan = '$id_perusahaan'");
 $perusahaan = mysqli_fetch_assoc($query);
-
-// Supaya variabel di bawah tidak error, kita amankan index array-nya
 $check_nama = $perusahaan['nmaPerusahaan'] ?? '';
 
-// Jika data perusahaan di DB kosong murni, langsung lempar ke formperusahaan.php
 if (empty($check_nama)) {
     header("Location: formperusahaan.php");
-    exit; // Menghentikan kode di bawah agar tidak sempat terbaca
+    exit; 
 }
 
-// 3. Ambil data untuk ditampilkan (Gabungkan dengan tabel lokasi menggunakan LEFT JOIN)
+// Ambil data profil & lokasi perusahaan
 $query = mysqli_query($conn, "SELECT p.*, l.latitude, l.longitude, l.radius 
                               FROM perusahaan p 
                               LEFT JOIN lokasi l ON p.id_lokasi = l.id_lokasi 
                               WHERE p.id_perusahaan = '$id_perusahaan'");
-
-// Simpan hasil fetch ke variabel $data agar tidak bentrok dengan check empty($perusahaan)
 $data = mysqli_fetch_assoc($query);
-
-// Definisikan ulang variabel $perusahaan sebagai array data asli untuk pengecekan if (empty($perusahaan)) di bawah
 $perusahaan = $data;
 
-// Pecah array ke dalam variabel mandiri sesuai nama kolom di database lu (Gunakan nama kolom asli huruf kecil)
 $nmaPerusahaan     = $data['nmaPerusahaan'] ?? ''; 
 $alamat_perusahaan = $data['alamat'] ?? '';
 $noWa              = $data['noWa'] ?? '';
 
-// Ambil data koordinat dan radius untuk tabel lokasi
 $lokasi = [
     'latitude'  => $data['latitude'] ?? '0',
     'longitude' => $data['longitude'] ?? '0',
     'radius'    => $data['radius'] ?? '0'
 ];
 
-// =========================================================================
-// QUERY FIX: Menyesuaikan kolom asli tabel presensi di database lu
-// Kita batasi hanya mengambil data milik perusahaan yang sedang login lewat filter lokasi/karyawan jika ada relasinya nanti
-// =========================================================================
-$query_presensi = mysqli_query($conn, "SELECT id_karyawan, jamMasuk, sttsPresensi FROM presensi ORDER BY id_presensi DESC LIMIT 3");
+//Presensi
+$query_presensi = mysqli_query($conn, "SELECT p.id_karyawan, p.jamMasuk, p.sttsPresensi 
+                                       FROM presensi p
+                                       JOIN userkaryawan ky ON p.id_karyawan = ky.id_karyawan
+                                       WHERE ky.id_perusahaan = '$id_perusahaan'
+                                       ORDER BY p.id_presensi DESC LIMIT 3");
+
+//Data Karyawan
+$query_grafik = mysqli_query($conn, "SELECT jb.nmaJabatan, COUNT(ky.id_karyawan) AS jumlah 
+                                     FROM userkaryawan ky 
+                                     JOIN jabatan jb ON ky.id_jabatan = jb.id_jabatan 
+                                     WHERE ky.id_perusahaan = '$id_perusahaan'
+                                     GROUP BY ky.id_jabatan");
+$labels_grafik = [];
+$data_grafik = [];
+
+if ($query_grafik) {
+    while ($row = mysqli_fetch_assoc($query_grafik)) {
+        $labels_grafik[] = $row['nmaJabatan'];
+        $data_grafik[] = $row['jumlah'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -92,9 +92,13 @@ $query_presensi = mysqli_query($conn, "SELECT id_karyawan, jamMasuk, sttsPresens
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dashboard Perusahaan</title>
         <link rel="stylesheet" href="assets/style.css">
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inherit">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
         <script src="assets/script.js" defer></script>
     </head>
@@ -103,12 +107,12 @@ $query_presensi = mysqli_query($conn, "SELECT id_karyawan, jamMasuk, sttsPresens
         <div class="dashboard-container">
             
             <aside class="sidebar">
-                <a href="index.php" class="brand">
+                <a href="dashboardperusahaan.php" class="brand">
                     <img src="assets/logoputih.svg" class="logo" alt="logo">
                 </a>
                 
                 <nav class="nav-menu">
-                    <a href="dashboardperusahaan.php" class="nav-item">
+                    <a href="dashboardperusahaan.php" class="nav-item active">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
                     <a href="presensi1.php" class="nav-item">
@@ -241,13 +245,29 @@ $query_presensi = mysqli_query($conn, "SELECT id_karyawan, jamMasuk, sttsPresens
                                     <?php endif; ?>
                                 </div>
                             </div>
-
-                        </div> <?php endif; ?>
+                            
+                            <div class="card-stats-container">
+                                <div class="card-header-title">
+                                    <h4>Komposisi Jabatan</h4>
+                                </div>
+                                
+                                <div class="chart-wrapper">
+                                    <?php if (empty($data_grafik)) : ?>
+                                        <p class="text-empty-presence">Belum ada data karyawan.</p>
+                                    <?php else : ?>
+                                        <canvas id="grafikJabatan" 
+                                                data-labels='<?= json_encode($labels_grafik); ?>' 
+                                                data-values='<?= json_encode($data_grafik); ?>'>
+                                        </canvas>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endif; ?>
                 </div>
             </main>
         </div>
     </body>
-</html>
 </html>
 <?php
 ob_end_flush();

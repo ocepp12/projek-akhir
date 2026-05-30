@@ -896,13 +896,16 @@ h2{
 
 .dashboard-grid{
     display: flex;
+    flex-wrap: wrap;
     gap: 24px;
     align-items: flex-start;
     width: 100%;
+    max-width: 1124px;
+    margin: 0 auto;
 }
 
 /* =========================================================================
-   14. CARD COMPONENT: SINKRONISASI & DATA PERUSAHAAN (KIRI)
+   14. CARD COMPONENT: DATA PERUSAHAAN (ATAS FULL BARIS)
    ========================================================================= */
 .card-info .card-header-title,
 .card-stats-container .card-header-title{
@@ -929,10 +932,11 @@ h2{
     border: 1px solid #e2e8f0;
     padding: 25px;
     border-radius: 12px;
-    flex: 2;
-    max-width: 750px;
+    flex: 0 0 100%;
+    max-width: 100%; 
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     font-family: sans-serif;
+    box-sizing: border-box;
 }
 
 .form-group-info{
@@ -1003,14 +1007,14 @@ h2{
 }
 
 /* =========================================================================
-   15. CARD COMPONENT: AKTIVITAS PRESENSI TERBARU (KANAN)
+   15. CARD COMPONENT: AKTIVITAS & GRAFIK (BAWAH SEJAJAR BERDUA)
    ========================================================================= */
 .card-stats-container{
     background: #ffffff;
     border: 1px solid #e2e8f0;
-    border-radius: 10px;
-    padding: 20px;
-    flex: 1;
+    padding: 25px;
+    border-radius: 12px;
+    flex: 1 1 calc(50% - 12px);
     max-width: 550px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     box-sizing: border-box;
@@ -1068,7 +1072,7 @@ h2{
 }
 
 .status-badge{
-    color: #38a169;
+    color: #3E9C35;
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 0.5px;
@@ -1120,4 +1124,23 @@ h2{
 
 .btn-fill-form:hover{
     background: #9b2c2c;
+}
+
+/* =========================================================================
+   17. EXTENSION: FITUR GRAFIK REKAPITULASI
+   ========================================================================= */
+.dashboard-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.chart-wrapper {
+    width: 100%;
+    max-width: 240px;
+    margin: 0 auto;
+    padding: 15px 0 5px 0;
+    display: block;
 }
