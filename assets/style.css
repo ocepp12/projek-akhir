@@ -1144,3 +1144,178 @@ h2{
     padding: 15px 0 5px 0;
     display: block;
 }
+
+/* =========================================================================
+   18. EXTENSION: COMPONENT DATA TABLE (FOR biodata.php)
+   ========================================================================= */
+.content-header {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.content-header h3 {
+    text-align: left;
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.table-container {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    overflow-x: auto;
+    width: 100%;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table th, 
+.data-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #edf2f7;
+    font-size: 14px;
+    color: #2d3748;
+}
+
+.data-table th {
+    background-color: #f7fafc;
+    color: #4a5568;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.data-table tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Helper Utility Classes */
+.text-bold {
+    font-weight: 600;
+    color: #1a202c;
+}
+
+.text-muted {
+    color: #a0aec0;
+    font-style: italic;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.badge-level {
+    background-color: #e6fffa;
+    color: #319795;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+/* =========================================================================
+   19. EXTENSION: FORM COMPONENT (FOR biodata.php)
+   ========================================================================= */
+.form-container {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.form-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 10px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 8px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    color: #2d3748;
+    background-color: #fff;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    border-color: #319795;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(49, 151, 149, 0.15);
+}
+
+/* Biar textarea alamat memenuhi baris bawah secara penuh */
+.span-two {
+    grid-column: span 2;
+}
+
+.form-actions {
+    margin-top: 25px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-submit {
+    background-color: #319795;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-submit:hover {
+    background-color: #287e7d;
+}
+
+/* Responsive adjustment jika dibuka di layar HP */
+@media (max-width: 768px) {
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+    .span-two {
+        grid-column: span 1;
+    }
+}
