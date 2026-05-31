@@ -1233,6 +1233,7 @@ h2{
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     margin-bottom: 30px;
     width: 100%;
+    margin-top: 30px;
 }
 
 .form-title {
@@ -1318,4 +1319,56 @@ h2{
     .span-two {
         grid-column: span 1;
     }
+}
+
+/* Styling Tombol Edit di Dalam Tabel */
+.btn-action-edit {
+    background-color: #ebf8ff;
+    color: #2b6cb0;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    border: 1px solid #bee3f8;
+    transition: all 0.2s ease;
+}
+
+.btn-action-edit:hover {
+    background-color: #2b6cb0;
+    color: white;
+    border-color: #2b6cb0;
+}
+
+/* Styling Tombol Batal Edit */
+.btn-cancel {
+    background-color: #edf2f7;
+    color: #4a5568;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #cbd5e0;
+    transition: background-color 0.2s;
+}
+
+.btn-cancel:hover {
+    background-color: #e2e8f0;
+    color: #2d3748;
+}
+
+/* Variasi Tombol Submit saat Berubah menjadi Update (Warna Kuning/Orange Kecokelatan) */
+.btn-update {
+    background-color: #dd6b20;
+}
+
+.btn-update:hover {
+    background-color: #c05621;
 }
