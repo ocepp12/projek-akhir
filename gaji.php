@@ -28,7 +28,7 @@
                         <i class="fa-solid fa-square-check"></i> Presensi
                     </a>
                     <a href="biodata.php" class="nav-item">
-                        <i class="fa-solid fa-id-card"></i> Biodata
+                        <i class="fa-solid fa-id-card"></i> Data Karyawan
                     </a>
                     <a href="gaji.php" class="nav-item">
                         <i class="fa-solid fa-calendar-days"></i> Gaji
@@ -51,7 +51,18 @@
                             <i class="fa-solid fa-magnifying-glass icon-btn search-toggle"></i>
                         </div>
                         
-                        <span class="user-name">Budi S.</span>
+                        <span class="user-name">
+                            <?php 
+                            date_default_timezone_set('Asia/Jakarta'); 
+                            $hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+                            $bulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                            
+                            $indeks_hari = date('w');
+                            $indeks_bulan = date('n');
+                            
+                            echo $hari[$indeks_hari] . ", " . date('j') . " " . $bulan[$indeks_bulan] . " " . date('Y'); 
+                            ?>
+                        </span>
                     </div>
                 </header>
 
