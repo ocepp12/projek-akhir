@@ -11,9 +11,11 @@ if (mysqli_connect_errno()) {
     die("Koneksi database gagal: " . mysqli_connect_error());
 }
 
+session_start();
+
 // 2. PROSES INPUT DATA (Ketika tombol Simpan ditekan)
 if (isset($_POST['submit_karyawan'])) {
-    $nmakaryawan   = mysqli_real_escape_string($koneksi, $_POST['nmakaryawan']);
+    $nmaKaryawan   = mysqli_real_escape_string($koneksi, $_POST['nmakaryawan']);
     $alamat        = mysqli_real_escape_string($koneksi, $_POST['alamat']);
     $password_user = mysqli_real_escape_string($koneksi, $_POST['password']);
     $status        = mysqli_real_escape_string($koneksi, $_POST['status']);
@@ -21,11 +23,13 @@ if (isset($_POST['submit_karyawan'])) {
     $jmlAnak       = intval($_POST['jmlAnak']);
     $id_level      = intval($_POST['id_level']);
     $id_jabatan    = intval($_POST['id_jabatan']);
-    $id_perusahaan = 25; // Default value sesuai data di screenshot phpMyAdmin kamu
-
+    $id_perusahaan = $_SESSION['id_perusahaan'];
     // Query Insert ke tabel userkaryawan
-    $query_insert = "INSERT INTO userkaryawan (nmakaryawan, alamat, password, status, tglGabung, jmlAnak, id_perusahaan, id_level, id_jabatan) 
-                     VALUES ('$nmakaryawan', '$alamat', '$password_user', '$status', '$tglGabung', '$jmlAnak', '$id_perusahaan', '$id_level', '$id_jabatan')";
+    //enkripsi password
+    $password_user = password_hash($_POST['password'], PASSWORD_DEFAULT);
+
+    $query_insert = "INSERT INTO userkaryawan (nmaKaryawan, alamat, password, status, tglGabung, jmlAnak, id_perusahaan, id_level, id_jabatan) 
+                     VALUES ('$nmaKaryawan', '$alamat', '$password_user', '$status', '$tglGabung', '$jmlAnak', '$id_perusahaan', '$id_level', '$id_jabatan')";
 
     if (mysqli_query($koneksi, $query_insert)) {
         echo "<script>alert('Data karyawan berhasil ditambahkan!'); window.location='biodata.php';</script>";
@@ -127,7 +131,7 @@ $result_table = mysqli_query($koneksi, $query_table);
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>Nama Karyawan</label>
-                                    <input type="text" name="nmakaryawan" class="form-control" placeholder="Masukkan nama lengkap" required>
+                                    <input type="text" name="nmaKaryawan" class="form-control" placeholder="Masukkan nama lengkap" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Password Akun</label>
