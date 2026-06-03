@@ -16,62 +16,80 @@ if (!$conn) {
 
 session_start();
 
-if (!isset($_SESSION['emaillogin'])) {
-    header("Location: login.php");
+// Validasi Session Login Karyawan
+if (!isset($_SESSION['loginKaryawan'])) {
+    header("Location: loginkaryawan.php");
     exit;
-}
-
-if (!isset($_SESSION['id_karyawan']) || empty($_SESSION['id_karyawan'])) {
-    $email_user = mysqli_real_escape_string($conn, $_SESSION['emaillogin']);
-    $cek_user = mysqli_query($conn, "SELECT id_karyawan FROM user WHERE email = '$email_user'");
-    $data_user = mysqli_fetch_assoc($cek_user);
-    if (!empty($data_user['id_karyawan'])) {
-        $_SESSION['id_karyawan'] = $data_user['id_karyawan'];
-    }
 }
 
 $id_karyawan = mysqli_real_escape_string($conn, $_SESSION['id_karyawan'] ?? '');
 
-// Ambil nama perusahaan
-$query = mysqli_query($conn, "SELECT nmaKaryawan FROM perusahaan WHERE id_karyawan = '$id_karyawan'");
-$userkaryawan = mysqli_fetch_assoc($query);
-$check_nama = $userkaryawan['nmaKaryawan'] ?? '';
+// Ambil data profil langsung dari tabel userkaryawan berdasarkan id_karyawan yang sedang login
+$query_user = mysqli_query($conn, "SELECT * FROM userkaryawan WHERE id_karyawan = '$id_karyawan'");
+$data_user = mysqli_fetch_assoc($query_user);
 
-if (empty($check_nama)) {
-    header("Location: formperusahaan.php");
-    exit; 
+// Mapping data profil karyawan
+$nmaKaryawan = $data_user['nmakaryawan'] ?? $data_user['nmaKaryawan'] ?? 'Karyawan'; 
+$alamat      = $data_user['alamat'] ?? 'Belum diatur';
+$status_kerja = $data_user['status'] ?? 'Aktif'; 
+
+// Mengambil dan memformat Tanggal Gabung ke format Indonesia
+$tglGabung = 'Belum diketahui';
+if (!empty($data_user['tglGabung'])) {
+    $time = strtotime($data_user['tglGabung']);
+    $bln = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+    $tglGabung = date('j', $time) . ' ' . $bln[date('n', $time)] . ' ' . date('Y', $time);
 }
 
-// Ambil data profil & lokasi perusahaan
-$query = mysqli_query($conn, "SELECT p.*, l.latitude, l.longitude, l.radius 
-                              FROM perusahaan p 
-                              LEFT JOIN lokasi l ON p.id_lokasi = l.id_lokasi 
-                              WHERE p.id_karyawan = '$id_karyawan'");
-$data = mysqli_fetch_assoc($query);
-$userkaryawan = $data;
+// =========================================================================
+// SCRIPT AMBIL DATA RINGKASAN GAJI BULAN INI (KOTAK 1)
+// =========================================================================
+$gaji_pokok = 0;
+$tunjangan = 0;
+$bonus_penjualan = 0;
 
-$nmaKaryawan     = $data['nmaKaryawan'] ?? ''; 
-$alamat = $data['alamat'] ?? '';
-$noWa              = $data['noWa'] ?? '';
+// 1. Ambil data Gaji Pokok & Tunjangan berdasarkan id_gaji karyawan
+$id_gaji_user = $data_user['id_gaji'] ?? '';
+if (!empty($id_gaji_user)) {
+    $query_gaji = mysqli_query($conn, "SELECT * FROM gaji WHERE id_gaji = '$id_gaji_user'");
+    if ($query_gaji && mysqli_num_rows($query_gaji) > 0) {
+        $data_gaji = mysqli_fetch_assoc($query_gaji);
+        $gaji_pokok = $data_gaji['gaji_pokok'] ?? $data_gaji['nominal'] ?? $data_gaji['gapok'] ?? 0;
+        $tunjangan = $data_gaji['tunjangan'] ?? 0;
+    }
+}
 
-$lokasi = [
-    'latitude'  => $data['latitude'] ?? '0',
-    'longitude' => $data['longitude'] ?? '0',
-    'radius'    => $data['radius'] ?? '0'
-];
+// Fallback: Jika relasi id_gaji kosong, coba tarik dari tabel jabatan sebagai alternatif
+if ($gaji_pokok == 0) {
+    $id_jabatan_user = $data_user['id_jabatan'] ?? '';
+    $query_jabatan_gaji = mysqli_query($conn, "SELECT * FROM jabatan WHERE id_jabatan = '$id_jabatan_user'");
+    if ($query_jabatan_gaji && mysqli_num_rows($query_jabatan_gaji) > 0) {
+        $data_jg = mysqli_fetch_assoc($query_jabatan_gaji);
+        $gaji_pokok = $data_jg['gaji_pokok'] ?? $data_jg['gapok'] ?? 0;
+        $tunjangan = $data_jg['tunjangan'] ?? 0;
+    }
+}
 
-//Presensi
-$query_presensi = mysqli_query($conn, "SELECT p.id_karyawan, p.jamMasuk, p.sttsPresensi 
-                                       FROM presensi p
-                                       JOIN userkaryawan ky ON p.id_karyawan = ky.id_karyawan
-                                       WHERE ky.id_karyawan = '$id_karyawan'
-                                       ORDER BY p.id_presensi DESC LIMIT 3");
+// 2. Hitung Bonus Penjualan dari total transaksi sales karyawan di bulan berjalan
+$bln_ini = date('m');
+$thn_ini = date('Y');
+$query_transaksi = mysqli_query($conn, "SELECT SUM(total) AS total_sales FROM transaksi WHERE id_karyawan = '$id_karyawan' AND MONTH(tanggal) = '$bln_ini' AND YEAR(tanggal) = '$thn_ini'");
+if (!$query_transaksi) {
+    $query_transaksi = mysqli_query($conn, "SELECT SUM(total_harga) AS total_sales FROM transaksi WHERE id_karyawan = '$id_karyawan' AND MONTH(tgl_transaksi) = '$bln_ini' AND YEAR(tgl_transaksi) = '$thn_ini'");
+}
 
-//Data Karyawan
+if ($query_transaksi && $row_t = mysqli_fetch_assoc($query_transaksi)) {
+    $total_sales = $row_t['total_sales'] ?? 0;
+    $bonus_penjualan = $total_sales * 0.02; 
+}
+
+$total_gaji = $gaji_pokok + $tunjangan + $bonus_penjualan;
+// =========================================================================
+
+// Query Grafik Komposisi Jabatan (KOTAK 2)
 $query_grafik = mysqli_query($conn, "SELECT jb.nmaJabatan, COUNT(ky.id_karyawan) AS jumlah 
                                      FROM userkaryawan ky 
                                      JOIN jabatan jb ON ky.id_jabatan = jb.id_jabatan 
-                                     WHERE ky.id_karyawan = '$id_karyawan'
                                      GROUP BY ky.id_jabatan");
 $labels_grafik = [];
 $data_grafik = [];
@@ -115,7 +133,7 @@ if ($query_grafik) {
                     <a href="dashboardkaryawan.php" class="nav-item active">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
-                    <a href="presensi.php" class="nav-item">
+                    <a href="presensikaryawan.php" class="nav-item">
                         <i class="fa-solid fa-square-check"></i> Presensi
                     </a>
                     <a href="gajikaryawan.php" class="nav-item">
@@ -160,95 +178,91 @@ if ($query_grafik) {
                 </header>
 
                 <div class="content-body">
+                    <div class="dashboard-grid">
                         
-                        <div class="dashboard-grid">
-                            
-                            <div class="card-info">
-                                <div class="card-header-title">
-                                    <h4>Data kamu</h4>
-                                </div>
+                        <div class="card-info">
+                            <div class="card-header-title">
+                                <h4>Data kamu</h4>
+                            </div>
 
-                                <div class="form-group-info">
-                                    <label>Nama</label>
-                                    <span class="text-company-name"><?= htmlspecialchars($nmaKaryawan); ?></span>
-                                </div>
+                            <div class="form-group-info">
+                                <label>Nama</label>
+                                <span class="text-company-name"><?= htmlspecialchars($nmaKaryawan); ?></span>
+                            </div>
 
-                                <div class="form-group-info">
-                                    <label>Alamat</label>
-                                    <span class="text-company-value"><?= htmlspecialchars($alamat); ?></span>
-                                </div>
+                            <div class="form-group-info">
+                                <label>Alamat</label>
+                                <span class="text-company-value"><?= htmlspecialchars($alamat); ?></span>
+                            </div>
 
-                                <div class="form-group-info">
-                                    <label>Status</label>
-                                    <span class="text-company-value"><?= htmlspecialchars($noWa); ?></span>
-                                </div>
+                            <div class="form-group-info">
+                                <label>Status</label>
+                                <span class="text-company-value"><?= htmlspecialchars($status_kerja); ?></span>
+                            </div>
 
-                                <div class="form-group-info">
-                                    <label>Koordinat Titik Presensi (Lat, Long)</label>
-                                    <span class="text-coordinate">
-                                        <?= htmlspecialchars($lokasi['latitude'] ?? '0'); ?>, <?= htmlspecialchars($lokasi['longitude'] ?? '0'); ?>
-                                    </span>
-                                </div>
+                            <div class="form-group-info">
+                                <label>Tanggal Gabung</label>
+                                <span class="text-company-value">
+                                    <i class="fa-solid fa-calendar-check icon-date"></i> 
+                                    <?= htmlspecialchars($tglGabung); ?>
+                                </span>
+                            </div>
+                        </div>  
 
-                                <div class="form-group-info">
-                                    <label class="label-radius-title">Radius Jangkauan Absensi</label>
-                                    <span class="text-radius">
-                                        <i class="fa-solid fa-location-crosshairs icon-radius"></i> <?= htmlspecialchars($lokasi['radius'] ?? '0'); ?> Meter
-                                    </span>
-                                </div>
-
-                                <div class="container-btn-ubah">
-                                    <a href="formperusahaan.php?action=edit" class="btn-ubah">
-                                        <i class="fa-solid fa-pen-to-square"></i> Ubah Data
-                                    </a>
-                                </div>
-                            </div>  
-
-                            <div class="card-stats-container">
-                                <div class="card-header-title">
-                                    <h4>Aktivitas Presensi Terbaru</h4>
-                                </div>
-                                
-                                <div class="presence-list">
-                                    <?php if (mysqli_num_rows($query_presensi) == 0) : ?>
-                                        <p class="text-empty-presence">Belum ada aktivitas presensi saat ini.</p>
-                                    <?php else : ?>
-                                        <?php while ($row_p = mysqli_fetch_assoc($query_presensi)) : ?>
-                                            <div class="presence-item">
-                                                <div class="presence-badge">
-                                                    <i class="fa-solid fa-user-check"></i>
-                                                </div>
-                                                <div class="presence-details">
-                                                    <span class="p-name">Karyawan ID: <?= htmlspecialchars($row_p['id_karyawan'] ?? '-'); ?></span>
-                                                    <span class="p-time">
-                                                        <i class="fa-regular fa-clock"></i> <?= htmlspecialchars($row_p['jamMasuk'] ?? '--:--'); ?> WIB
-                                                        • <b class="status-badge"><?= htmlspecialchars($row_p['sttsPresensi'] ?? '-'); ?></b>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        <?php endwhile; ?>
-                                    <?php endif; ?>
-                                </div>
+                        <div class="card-stats-container">
+                            <div class="card-header-title">
+                                <h4>Ringkasan Gaji Bulan Ini</h4>
                             </div>
                             
-                            <div class="card-stats-container">
-                                <div class="card-header-title">
-                                    <h4>Komposisi Jabatan</h4>
+                            <div class="salary-list">
+                                <?php
+                                $nama_bulan_ini = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"][date('n')];
+                                ?>
+                                <div class="salary-item">
+                                    <label>Periode Bulan</label>
+                                    <span class="val-periode"><?= $nama_bulan_ini . ' ' . date('Y'); ?></span>
                                 </div>
-                                
-                                <div class="chart-wrapper">
-                                    <?php if (empty($data_grafik)) : ?>
-                                        <p class="text-empty-presence">Belum ada data karyawan.</p>
-                                    <?php else : ?>
-                                        <canvas id="grafikJabatan" 
-                                                data-labels='<?= json_encode($labels_grafik); ?>' 
-                                                data-values='<?= json_encode($data_grafik); ?>'>
-                                        </canvas>
-                                    <?php endif; ?>
+
+                                <div class="salary-item">
+                                    <label>Gaji Pokok</label>
+                                    <span class="val-gapok">Rp <?= number_format($gaji_pokok, 0, ',', '.'); ?></span>
+                                </div>
+
+                                <div class="salary-item">
+                                    <label>Tunjangan</label>
+                                    <span class="val-tunjangan">Rp <?= number_format($tunjangan, 0, ',', '.'); ?></span>
+                                </div>
+
+                                <div class="salary-item item-dashed">
+                                    <label>Bonus Komisi Sales</label>
+                                    <span class="val-bonus">Rp <?= number_format($bonus_penjualan, 0, ',', '.'); ?></span>
+                                </div>
+
+                                <div class="salary-item item-total">
+                                    <label>Total Pendapatan</label>
+                                    <span class="val-total">Rp <?= number_format($total_gaji, 0, ',', '.'); ?></span>
                                 </div>
                             </div>
                         </div>
-                    <?php endif; ?>
+                        
+                        <div class="card-stats-container">
+                            <div class="card-header-title">
+                                <h4>Komposisi Jabatan</h4>
+                            </div>
+                            
+                            <div class="chart-wrapper">
+                                <?php if (empty($data_grafik)) : ?>
+                                    <p class="text-empty-presence">Belum ada data karyawan.</p>
+                                <?php else : ?>
+                                    <canvas id="grafikJabatan" 
+                                            data-labels='<?= json_encode($labels_grafik); ?>' 
+                                            data-values='<?= json_encode($data_grafik); ?>'>
+                                    </canvas>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </main>
         </div>

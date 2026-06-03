@@ -437,6 +437,7 @@ h2{
 .input-group{
     text-align: left;
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 .input-group label{
@@ -1371,4 +1372,84 @@ h2{
 
 .btn-update:hover {
     background-color: #c05621;
+}
+
+/* =========================================================================
+   20. EXTENSION: RINGKASAN GAJI BULAN INI (DASHBOARD KARYAWAN)
+   ========================================================================= */
+.icon-date {
+    color: #3e9c35; 
+    margin-right: 5px;
+}
+
+.salary-list {
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px; 
+    padding-top: 5px;
+    width: 100%;
+}
+
+.salary-item {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid #edf2f7; 
+    padding-bottom: 12px; 
+    margin: 0;
+}
+
+.salary-item label {
+    font-weight: bold;
+    color: #718096; /* Menyamakan dengan warna label form-group-info */
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.salary-item span {
+    color: #2d3748; /* Menyamakan dengan warna teks text-company-value */
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Modifikasi warna khusus nilai agar senada tapi tetap informatif */
+.salary-item .val-periode {
+    color: #333;
+    font-weight: bold;
+}
+
+.salary-item .val-gapok {
+    color: #3e9c35; /* Hijau utama sesuai identitas brand */
+}
+
+.salary-item .val-tunjangan {
+    color: #3182ce; /* Biru soft yang setipe dengan warna icon-radius */
+}
+
+.salary-item .val-bonus {
+    color: #dd6b20; /* Orange/Cokelat yang setipe dengan warna btn-update */
+}
+
+.salary-item.item-dashed {
+    border-bottom: 2px dashed #edf2f7; 
+    padding-bottom: 14px;
+}
+
+.salary-item.item-total {
+    border-bottom: none;
+    padding-top: 8px;
+    padding-bottom: 0;
+}
+
+.salary-item.item-total label {
+    color: #333; 
+    font-weight: bold; 
+    font-size: 13px; /* Sedikit lebih besar untuk penekanan total */
+}
+
+.salary-item.item-total .val-total {
+    font-size: 18px; /* Menyamakan besarnya dengan text-company-name */
+    color: #3e9c35; 
+    font-weight: bold;
 }

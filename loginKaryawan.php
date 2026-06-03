@@ -22,7 +22,7 @@
             
             <form action="logikaloginkaryawan.php" method="post">
                 <div class="input-group">
-                    <label for="Nama_log">Nama</label>
+                    <label for="Nama_log">NAMA</label>
                     <input type="text" name="nmaKaryawan" id="Nama_log" placeholder="Nama" required>
                 </div>
 
@@ -34,7 +34,7 @@
                     </div>
                     
                 <div class="input-group">
-                    <label for="id_log">Id Jabatan</label>
+                    <label for="id_log">ID JABATAN</label>
                     <input type="text" name="id_jabatan" id="id_log" placeholder="Id Jabatan" required>
                 </div>
                     <div class="forgot-wrapper">
