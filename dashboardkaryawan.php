@@ -1,6 +1,5 @@
 <?php
-ob_start(); // supaya tidak terjadi tampilan kedipan error yang sekilas
-// Tampilkan error jika ada masalah lain agar tidak ngeblank
+ob_start(); 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -11,34 +10,32 @@ $pass = "";
 $db   = 'sistempenggajian';
 $conn = mysqli_connect($host, $user, $pass, $db);
 
-// Cek koneksi berhasil atau tidak
 if (!$conn) {
     die("Koneksi gagal: " . mysqli_connect_error());
 }
-// Mulai sesi
+
 session_start();
-// 1. Cek apakah user sudah login
+
 if (!isset($_SESSION['emaillogin'])) {
     header("Location: login.php");
     exit;
 }
 
-
-if (!isset($_SESSION['id_perusahaan']) || empty($_SESSION['id_perusahaan'])) {
+if (!isset($_SESSION['id_karyawan']) || empty($_SESSION['id_karyawan'])) {
     $email_user = mysqli_real_escape_string($conn, $_SESSION['emaillogin']);
-    $cek_user = mysqli_query($conn, "SELECT id_perusahaan FROM user WHERE email = '$email_user'");
+    $cek_user = mysqli_query($conn, "SELECT id_karyawan FROM user WHERE email = '$email_user'");
     $data_user = mysqli_fetch_assoc($cek_user);
-    if (!empty($data_user['id_perusahaan'])) {
-        $_SESSION['id_perusahaan'] = $data_user['id_perusahaan'];
+    if (!empty($data_user['id_karyawan'])) {
+        $_SESSION['id_karyawan'] = $data_user['id_karyawan'];
     }
 }
 
-$id_perusahaan = mysqli_real_escape_string($conn, $_SESSION['id_perusahaan'] ?? '');
+$id_karyawan = mysqli_real_escape_string($conn, $_SESSION['id_karyawan'] ?? '');
 
 // Ambil nama perusahaan
-$query = mysqli_query($conn, "SELECT nmaPerusahaan FROM perusahaan WHERE id_perusahaan = '$id_perusahaan'");
-$perusahaan = mysqli_fetch_assoc($query);
-$check_nama = $perusahaan['nmaPerusahaan'] ?? '';
+$query = mysqli_query($conn, "SELECT nmaKaryawan FROM perusahaan WHERE id_karyawan = '$id_karyawan'");
+$userkaryawan = mysqli_fetch_assoc($query);
+$check_nama = $userkaryawan['nmaKaryawan'] ?? '';
 
 if (empty($check_nama)) {
     header("Location: formperusahaan.php");
@@ -49,12 +46,12 @@ if (empty($check_nama)) {
 $query = mysqli_query($conn, "SELECT p.*, l.latitude, l.longitude, l.radius 
                               FROM perusahaan p 
                               LEFT JOIN lokasi l ON p.id_lokasi = l.id_lokasi 
-                              WHERE p.id_perusahaan = '$id_perusahaan'");
+                              WHERE p.id_karyawan = '$id_karyawan'");
 $data = mysqli_fetch_assoc($query);
-$perusahaan = $data;
+$userkaryawan = $data;
 
-$nmaPerusahaan     = $data['nmaPerusahaan'] ?? ''; 
-$alamat_perusahaan = $data['alamat'] ?? '';
+$nmaKaryawan     = $data['nmaKaryawan'] ?? ''; 
+$alamat = $data['alamat'] ?? '';
 $noWa              = $data['noWa'] ?? '';
 
 $lokasi = [
@@ -67,14 +64,14 @@ $lokasi = [
 $query_presensi = mysqli_query($conn, "SELECT p.id_karyawan, p.jamMasuk, p.sttsPresensi 
                                        FROM presensi p
                                        JOIN userkaryawan ky ON p.id_karyawan = ky.id_karyawan
-                                       WHERE ky.id_perusahaan = '$id_perusahaan'
+                                       WHERE ky.id_karyawan = '$id_karyawan'
                                        ORDER BY p.id_presensi DESC LIMIT 3");
 
 //Data Karyawan
 $query_grafik = mysqli_query($conn, "SELECT jb.nmaJabatan, COUNT(ky.id_karyawan) AS jumlah 
                                      FROM userkaryawan ky 
                                      JOIN jabatan jb ON ky.id_jabatan = jb.id_jabatan 
-                                     WHERE ky.id_perusahaan = '$id_perusahaan'
+                                     WHERE ky.id_karyawan = '$id_karyawan'
                                      GROUP BY ky.id_jabatan");
 $labels_grafik = [];
 $data_grafik = [];
@@ -93,7 +90,7 @@ if ($query_grafik) {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dashboard Perusahaan</title>
+        <title>Dashboard Karyawan</title>
         <link rel="stylesheet" href="assets/style.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,24 +107,21 @@ if ($query_grafik) {
         <div class="dashboard-container">
             
             <aside class="sidebar">
-                <a href="dashboardperusahaan.php" class="brand">
+                <a href="dashboardkaryawan.php" class="brand">
                     <img src="assets/logoputih.svg" class="logo" alt="logo">
                 </a>
                 
                 <nav class="nav-menu">
-                    <a href="dashboardperusahaan.php" class="nav-item active">
+                    <a href="dashboardkaryawan.php" class="nav-item active">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
-                    <a href="presensi1.php" class="nav-item">
+                    <a href="presensi.php" class="nav-item">
                         <i class="fa-solid fa-square-check"></i> Presensi
                     </a>
-                    <a href="biodata.php" class="nav-item">
-                        <i class="fa-solid fa-id-card"></i> Data Karyawan
-                    </a>
-                    <a href="gaji.php" class="nav-item">
+                    <a href="gajikaryawan.php" class="nav-item">
                         <i class="fa-solid fa-calendar-days"></i> Gaji
                     </a>
-                    <a href="penjualan.php" class="nav-item">
+                    <a href="ordersales.php" class="nav-item">
                         <i class="fa-solid fa-chart-line"></i> Penjualan
                     </a>
                 </nav>
@@ -166,38 +160,26 @@ if ($query_grafik) {
                 </header>
 
                 <div class="content-body">
-
-                    <?php if (empty($perusahaan)) : ?>
-                        <div class="alert-incomplete">
-                            <h4><i class="fa-solid fa-circle-exclamation"></i> Data Profil Belum Lengkap</h4>
-                            <p>
-                                Sistem mendeteksi akun login kamu belum memiliki atau belum melengkapi data profil perusahaan di database (ID Perusahaan Kamu: <b><?= htmlspecialchars($id_perusahaan); ?></b>).
-                            </p>
-                            <a href="formperusahaan.php" class="btn-fill-form">
-                                <i class="fa-solid fa-pen-to-square"></i> Isi Form Perusahaan Di Sini
-                            </a>
-                        </div>
-                    <?php else : ?>
                         
                         <div class="dashboard-grid">
                             
                             <div class="card-info">
                                 <div class="card-header-title">
-                                    <h4>Data Perusahaan</h4>
+                                    <h4>Data kamu</h4>
                                 </div>
 
                                 <div class="form-group-info">
-                                    <label>Nama Perusahaan</label>
-                                    <span class="text-company-name"><?= htmlspecialchars($nmaPerusahaan); ?></span>
+                                    <label>Nama</label>
+                                    <span class="text-company-name"><?= htmlspecialchars($nmaKaryawan); ?></span>
                                 </div>
 
                                 <div class="form-group-info">
-                                    <label>Alamat Perusahaan</label>
-                                    <span class="text-company-value"><?= htmlspecialchars($alamat_perusahaan); ?></span>
+                                    <label>Alamat</label>
+                                    <span class="text-company-value"><?= htmlspecialchars($alamat); ?></span>
                                 </div>
 
                                 <div class="form-group-info">
-                                    <label>Nomor WhatsApp</label>
+                                    <label>Status</label>
                                     <span class="text-company-value"><?= htmlspecialchars($noWa); ?></span>
                                 </div>
 
@@ -273,5 +255,5 @@ if ($query_grafik) {
     </body>
 </html>
 <?php
-ob_end_flush(); //fungsinya sama seperti ob_start yang diatas
+ob_end_flush();
 ?>

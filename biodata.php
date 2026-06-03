@@ -46,10 +46,10 @@ if (isset($_POST['action']) && $_POST['action'] === 'tambah') {
     $id_jabatan    = intval($_POST['id_jabatan']);
     
     $id_perusahaan = $_SESSION['id_perusahaan'];
-    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    $password_hash = password_hash($password_user, PASSWORD_DEFAULT);
 
     $query_insert = "INSERT INTO userkaryawan (nmaKaryawan, alamat, password, status, tglGabung, jmlAnak, id_perusahaan, id_level, id_jabatan) 
-                     VALUES ('$nmaKaryawan', '$alamat', '$password_user', '$status', '$tglGabung', '$jmlAnak', '$id_perusahaan', '$id_level', '$id_jabatan')";
+                     VALUES ('$nmaKaryawan', '$alamat', '$password_hash', '$status', '$tglGabung', '$jmlAnak', '$id_perusahaan', '$id_level', '$id_jabatan')";
 
     if (mysqli_query($koneksi, $query_insert)) {
         echo "<script>alert('Data karyawan berhasil ditambahkan!'); window.location='biodata.php';</script>";

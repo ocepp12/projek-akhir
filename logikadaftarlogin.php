@@ -90,30 +90,20 @@ if (isset($_POST['masuk'])){
         }else{
             $r1 = mysqli_fetch_array($result); 
             if(password_verify($password_p, $r1['password_p'])){
-                
-                // SINKRONKAN SESSION: Ubah 'email' menjadi 'emaillogin' sesuai cek di dashboard
-                $_SESSION['emaillogin']    = $r1['email']; 
+                $_SESSION['emaillogin'] = $r1['email'];
                 $_SESSION['id_perusahaan'] = $r1['id_perusahaan'];
-                $_SESSION['perusahaan']    = $r1['nmaPerusahaan'] ?? '';
-
+                $_SESSION['perusahaan'] = $r1['nmaperusahaan'];
                 // LOGIKA REDIRECT: Cek dulu apakah nama perusahaan sudah diisi atau masih kosong
-                if (empty($r1['nmaPerusahaan'])) {
-                    // Jika login pertama kali / data belum lengkap, lempar ke form pengisian
-                    echo "<script>
-                            alert('Anda berhasil login! Silakan lengkapi data perusahaan Anda.');
-                            window.location.href = 'formperusahaan.php';
-                        </script>";
+                if (empty($r1['nmaperusahaan'])){
+                    //untuk login pertama kali
+                    header("Location: formperusahaan.php");
                     exit();
-                } else {
-                    // Jika sudah pernah isi data, langsung bawa ke dashboardperusahaan.php
-                    echo "<script>
-                            alert('Anda berhasil login!');
-                            window.location.href = 'dashboardperusahaan.php';
-                        </script>";
-                    exit();
+                }else{
+                    //untuk login yang kesekian kali
+                    header("Location: dasboardperusahaan.php");
+                    exit();;
                 }
-
-            } else {
+            }else{
             echo "<script>
                 alert('Password yang dimasukkan tidak sesuai!');
                 window.location.href = 'login.php';

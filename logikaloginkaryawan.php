@@ -11,12 +11,13 @@ if(isset($_POST['masuk'])){
 
     $nmakaryawan = trim(mysqli_real_escape_string($conn, $_POST['nmaKaryawan']));
     $password = mysqli_real_escape_string($conn, $_POST['password']);
+    $id_jabatan = mysqli_real_escape_string($conn, $_POST['id_jabatan']);
 
     // VALIDASI KOSONG
-     if($nmakaryawan == '' or $password == ''){
+     if($nmakaryawan == '' or $password == '' or $id_jabatan == ''){
 
         echo "<script>
-                alert('Masukkan nama dan password!');
+                alert('Masukkan nama, Id Jabatan dan password!');
               </script>";
 
     } else {
@@ -39,7 +40,12 @@ if(isset($_POST['masuk'])){
         } else {
 
             $r1 = mysqli_fetch_assoc($result);
-
+            // Tambahkan debug ini untuk sementara waktu
+            /*echo "<pre>";
+            var_dump($password); // Melihat password yang diinput di form login
+            var_dump($r1['password']); // Melihat hash yang ditarik dari database
+            echo "</pre>";
+            die();*/ // Menghentikan eksekusi script agar bisa membaca hasil dump
             // CEK PASSWORD
             if(password_verify($password, $r1['password'])){
 

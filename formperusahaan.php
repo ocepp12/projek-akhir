@@ -22,17 +22,12 @@ if (!isset($_SESSION['emaillogin'])) {
     header("Location: login.php");
     exit;
 }
-// 2. Ambil data terbaru dari database (DIUBAH sedikit biar narik data alamat, wa, dan lokasi juga buat autofill)
+// 2. Ambil data terbaru dari database
 $id_perusahaan = $_SESSION['id_perusahaan'];
-$query = mysqli_query($conn, "SELECT p.*, l.latitude, l.longitude, l.radius 
-                              FROM perusahaan p 
-                              LEFT JOIN lokasi l ON p.id_lokasi = l.id_lokasi 
-                              WHERE p.id_perusahaan = '$id_perusahaan'");
+$query = mysqli_query($conn, "SELECT nmaperusahaan FROM perusahaan WHERE id_perusahaan = '$id_perusahaan'");
 $perusahaan = mysqli_fetch_assoc($query);
-
-// Jika sudah isi, langsung lempar ke dashboard (DITAMBAHIN pengecekan !isset($_GET['action']))
-// Jadi kalau ada ?action=edit dari dashboard, baris redirect ini bakal di-bypass/dilewati.
-if (!empty($perusahaan['nmaperusahaan']) && !isset($_GET['action'])) {
+// Jika sudah isi, langsung lempar ke dashboard
+if (!empty($perusahaan['nmaperusahaan'])) {
     header("Location: dashboardperusahaan.php");
     exit; // Menghentikan kode di bawah agar tidak sempat terbaca
 }
@@ -43,7 +38,7 @@ if (!empty($perusahaan['nmaperusahaan']) && !isset($_GET['action'])) {
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dashboard Perusahaan</title>
+        <title>Form Perusahaan</title>
         <link rel="stylesheet" href="assets/style.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inherit">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -102,3 +97,7 @@ if (!empty($perusahaan['nmaperusahaan']) && !isset($_GET['action'])) {
             </div>
         </div>
     </body>
+</html>
+<?php
+ob_end_flush(); //fungsinya sama seperti ob_start yang diatas
+?>
