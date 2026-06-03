@@ -253,7 +253,7 @@ $result_table = mysqli_query($koneksi, $query_table);
                                 <?php 
                                     }
                                 } else {
-                                    echo "<tr><td colspan='9' class='text-center'>Data tidak ditemukan atau kosong.</td></tr>";
+                                    echo "<tr><td colspan='9' class='text-center'>Belum ada data karyawan.</td></tr>";
                                 }
                                 ?>
                             </tbody>
