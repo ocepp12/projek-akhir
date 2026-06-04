@@ -3,6 +3,9 @@ ob_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// Set zona waktu di paling atas agar penanggalan SQL & jam sinkron
+date_default_timezone_set('Asia/Jakarta'); 
+
 // Koneksi ke database
 $host = 'localhost';
 $user = 'root';
@@ -24,14 +27,14 @@ if (!isset($_SESSION['loginKaryawan'])) {
 
 $id_karyawan = mysqli_real_escape_string($conn, $_SESSION['id_karyawan'] ?? '');
 
-// Ambil data profil langsung dari tabel userkaryawan berdasarkan id_karyawan yang sedang login
+// Ambil data profil lengkap langsung dari tabel userkaryawan
 $query_user = mysqli_query($conn, "SELECT * FROM userkaryawan WHERE id_karyawan = '$id_karyawan'");
 $data_user = mysqli_fetch_assoc($query_user);
 
 // Mapping data profil karyawan
 $nmaKaryawan = $data_user['nmakaryawan'] ?? $data_user['nmaKaryawan'] ?? 'Karyawan'; 
 $alamat      = $data_user['alamat'] ?? 'Belum diatur';
-$status_kerja = $data_user['status'] ?? 'Aktif'; 
+$status_pernikahan = $data_user['status'] ?? 'Aktif'; 
 
 // Mengambil dan memformat Tanggal Gabung ke format Indonesia
 $tglGabung = 'Belum diketahui';
@@ -42,62 +45,64 @@ if (!empty($data_user['tglGabung'])) {
 }
 
 // =========================================================================
-// SCRIPT AMBIL DATA RINGKASAN GAJI BULAN INI (KOTAK 1)
+// SCRIPT AMBIL DATA RINGKASAN GAJI (KOTAK 1)
 // =========================================================================
 $gaji_pokok = 0;
 $tunjangan = 0;
-$bonus_penjualan = 0;
 
-// 1. Ambil data Gaji Pokok & Tunjangan berdasarkan id_gaji karyawan
 $id_gaji_user = $data_user['id_gaji'] ?? '';
 if (!empty($id_gaji_user)) {
-    $query_gaji = mysqli_query($conn, "SELECT * FROM gaji WHERE id_gaji = '$id_gaji_user'");
+    $query_gaji = mysqli_query($conn, "SELECT gapok FROM gaji WHERE id_gaji = '$id_gaji_user'");
     if ($query_gaji && mysqli_num_rows($query_gaji) > 0) {
         $data_gaji = mysqli_fetch_assoc($query_gaji);
-        $gaji_pokok = $data_gaji['gaji_pokok'] ?? $data_gaji['nominal'] ?? $data_gaji['gapok'] ?? 0;
-        $tunjangan = $data_gaji['tunjangan'] ?? 0;
+        $gaji_pokok = $data_gaji['gapok'] ?? 0;
     }
 }
 
-// Fallback: Jika relasi id_gaji kosong, coba tarik dari tabel jabatan sebagai alternatif
-if ($gaji_pokok == 0) {
-    $id_jabatan_user = $data_user['id_jabatan'] ?? '';
-    $query_jabatan_gaji = mysqli_query($conn, "SELECT * FROM jabatan WHERE id_jabatan = '$id_jabatan_user'");
-    if ($query_jabatan_gaji && mysqli_num_rows($query_jabatan_gaji) > 0) {
-        $data_jg = mysqli_fetch_assoc($query_jabatan_gaji);
-        $gaji_pokok = $data_jg['gaji_pokok'] ?? $data_jg['gapok'] ?? 0;
-        $tunjangan = $data_jg['tunjangan'] ?? 0;
+$id_tunjangan_user = $data_user['id_tunjangan'] ?? '';
+if (!empty($id_tunjangan_user)) {
+    $query_tunjangan = mysqli_query($conn, "SELECT * FROM tunjangan WHERE id_tunjangan = '$id_tunjangan_user'");
+    if ($query_tunjangan && mysqli_num_rows($query_tunjangan) > 0) {
+        $data_tunjangan = mysqli_fetch_assoc($query_tunjangan);
+        foreach ($data_tunjangan as $key => $value) {
+            if ($key !== 'id_tunjangan' && is_numeric($value) && $value > 0) {
+                $tunjangan += $value;
+            }
+        }
+        if ($tunjangan == 0) {
+            $tunjangan = $data_tunjangan['tunjangan'] ?? $data_tunjangan['nominal'] ?? 0;
+        }
     }
 }
+$total_gaji = $gaji_pokok + $tunjangan;
 
-// 2. Hitung Bonus Penjualan dari total transaksi sales karyawan di bulan berjalan
-$bln_ini = date('m');
-$thn_ini = date('Y');
-$query_transaksi = mysqli_query($conn, "SELECT SUM(total) AS total_sales FROM transaksi WHERE id_karyawan = '$id_karyawan' AND MONTH(tanggal) = '$bln_ini' AND YEAR(tanggal) = '$thn_ini'");
-if (!$query_transaksi) {
-    $query_transaksi = mysqli_query($conn, "SELECT SUM(total_harga) AS total_sales FROM transaksi WHERE id_karyawan = '$id_karyawan' AND MONTH(tgl_transaksi) = '$bln_ini' AND YEAR(tgl_transaksi) = '$thn_ini'");
-}
 
-if ($query_transaksi && $row_t = mysqli_fetch_assoc($query_transaksi)) {
-    $total_sales = $row_t['total_sales'] ?? 0;
-    $bonus_penjualan = $total_sales * 0.02; 
-}
-
-$total_gaji = $gaji_pokok + $tunjangan + $bonus_penjualan;
 // =========================================================================
+// SCRIPT AMBIL DATA PRESENSI HARI INI (KOTAK 3) - REPLACEMENT NON-JS
+// =========================================================================
+$tgl_hari_ini = date('Y-m-d');
+$jam_masuk    = '-- : --';
+$jam_pulang   = '-- : --';
+$status_absen = 'Belum Absen';
+$color_status = '#a0aec0'; // Warna abu-abu default bawaan sistem
 
-// Query Grafik Komposisi Jabatan (KOTAK 2)
-$query_grafik = mysqli_query($conn, "SELECT jb.nmaJabatan, COUNT(ky.id_karyawan) AS jumlah 
-                                     FROM userkaryawan ky 
-                                     JOIN jabatan jb ON ky.id_jabatan = jb.id_jabatan 
-                                     GROUP BY ky.id_jabatan");
-$labels_grafik = [];
-$data_grafik = [];
+// Query memeriksa log presensi karyawan bersangkutan di tanggal hari ini
+// (Silakan sesuaikan nama tabel/kolom jika berbeda dengan rancangan database lo)
+$query_presensi = mysqli_query($conn, "SELECT * FROM presensi WHERE id_karyawan = '$id_karyawan' AND tanggal = '$tgl_hari_ini'");
 
-if ($query_grafik) {
-    while ($row = mysqli_fetch_assoc($query_grafik)) {
-        $labels_grafik[] = $row['nmaJabatan'];
-        $data_grafik[] = $row['jumlah'];
+if ($query_presensi && mysqli_num_rows($query_presensi) > 0) {
+    $data_presensi = mysqli_fetch_assoc($query_presensi);
+    $jam_masuk    = !empty($data_presensi['jam_masuk']) ? date('H:i', strtotime($data_presensi['jam_masuk'])) : '-- : --';
+    $jam_pulang   = !empty($data_presensi['jam_pulang']) ? date('H:i', strtotime($data_presensi['jam_pulang'])) : '-- : --';
+    $status_absen = $data_presensi['status'] ?? 'Hadir';
+    
+    // Logika pewarnaan status teks agar dinamis menyesuaikan keadaan absen
+    if (strcasecmp($status_absen, 'Tepat Waktu') == 0 || strcasecmp($status_absen, 'Hadir') == 0) {
+        $color_status = '#3e9c35'; // Hijau utama
+    } elseif (strcasecmp($status_absen, 'Terlambat') == 0) {
+        $color_status = '#dd6b20'; // Orange kecokelatan
+    } else {
+        $color_status = '#3182ce'; // Biru soft untuk keterangan Sakit/Izin
     }
 }
 ?>
@@ -116,7 +121,6 @@ if ($query_grafik) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
         
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
         <script src="assets/script.js" defer></script>
     </head>
@@ -164,7 +168,6 @@ if ($query_grafik) {
                         
                         <span class="user-name">
                             <?php 
-                            date_default_timezone_set('Asia/Jakarta'); 
                             $hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
                             $bulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
                             
@@ -192,12 +195,18 @@ if ($query_grafik) {
 
                             <div class="form-group-info">
                                 <label>Alamat</label>
-                                <span class="text-company-value"><?= htmlspecialchars($alamat); ?></span>
+                                <span class="text-company-value">
+                                    <i class="fa-solid fa-location-dot icon-location"></i> 
+                                    <?= htmlspecialchars($alamat); ?>
+                                </span>
                             </div>
 
                             <div class="form-group-info">
-                                <label>Status</label>
-                                <span class="text-company-value"><?= htmlspecialchars($status_kerja); ?></span>
+                                <label>Status Pernikahan</label>
+                                <span class="text-company-value">
+                                    <i class="fa-solid fa-ring icon-status"></i> 
+                                    <?= htmlspecialchars($status_pernikahan); ?>
+                                </span>
                             </div>
 
                             <div class="form-group-info">
@@ -207,7 +216,7 @@ if ($query_grafik) {
                                     <?= htmlspecialchars($tglGabung); ?>
                                 </span>
                             </div>
-                        </div>  
+                        </div> 
 
                         <div class="card-stats-container">
                             <div class="card-header-title">
@@ -228,14 +237,9 @@ if ($query_grafik) {
                                     <span class="val-gapok">Rp <?= number_format($gaji_pokok, 0, ',', '.'); ?></span>
                                 </div>
 
-                                <div class="salary-item">
-                                    <label>Tunjangan</label>
-                                    <span class="val-tunjangan">Rp <?= number_format($tunjangan, 0, ',', '.'); ?></span>
-                                </div>
-
                                 <div class="salary-item item-dashed">
-                                    <label>Bonus Komisi Sales</label>
-                                    <span class="val-bonus">Rp <?= number_format($bonus_penjualan, 0, ',', '.'); ?></span>
+                                    <label>Tunjangan Jabatan</label>
+                                    <span class="val-tunjangan">Rp <?= number_format($tunjangan, 0, ',', '.'); ?></span>
                                 </div>
 
                                 <div class="salary-item item-total">
@@ -247,18 +251,32 @@ if ($query_grafik) {
                         
                         <div class="card-stats-container">
                             <div class="card-header-title">
-                                <h4>Komposisi Jabatan</h4>
+                                <h4>Presensi Hari Ini</h4>
                             </div>
                             
-                            <div class="chart-wrapper">
-                                <?php if (empty($data_grafik)) : ?>
-                                    <p class="text-empty-presence">Belum ada data karyawan.</p>
-                                <?php else : ?>
-                                    <canvas id="grafikJabatan" 
-                                            data-labels='<?= json_encode($labels_grafik); ?>' 
-                                            data-values='<?= json_encode($data_grafik); ?>'>
-                                    </canvas>
-                                <?php endif; ?>
+                            <div class="presence-today-list">
+                                <div class="presence-today-item">
+                                    <label>Absen Masuk</label>
+                                    <span class="val-masuk"><?= $jam_masuk; ?></span>
+                                </div>
+
+                                <div class="presence-today-item">
+                                    <label>Absen Pulang</label>
+                                    <span class="val-pulang"><?= $jam_pulang; ?></span>
+                                </div>
+
+                                <div class="presence-today-item item-dashed">
+                                    <label>Keterangan</label>
+                                    <span class="status-badge-today" style="color: <?= $color_status; ?>;">
+                                        <?= htmlspecialchars($status_absen); ?>
+                                    </span>
+                                </div>
+
+                                <div class="presence-action">
+                                    <a href="presensikaryawan.php" class="btn-presensi-shortcut">
+                                        <i class="fa-solid fa-fingerprint"></i> Lakukan Presensi
+                                    </a>
+                                </div>
                             </div>
                         </div>
 

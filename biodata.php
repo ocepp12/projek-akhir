@@ -1,5 +1,4 @@
 <?php
-// Wajib di baris paling atas sebelum ada output HTML/echo apa pun
 session_start(); 
 
 // =========================================================================
@@ -17,23 +16,7 @@ if (mysqli_connect_errno()) {
 }
 
 // =========================================================================
-// 2. INISIALISASI VARIABEL AWAL (Mencegah Error Undefined Array Key)
-// =========================================================================
-$is_edit = false;
-$edit_data = [
-    'id_karyawan' => '',
-    'nmaKaryawan' => '', 
-    'password'    => '',
-    'tglGabung'   => '',
-    'jmlAnak'     => 0,
-    'status'      => '', 
-    'id_jabatan'  => '',
-    'id_level'    => '',
-    'alamat'      => ''
-];
-
-// =========================================================================
-// 3. PROSES ACTION: TAMBAH DATA KARYAWAN
+// 2. PROSES ACTION: TAMBAH DATA KARYAWAN (Dari Form Utama)
 // =========================================================================
 if (isset($_POST['action']) && $_POST['action'] === 'tambah') {
     $nmaKaryawan   = mysqli_real_escape_string($koneksi, $_POST['nmaKaryawan']);
@@ -45,7 +28,7 @@ if (isset($_POST['action']) && $_POST['action'] === 'tambah') {
     $id_level      = intval($_POST['id_level']);
     $id_jabatan    = intval($_POST['id_jabatan']);
     
-    $id_perusahaan = $_SESSION['id_perusahaan'];
+    $id_perusahaan = $_SESSION['id_perusahaan'] ?? 1; // Fallback ke 1 jika session kosong
     $password_hash = password_hash($password_user, PASSWORD_DEFAULT);
 
     $query_insert = "INSERT INTO userkaryawan (nmaKaryawan, alamat, password, status, tglGabung, jmlAnak, id_perusahaan, id_level, id_jabatan) 
@@ -53,13 +36,14 @@ if (isset($_POST['action']) && $_POST['action'] === 'tambah') {
 
     if (mysqli_query($koneksi, $query_insert)) {
         echo "<script>alert('Data karyawan berhasil ditambahkan!'); window.location='biodata.php';</script>";
+        exit;
     } else {
         echo "<script>alert('Gagal menambahkan data: " . mysqli_error($koneksi) . "');</script>";
     }
 }
 
 // =========================================================================
-// 4. PROSES ACTION: UPDATE / EDIT DATA KARYAWAN
+// 3. PROSES ACTION: UPDATE / EDIT DATA KARYAWAN (Dari Form Inline)
 // =========================================================================
 if (isset($_POST['action']) && $_POST['action'] === 'update') {
     $id_karyawan   = intval($_POST['id_karyawan']);
@@ -74,7 +58,8 @@ if (isset($_POST['action']) && $_POST['action'] === 'update') {
     $password_query = "";
     if (!empty($_POST['password'])) {
         $password_user  = mysqli_real_escape_string($koneksi, $_POST['password']);
-        $password_query = ", password='$password_user'";
+        $password_hash  = password_hash($password_user, PASSWORD_DEFAULT);
+        $password_query = ", password='$password_hash'";
     }
 
     $query_update = "UPDATE userkaryawan SET 
@@ -90,25 +75,14 @@ if (isset($_POST['action']) && $_POST['action'] === 'update') {
 
     if (mysqli_query($koneksi, $query_update)) {
         echo "<script>alert('Data karyawan berhasil diperbarui!'); window.location='biodata.php';</script>";
+        exit;
     } else {
         echo "<script>alert('Gagal memperbarui data: " . mysqli_error($koneksi) . "');</script>";
     }
 }
 
 // =========================================================================
-// 5. CEK REQUEST EDIT (Mengambil Data Lama untuk Form)
-// =========================================================================
-if (isset($_GET['id_edit'])) {
-    $id_edit = intval($_GET['id_edit']);
-    $res_edit = mysqli_query($koneksi, "SELECT * FROM userkaryawan WHERE id_karyawan = $id_edit");
-    if ($res_edit && mysqli_num_rows($res_edit) > 0) {
-        $is_edit = true;
-        $edit_data = mysqli_fetch_assoc($res_edit);
-    }
-}
-
-// =========================================================================
-// 6. QUERY MASTER DATA (Dropdown & Tabel Utama)
+// 4. QUERY MASTER DATA DROPDOWN & TABEL
 // =========================================================================
 $res_jabatan = mysqli_query($koneksi, "SELECT * FROM jabatan");
 $res_level   = mysqli_query($koneksi, "SELECT * FROM levelkaryawan");
@@ -119,7 +93,9 @@ $query_table = "SELECT
                     u.alamat, 
                     u.status, 
                     u.tglGabung, 
-                    u.jmlAnak, 
+                    u.jmlAnak,
+                    u.id_jabatan,
+                    u.id_level,
                     l.nmaLevel, 
                     j.nmaJabatan 
                 FROM userkaryawan u
@@ -137,9 +113,7 @@ $result_table = mysqli_query($koneksi, $query_table);
         <title>Dashboard Perusahaan - Biodata Karyawan</title>
         <link rel="stylesheet" href="assets/style.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inherit">
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
         <script src="assets/script.js" defer></script>
     </head>
 
@@ -150,37 +124,18 @@ $result_table = mysqli_query($koneksi, $query_table);
                 <a href="index.php" class="brand">
                     <img src="assets/logoputih.svg" class="logo" alt="logo">
                 </a>
-                
                 <nav class="nav-menu">
-                    <a href="dashboardperusahaan.php" class="nav-item">
-                        <i class="fa-solid fa-house"></i> Dashboard
-                    </a>
-                    <a href="presensi1.php" class="nav-item">
-                        <i class="fa-solid fa-square-check"></i> Presensi
-                    </a>
-                    <a href="biodata.php" class="nav-item active">
-                        <i class="fa-solid fa-id-card"></i> Data Karyawan
-                    </a>
-                    <a href="gaji.php" class="nav-item">
-                        <i class="fa-solid fa-calendar-days"></i> Gaji
-                    </a>
-                    <a href="penjualan.php" class="nav-item">
-                        <i class="fa-solid fa-chart-line"></i> Penjualan
-                    </a>
+                    <a href="dashboardperusahaan.php" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
+                    <a href="presensi1.php" class="nav-item"><i class="fa-solid fa-square-check"></i> Presensi</a>
+                    <a href="biodata.php" class="nav-item active"><i class="fa-solid fa-id-card"></i> Data Karyawan</a>
+                    <a href="gaji.php" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Gaji</a>
+                    <a href="penjualan.php" class="nav-item"><i class="fa-solid fa-chart-line"></i> Penjualan</a>
                 </nav>
-                <div class="sidebar-footer">
-                    <a href="logout.php" class="nav-item nav-logout" onclick="return confirm('Apakah anda yakin ingin logout?');">
-                        <i class="fa-solid fa-right-from-bracket"></i> Logout
-                    </a>
-                </div>
             </aside>
 
             <main class="main-content sidebar-active">
-                
                 <header class="topbar">
-                    <div class="toggle-btn">
-                        <i class="fa-solid fa-bars"></i>
-                    </div>
+                    <div class="toggle-btn"><i class="fa-solid fa-bars"></i></div>
                     <div class="topbar-right">
                         <div class="search-wrapper">
                             <input type="text" class="search-input" placeholder="Cari...">
@@ -191,11 +146,7 @@ $result_table = mysqli_query($koneksi, $query_table);
                             date_default_timezone_set('Asia/Jakarta'); 
                             $hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
                             $bulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-                            
-                            $indeks_hari = date('w');
-                            $indeks_bulan = date('n');
-                            
-                            echo $hari[$indeks_hari] . ", " . date('j') . " " . $bulan[$indeks_bulan] . " " . date('Y'); 
+                            echo $hari[date('w')] . ", " . date('j') . " " . $bulan[date('n')] . " " . date('Y'); 
                             ?>
                         </span>
                     </div>
@@ -216,17 +167,18 @@ $result_table = mysqli_query($koneksi, $query_table);
                                     <th>Jumlah Anak</th>
                                     <th>Level</th>
                                     <th>Jabatan</th>
-                                    <th style="text-align: center;">Aksi</th>
+                                    <th>Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php 
                                 $no = 1;
-                                if (mysqli_num_rows($result_table) > 0) {
+                                if ($result_table && mysqli_num_rows($result_table) > 0) {
                                     while($row = mysqli_fetch_assoc($result_table)) { 
+                                        $edit_row_id = "edit-row-krw-" . $no;
                                 ?>
                                         <tr>
-                                            <td><?= $no++; ?></td>
+                                            <td><?= $no; ?></td>
                                             <td class="text-bold"><?= htmlspecialchars($row['nmaKaryawan']); ?></td>
                                             <td><?= htmlspecialchars($row['alamat']); ?></td>
                                             <td>
@@ -236,7 +188,7 @@ $result_table = mysqli_query($koneksi, $query_table);
                                                 } elseif (strtolower($row['status']) == 'belum menikah') {
                                                     echo '<span class="badge-belum" style="background:#f7fafc; color:#4a5568; padding:4px 8px; border-radius:4px; font-size:12px; font-weight:600; border:1px solid #edf2f7;">Belum Menikah</span>';
                                                 } else {
-                                                    echo '<span class="text-muted">Belum diset</span>';
+                                                    echo '<span class="text-muted">' . htmlspecialchars($row['status']) . '</span>';
                                                 }
                                                 ?>
                                             </td>
@@ -245,12 +197,98 @@ $result_table = mysqli_query($koneksi, $query_table);
                                             <td><span class="badge-level"><?= htmlspecialchars($row['nmaLevel']); ?></span></td>
                                             <td><?= htmlspecialchars($row['nmaJabatan']); ?></td>
                                             <td style="text-align: center;">
-                                                <a href="biodata.php?id_edit=<?= $row['id_karyawan']; ?>#form-karyawan" class="btn-action-edit">
+                                                <a href="#" class="btn-action-edit" onclick="toggleEditForm('<?= $edit_row_id ?>'); return false;">
                                                     <i class="fa-solid fa-pen-to-square"></i> Edit
                                                 </a>
                                             </td>
                                         </tr>
+
+                                        <tr id="<?= $edit_row_id ?>" class="detail-row">
+                                            <td colspan="9" style="padding: 15px;">
+                                                <div class="form-container" style="box-shadow: none; border: 1px solid #e2e8f0; margin: 0; text-align: left;">
+                                                    <h4 class="form-title" style="font-size: 14px; margin-bottom: 15px;">
+                                                        <i class="fa-solid fa-user-pen"></i> Edit Data: <strong><?= htmlspecialchars($row['nmaKaryawan']); ?></strong>
+                                                    </h4>
+                                                    
+                                                    <form action="biodata.php" method="POST">
+                                                        <input type="hidden" name="action" value="update">
+                                                        <input type="hidden" name="id_karyawan" value="<?= $row['id_karyawan']; ?>">
+
+                                                        <div class="form-grid">
+                                                            <div class="form-group">
+                                                                <label>Nama Karyawan</label>
+                                                                <input type="text" name="nmaKaryawan" class="form-control" value="<?= htmlspecialchars($row['nmaKaryawan']); ?>" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Password Akun</label>
+                                                                <input type="password" name="password" class="form-control" placeholder="Kosongkan jika tidak ingin mengubah password">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Tanggal Gabung</label>
+                                                                <input type="date" name="tglGabung" class="form-control" value="<?= $row['tglGabung']; ?>" required>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label>Jumlah Anak</label>
+                                                                <input type="number" name="jmlAnak" class="form-control" min="0" value="<?= $row['jmlAnak']; ?>" required>
+                                                            </div>
+                                                            
+                                                            <div class="form-group">
+                                                                <label>Status Pernikahan</label>
+                                                                <select name="status" class="form-control" required>
+                                                                    <option value="Unset">-- Pilih Status --</option>
+                                                                    <option value="Menikah" <?= (strtolower($row['status']) == 'menikah') ? 'selected' : ''; ?>>Menikah</option>
+                                                                    <option value="Belum Menikah" <?= (strtolower($row['status']) == 'belum menikah') ? 'selected' : ''; ?>>Belum Menikah</option>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label>Jabatan</label>
+                                                                <select name="id_jabatan" class="form-control" required>
+                                                                    <option value="">-- Pilih Jabatan --</option>
+                                                                    <?php 
+                                                                    mysqli_data_seek($res_jabatan, 0); 
+                                                                    while($j = mysqli_fetch_assoc($res_jabatan)) { 
+                                                                        $selected = ($j['id_jabatan'] == $row['id_jabatan']) ? 'selected' : '';
+                                                                    ?>
+                                                                        <option value="<?= $j['id_jabatan']; ?>" <?= $selected; ?>><?= htmlspecialchars($j['nmaJabatan']); ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label>Level Karyawan</label>
+                                                                <select name="id_level" class="form-control" required>
+                                                                    <option value="">-- Pilih Level --</option>
+                                                                    <?php 
+                                                                    mysqli_data_seek($res_level, 0); 
+                                                                    while($l = mysqli_fetch_assoc($res_level)) { 
+                                                                        $selected = ($l['id_level'] == $row['id_level']) ? 'selected' : '';
+                                                                    ?>
+                                                                        <option value="<?= $l['id_level']; ?>" <?= $selected; ?>><?= htmlspecialchars($l['nmaLevel']); ?></option>
+                                                                    <?php } ?>
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="form-group span-two">
+                                                                <label>Alamat Rumah</label>
+                                                                <textarea name="alamat" class="form-control" rows="3" required><?= htmlspecialchars($row['alamat']); ?></textarea>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-actions" style="margin-top: 15px;">
+                                                            <button type="button" class="btn-cancel" onclick="toggleEditForm('<?= $edit_row_id ?>')">
+                                                                <i class="fa-solid fa-xmark"></i> Tutup
+                                                            </button>
+                                                            <button type="submit" class="btn-submit btn-update">
+                                                                <i class="fa-solid fa-floppy-disk"></i> Simpan Perubahan
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </td>
+                                        </tr>
                                 <?php 
+                                        $no++;
                                     }
                                 } else {
                                     echo "<tr><td colspan='9' class='text-center'>Belum ada data karyawan.</td></tr>";
@@ -261,49 +299,34 @@ $result_table = mysqli_query($koneksi, $query_table);
                     </div>
 
                     <div class="form-container" id="form-karyawan">
-                        <h4 class="form-title">
-                            <i class="fa-solid <?= $is_edit ? 'fa-user-pen' : 'fa-user-plus'; ?>"></i> 
-                            <?= $is_edit ? 'Edit Data Karyawan' : 'Tambah Karyawan Baru'; ?>
-                        </h4>
-                        
-                        <form action="" method="POST" id="formKaryawan">
-                            
-                            <?php if ($is_edit) { ?>
-                                <input type="hidden" name="action" value="update">
-                                <input type="hidden" name="id_karyawan" value="<?= $edit_data['id_karyawan']; ?>">
-                            <?php } else { ?>
-                                <input type="hidden" name="action" value="tambah">
-                            <?php } ?>
+                        <h4 class="form-title"><i class="fa-solid fa-user-plus"></i> Tambah Karyawan Baru</h4>
+                        <form action="biodata.php" method="POST" id="formKaryawan">
+                            <input type="hidden" name="action" value="tambah">
 
                             <div class="form-grid">
                                 <div class="form-group">
                                     <label>Nama Karyawan</label>
-                                    <input type="text" name="nmaKaryawan" class="form-control" placeholder="Masukkan nama lengkap" 
-                                           value="<?= htmlspecialchars($edit_data['nmaKaryawan']); ?>" required>
+                                    <input type="text" name="nmaKaryawan" class="form-control" placeholder="Masukkan nama lengkap" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Password Akun</label>
-                                    <input type="password" name="password" class="form-control" 
-                                           placeholder="<?= $is_edit ? 'Kosongkan jika tidak ingin mengubah password' : 'Masukkan password log in'; ?>" 
-                                           <?= $is_edit ? '' : 'required'; ?>>
+                                    <input type="password" name="password" class="form-control" placeholder="Masukkan password log in" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Tanggal Gabung</label>
-                                    <input type="date" name="tglGabung" class="form-control" 
-                                           value="<?= $edit_data['tglGabung']; ?>" required>
+                                    <input type="date" name="tglGabung" class="form-control" required>
                                 </div>
                                 <div class="form-group">
                                     <label>Jumlah Anak</label>
-                                    <input type="number" name="jmlAnak" class="form-control" min="0" 
-                                           value="<?= $edit_data['jmlAnak']; ?>" required>
+                                    <input type="number" name="jmlAnak" class="form-control" min="0" value="0" required>
                                 </div>
                                 
                                 <div class="form-group">
                                     <label>Status Pernikahan</label>
                                     <select name="status" class="form-control" required>
                                         <option value="">-- Pilih Status --</option>
-                                        <option value="Menikah" <?= (strtolower($edit_data['status']) == 'menikah') ? 'selected' : ''; ?>>Menikah</option>
-                                        <option value="Belum Menikah" <?= (strtolower($edit_data['status']) == 'belum menikah') ? 'selected' : ''; ?>>Belum Menikah</option>
+                                        <option value="Menikah">Menikah</option>
+                                        <option value="Belum Menikah">Belum Menikah</option>
                                     </select>
                                 </div>
 
@@ -314,9 +337,8 @@ $result_table = mysqli_query($koneksi, $query_table);
                                         <?php 
                                         mysqli_data_seek($res_jabatan, 0); 
                                         while($j = mysqli_fetch_assoc($res_jabatan)) { 
-                                            $selected = ($is_edit && $j['id_jabatan'] == $edit_data['id_jabatan']) ? 'selected' : '';
                                         ?>
-                                            <option value="<?= $j['id_jabatan']; ?>" <?= $selected; ?>><?= htmlspecialchars($j['nmaJabatan']); ?></option>
+                                            <option value="<?= $j['id_jabatan']; ?>"><?= htmlspecialchars($j['nmaJabatan']); ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
@@ -327,38 +349,36 @@ $result_table = mysqli_query($koneksi, $query_table);
                                         <?php 
                                         mysqli_data_seek($res_level, 0); 
                                         while($l = mysqli_fetch_assoc($res_level)) { 
-                                            $selected = ($is_edit && $l['id_level'] == $edit_data['id_level']) ? 'selected' : '';
                                         ?>
-                                            <option value="<?= $l['id_level']; ?>" <?= $selected; ?>><?= htmlspecialchars($l['nmaLevel']); ?></option>
+                                            <option value="<?= $l['id_level']; ?>"><?= htmlspecialchars($l['nmaLevel']); ?></option>
                                         <?php } ?>
                                     </select>
                                 </div>
                                 <div class="form-group span-two">
                                     <label>Alamat Rumah</label>
-                                    <textarea name="alamat" class="form-control" rows="3" placeholder="Masukkan alamat lengkap..." required><?= htmlspecialchars($edit_data['alamat']); ?></textarea>
+                                    <textarea name="alamat" class="form-control" rows="3" placeholder="Masukkan alamat lengkap..." required></textarea>
                                 </div>
                             </div>
                             
                             <div class="form-actions">
-                                <?php if ($is_edit) { ?>
-                                    <a href="biodata.php" class="btn-cancel">
-                                        <i class="fa-solid fa-xmark"></i> Batal
-                                    </a>
-                                    <button type="button" class="btn-submit btn-update" onclick="document.getElementById('formKaryawan').submit();">
-                                        <i class="fa-solid fa-pen-to-square"></i> Perbarui Data Karyawan
-                                    </button>
-                                <?php } else { ?>
-                                    <button type="button" class="btn-submit" onclick="document.getElementById('formKaryawan').submit();">
-                                        <i class="fa-solid fa-floppy-disk"></i> Simpan Data Karyawan
-                                    </button>
-                                <?php } ?>
+                                <button type="button" class="btn-submit" onclick="document.getElementById('formKaryawan').submit();">
+                                    <i class="fa-solid fa-floppy-disk"></i> Simpan Data Karyawan
+                                </button>
                             </div>
                         </form>
                     </div>
 
                 </div>
             </main>
-
         </div>
+
+        <script>
+            function toggleEditForm(rowId) {
+                var editRow = document.getElementById(rowId);
+                if(editRow) {
+                    editRow.classList.toggle('show');
+                }
+            }
+        </script>
     </body>
 </html>

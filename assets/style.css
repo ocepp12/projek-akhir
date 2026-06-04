@@ -1231,10 +1231,10 @@ h2{
     border: 1px solid #e2e8f0;
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     margin-bottom: 30px;
     width: 100%;
     margin-top: 30px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .form-title {
@@ -1277,12 +1277,11 @@ h2{
 }
 
 .form-control:focus {
-    border-color: #319795;
+    border-color: #3e9c35;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(49, 151, 149, 0.15);
+    box-shadow: 0 0 0 3px rgba(62, 156, 53, 0.15);
 }
 
-/* Biar textarea alamat memenuhi baris bawah secara penuh */
 .span-two {
     grid-column: span 2;
 }
@@ -1291,10 +1290,11 @@ h2{
     margin-top: 25px;
     display: flex;
     justify-content: flex-end;
+    gap: 12px;
 }
 
 .btn-submit {
-    background-color: #319795;
+    background: linear-gradient(to right,#378b2f, #8ccf2a);
     color: white;
     padding: 12px 24px;
     border: none;
@@ -1309,10 +1309,11 @@ h2{
 }
 
 .btn-submit:hover {
-    background-color: #287e7d;
+    background: linear-gradient(to right,#2c7026, #76ae23);
+    transform: translateY(-1px);
+    transition: all 0.3s ease;
 }
 
-/* Responsive adjustment jika dibuka di layar HP */
 @media (max-width: 768px) {
     .form-grid {
         grid-template-columns: 1fr;
@@ -1322,7 +1323,6 @@ h2{
     }
 }
 
-/* Styling Tombol Edit di Dalam Tabel */
 .btn-action-edit {
     background-color: #ebf8ff;
     color: #2b6cb0;
@@ -1333,7 +1333,7 @@ h2{
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 5px;
+    gap: 5px !important;
     border: 1px solid #bee3f8;
     transition: all 0.2s ease;
 }
@@ -1344,10 +1344,10 @@ h2{
     border-color: #2b6cb0;
 }
 
-/* Styling Tombol Batal Edit */
 .btn-cancel {
-    background-color: #edf2f7;
-    color: #4a5568;
+    cursor: pointer;
+    background-color: #e53e3e;
+    color: #ffffff;
     padding: 12px 24px;
     border-radius: 6px;
     font-size: 14px;
@@ -1355,17 +1355,17 @@ h2{
     text-decoration: none;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    border: 1px solid #cbd5e0;
+    gap: 8px !important;
+    border: 1px solid;
     transition: background-color 0.2s;
 }
 
 .btn-cancel:hover {
-    background-color: #e2e8f0;
-    color: #2d3748;
+    background-color: #e53e3e;
+    transform: translateY(-1px);
+    transition: all 0.3s ease;
 }
 
-/* Variasi Tombol Submit saat Berubah menjadi Update (Warna Kuning/Orange Kecokelatan) */
 .btn-update {
     background-color: #dd6b20;
 }
@@ -1378,7 +1378,14 @@ h2{
    20. EXTENSION: RINGKASAN GAJI BULAN INI (DASHBOARD KARYAWAN)
    ========================================================================= */
 .icon-date {
-    color: #3e9c35; 
+    margin-right: 5px;
+}
+
+.icon-status{
+    margin-right: 5px;
+}
+
+.icon-location{
     margin-right: 5px;
 }
 
@@ -1401,34 +1408,33 @@ h2{
 
 .salary-item label {
     font-weight: bold;
-    color: #718096; /* Menyamakan dengan warna label form-group-info */
+    color: #718096;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
 .salary-item span {
-    color: #2d3748; /* Menyamakan dengan warna teks text-company-value */
+    color: #2d3748;
     font-size: 14px;
     font-weight: 600;
 }
 
-/* Modifikasi warna khusus nilai agar senada tapi tetap informatif */
 .salary-item .val-periode {
     color: #333;
     font-weight: bold;
 }
 
 .salary-item .val-gapok {
-    color: #3e9c35; /* Hijau utama sesuai identitas brand */
+    color: #3e9c35;
 }
 
 .salary-item .val-tunjangan {
-    color: #3182ce; /* Biru soft yang setipe dengan warna icon-radius */
+    color: #3182ce;
 }
 
 .salary-item .val-bonus {
-    color: #dd6b20; /* Orange/Cokelat yang setipe dengan warna btn-update */
+    color: #dd6b20;
 }
 
 .salary-item.item-dashed {
@@ -1445,11 +1451,248 @@ h2{
 .salary-item.item-total label {
     color: #333; 
     font-weight: bold; 
-    font-size: 13px; /* Sedikit lebih besar untuk penekanan total */
+    font-size: 13px;
 }
 
 .salary-item.item-total .val-total {
-    font-size: 18px; /* Menyamakan besarnya dengan text-company-name */
+    font-size: 18px;
     color: #3e9c35; 
     font-weight: bold;
+}
+
+/* =========================================================================
+   21. EXTENSION: KOTAK PRESENSI HARI INI (DASHBOARD KARYAWAN)
+   ========================================================================= */
+.presence-today-list {
+    display: flex; 
+    flex-direction: column; 
+    gap: 16px; 
+    padding-top: 5px;
+    width: 100%;
+}
+
+.presence-today-item {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    border-bottom: 1px solid #edf2f7; 
+    padding-bottom: 12px; 
+    margin: 0;
+}
+
+.presence-today-item label {
+    font-weight: bold;
+    color: #718096;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.presence-today-item span {
+    color: #2d3748;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.presence-today-item .val-masuk {
+    color: #3e9c35;
+}
+
+.presence-today-item .val-pulang {
+    color: #3182ce;
+}
+
+.presence-today-item.item-dashed {
+    border-bottom: 2px dashed #edf2f7; 
+    padding-bottom: 14px;
+}
+
+.status-badge-today {
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    font-weight: bold;
+}
+
+.presence-action {
+    padding-top: 8px;
+    width: 100%;
+}
+
+.btn-presensi-shortcut {
+    text-decoration: none; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(to right, #3e9c35, #9CDE35);
+    color: #ffffff;
+    padding: 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.btn-presensi-shortcut:hover {
+    background: linear-gradient(to right, #317d2a, #7db12a);
+    transform: translateY(-1px);
+    color: #ffffff;
+}
+
+/* =========================================================================
+   22. FIX SEJAJAR RATALURUS: KEMBALI KE FLEXBOX (TIDAK MERUSAK LAYOUT ASLI)
+   ========================================================================= */
+.dashboard-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    align-items: stretch !important;
+}
+
+.card-stats-container {
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.salary-list, .presence-list {
+    flex: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.salary-item.item-total {
+    margin-top: auto !important;
+    padding-top: 14px !important;
+}
+
+.presence-list .presence-item:last-child {
+    margin-top: auto !important;
+}
+
+/* =========================================================================
+   23. MODIFIKASI LAYOUT DETAIL TABEL REKAP GAJI (gajikaryawan.php)
+   ========================================================================= */
+.data-table td.cell-align-top {
+    vertical-align: top !important;
+    padding-top: 15px !important;
+}
+
+.data-table td.cell-padding-large {
+    vertical-align: top !important;
+    padding: 15px !important;
+}
+
+.data-table th.th-tunjangan {
+    min-width: 220px !important;
+}
+
+.data-table th.th-potongan {
+    min-width: 200px !important;
+}
+
+.salary-detail-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-bottom: 5px !important;
+}
+
+.salary-detail-label {
+    color: #718096 !important;
+    font-size: 13px !important;
+}
+
+.salary-detail-value {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: #2d3748 !important;
+}
+
+.salary-detail-total {
+    display: flex !important;
+    justify-content: space-between !important;
+    margin-top: 8px !important;
+    padding-top: 6px !important;
+    border-top: 1px dashed #cbd5e0 !important;
+}
+
+.salary-total-label {
+    color: #2d3748 !important;
+    font-weight: bold !important;
+    font-size: 13px !important;
+}
+
+.salary-total-value {
+    font-weight: bold !important;
+    font-size: 13px !important;
+}
+
+.val-tunjangan {
+    color: #3182ce !important;
+}
+
+.val-potongan {
+    color: #e53e3e !important;
+}
+
+.salary-detail-empty {
+    color: #a0aec0 !important;
+    font-size: 13px !important;
+    font-style: italic !important;
+}
+
+.cell-empty-state {
+    padding: 30px !important;
+}
+
+.icon-empty-folder {
+    font-size: 24px !important;
+    margin-bottom: 10px !important;
+    color: #cbd5e0 !important;
+    display: block !important;
+}
+
+/* =========================================================================
+   24. EXTENSION: TOGGLE RINCIAN TUNJANGAN & POTONGAN (UNTUK DROPDOWN TABEL)
+   ========================================================================= */
+.detail-row {
+    display: none;
+}
+
+.detail-row.show {
+    display: table-row;
+}
+
+.detail-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    background-color: #f8fafc;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #edf2f7;
+    margin: 10px 0;
+}
+
+.detail-section {
+    flex: 1;
+    min-width: 250px;
+}
+
+.detail-title {
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 15px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #edf2f7;
+}
+
+.title-tunjangan {
+    color: #3182ce;
+}
+
+.title-potongan {
+    color: #e53e3e;
 }
