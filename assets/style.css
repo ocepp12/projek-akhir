@@ -1,7 +1,7 @@
 /* =========================================
    1. GLOBAL & BASE STYLES
    ========================================= */
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -9,24 +9,31 @@
     letter-spacing: 0.5px;
 }
 
-body{
+body {
     margin: 0;
     padding: 0;
     background-color: #f2f2f2;
 }
 
-h1{
+h1 {
     text-align: center;
     margin-top: 50px;
     margin-bottom: 20px;
     font-size: 42px;
 }
 
-h3{
-    text-align: center;
+h3 {
+    margin: 0 !important;
+    margin-bottom: 30px !important;
+    margin-top: 30px !important;
+    padding: 0 !important;
+    line-height: 1;       
+    color: #333;
+    font-size: 22px;
+    width: 100%;
 }
 
-p{
+p {
     text-align: center;
     font-size: 18px;
     max-width: 800px;
@@ -39,7 +46,7 @@ p{
 /* =========================================
    2. HEADER & NAVIGATION
    ========================================= */
-.header{
+.header {
     position: sticky !important;
     top: 0;
     z-index: 1000;
@@ -51,18 +58,18 @@ p{
     height: 80px;
 }
 
-.logo-link{
+.logo-link {
     text-decoration: none;
 }
 
-.logo{
+.logo {
     width: 200px;
     height: auto;
     position: relative;
     z-index: 2;
 }
 
-nav{
+nav {
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -72,34 +79,34 @@ nav{
     justify-content: center;
 }
 
-nav ul{
+nav ul {
     list-style: none;
     display: flex;
     margin: 0;
     padding: 0;
 }
 
-nav li{
+nav li {
     margin: 0 20px;
 }
 
-nav a{
+nav a {
     text-decoration: none;
     color: black;
     font-weight: bold;
 }
 
-nav li a:hover{
+nav li a:hover {
     color: #3e9c35;
     transition: all 0.3s ease;
 }
 
-.login-link{
+.login-link {
     text-decoration: none;
 }
 
-.button-masuk{
-    background: linear-gradient(to right,#3e9c35, #9CDE35);
+.button-masuk {
+    background: linear-gradient(to right, #3e9c35, #9CDE35);
     border: none;
     color: white;
     padding: 10px 24px;
@@ -113,8 +120,8 @@ nav li a:hover{
     transition: 0.5s ease;
 }
 
-.button-masuk:hover{
-    background: linear-gradient(to right,#378b2f, #8ccf2a);
+.button-masuk:hover {
+    background: linear-gradient(to right, #378b2f, #8ccf2a);
     color: #f2f2f2;
     transform: translateY(-2px);
 }
@@ -122,15 +129,15 @@ nav li a:hover{
 /* =========================================
    3. HERO SECTION (TEKS PEMBUKA & BUTTONS)
    ========================================= */
-.daftar-link{
+.daftar-link {
     text-decoration: none;
     display: block;
     width: fit-content;
     margin: 30px auto 100px;
 }
 
-.button-daftar{
-    background: linear-gradient(to right,#3e9c35, #9CDE35);
+.button-daftar {
+    background: linear-gradient(to right, #3e9c35, #9CDE35);
     display: block;
     margin: 30px auto;
     width: fit-content;
@@ -147,8 +154,8 @@ nav li a:hover{
     margin-bottom: 100px;
 }
 
-.button-daftar:hover{
-    background: linear-gradient(to right,#378b2f, #8ccf2a);
+.button-daftar:hover {
+    background: linear-gradient(to right, #378b2f, #8ccf2a);
     color: #f2f2f2;
     transform: translateY(-2px);
 }
@@ -157,12 +164,12 @@ nav li a:hover{
 .wa-button, 
 .wa-button:hover, 
 .wa-button:active, 
-.wa-button:focus{
+.wa-button:focus {
     text-decoration: none !important;
     outline: none;
 }
 
-.button-wa{
+.button-wa {
     background: #3e3e3e;
     display: block;
     margin: 30px auto;
@@ -185,7 +192,7 @@ nav li a:hover{
     box-shadow: 0 4px 15px rgba(0,0,0,0.2);
 }
 
-.button-wa:hover{
+.button-wa:hover {
     color: rgb(255, 255, 255);
     transform: translateY(-2px);
 }
@@ -193,20 +200,20 @@ nav li a:hover{
 /* =========================================
    4. SLIDER (SWIPER)
    ========================================= */
-.swiper{
+.swiper {
     width: 100%;
     padding: 50px 0;
     margin: 0 auto;
     padding-bottom: 30px !important;
 }
 
-.swiper-slide{
+.swiper-slide {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-.mockup{
+.mockup {
     max-width: 600px; 
     height: auto;
     display: block;
@@ -214,19 +221,19 @@ nav li a:hover{
     width: 100%;
 }
 
-.swiper-pagination{
+.swiper-pagination {
     margin-bottom: 100px !important; 
     position: relative !important;
     bottom: 0 !important;
     margin-top: 20px; 
 }
 
-.swiper-pagination-bullet-active{
+.swiper-pagination-bullet-active {
     background: #3e9c35 !important;
 }
 
 .swiper-button-next, 
-.swiper-button-prev{
+.swiper-button-prev {
     background-color: #3e9c359b !important;
     color: #ffffff !important;
     width: 70px !important;
@@ -236,13 +243,13 @@ nav li a:hover{
 }
 
 .swiper-button-next::after, 
-.swiper-button-prev::after{
+.swiper-button-prev::after {
     font-size: 22px !important;
     font-weight: bold;
 }
 
 .swiper-button-next:hover, 
-.swiper-button-prev:hover{
+.swiper-button-prev:hover {
     background-color: #3e9c35 !important;
     transform: scale(1);
     transition: 0.3s ease;
@@ -251,7 +258,7 @@ nav li a:hover{
 /* =========================================
    5. FITUR & CONTENT (CONTAINER UTAMA)
    ========================================= */
-.container-utama{
+.container-utama {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -262,11 +269,11 @@ nav li a:hover{
     margin-bottom: 100px;
 }
 
-.reverse{
+.reverse {
     flex-direction: row-reverse;
 }
 
-.kolom-teks{
+.kolom-teks {
     flex: 1;
     text-align: left;
     display: flex;
@@ -276,29 +283,29 @@ nav li a:hover{
 }
 
 .kolom-teks h1, 
-.kolom-teks p{
+.kolom-teks p {
     text-align: left;
     margin-left: 0;
     margin-bottom: 10px;
 }
 
-.kolom-teks h1{
+.kolom-teks h1 {
     font-size: 2.5rem;
     line-height: 1.2;
 }
 
-.kolom-teks p{
+.kolom-teks p {
     font-size: 1.1rem;
     color: #555;
 }
 
-.kolom-gambar{
+.kolom-gambar {
     flex: 1;
     display: flex;
     justify-content: flex-end;
 }
 
-.gambar{
+.gambar {
     width: 100%;
     max-width: 550px;
     height: auto;
@@ -309,29 +316,29 @@ nav li a:hover{
 /* =========================================
    6. FAQ SECTION
    ========================================= */
-.faq-container{
+.faq-container {
     max-width: 1000px;
     margin: 50px auto;
     padding: 20px;
     margin-bottom: 30px;
 }
 
-.faq-container h1{
+.faq-container h1 {
     text-align: center;
 }
 
-.grid{
+.grid {
     display: grid;
     gap: 20px;
 }
 
-details{
+details {
     text-align: left;
     border-bottom: 1px solid #eee;
     padding: 15px 0;
 }
 
-summary{
+summary {
     list-style: none;
     cursor: pointer;
     font-weight: bold;
@@ -345,24 +352,24 @@ summary{
 }
 
 summary:hover,
-details[open] summary{
+details[open] summary {
     color: #3E9C35;
     transition: all 0.3s ease;
 }
 
-summary::-webkit-details-marker{
+summary::-webkit-details-marker {
     display: none;
 }
 
-.icon::before{
+.icon::before {
     content: "+";
 }
 
-details[open] .icon::before{
+details[open] .icon::before {
     content: "-";
 }
 
-details p{
+details p {
     margin-top: 10px;
     margin-left: 0;
     padding-left: 0;
@@ -375,21 +382,20 @@ details p{
 /* =========================================
    7. SOCIAL MEDIA FOOTER
    ========================================= */
-
-h2{
+h2 {
     text-align: center;
     margin-top: 50px;
     margin-bottom: 20px;
     font-size: 22px;
 }
 
-.social-icons{
+.social-icons {
     display: flex;
     gap: 30px;
     justify-content: center;
 }
 
-.social-icons a{
+.social-icons a {
     color: transparent;
     font-size: 32px;
     text-decoration: none;
@@ -397,7 +403,7 @@ h2{
     -webkit-text-stroke: 1.5px #333;
 }
 
-.social-icons a:hover{
+.social-icons a:hover {
     color: transparent;
     -webkit-text-stroke: 1.5px #3E9C35;
     transform: translateY(-3px);
@@ -406,7 +412,7 @@ h2{
 /* =========================================
    8. LOGIN & SIGNIN PAGE (FOR login.php)
    ========================================= */
-.login-page{
+.login-page {
     min-height: 100vh;
     width: 100%;
     display: flex;
@@ -419,7 +425,7 @@ h2{
     overflow-y: auto;
 }
 
-.login-card{
+.login-card {
     background: #ffffff;
     width: 90%;
     max-width: 600px;
@@ -430,17 +436,17 @@ h2{
     text-align: center;
 }
 
-.header-login{
+.header-login {
     margin-bottom: 50px;
 }
 
-.input-group{
+.input-group {
     text-align: left;
     margin-bottom: 20px;
     margin-top: 20px;
 }
 
-.input-group label{
+.input-group label {
     font-size: 11px;
     font-weight: 700;
     color: #999;
@@ -448,7 +454,7 @@ h2{
     margin-bottom: 8px;
 }
 
-.input-group input{
+.input-group input {
     width: 100%;
     padding: 12px 15px;
     border: 1.5px solid #e0e0e0;
@@ -458,11 +464,11 @@ h2{
     transition: 0.3s;
 }
 
-.input-group input:focus{
+.input-group input:focus {
     border-color: #3E9C35;
 }
 
-.input-group textarea{
+.input-group textarea {
     width: 100%;
     padding: 12px;
     border: 1.5px solid #e0e0e0;
@@ -473,17 +479,17 @@ h2{
     resize: vertical;
 }
 
-.input-group textarea:focus{
+.input-group textarea:focus {
     outline: none;
     border-color: #3E9C35;
 }
 
-.password-wrapper{
+.password-wrapper {
     position: relative;
 }
 
 .fa-eye, 
-.fa-eye-slash{
+.fa-eye-slash {
     position: absolute;
     right: 15px;
     top: 50%;
@@ -495,25 +501,25 @@ h2{
     align-items: center;
 }
 
-.forgot-wrapper{
+.forgot-wrapper {
     text-align: right;
     margin-top: 5px;
 }
 
-.forgot{
+.forgot {
     font-size: 11px;
     color: #3e9c35;
     text-decoration: none;
 }
 
-.forgot:hover{
+.forgot:hover {
     text-decoration: underline;
 }
 
-.btn-signin{
+.btn-signin {
     width: 100%;
     padding: 14px;
-    background: linear-gradient(to right,#3e9c35, #9CDE35);
+    background: linear-gradient(to right, #3e9c35, #9CDE35);
     border: none;
     border-radius: 10px;
     color: white;
@@ -524,37 +530,37 @@ h2{
     transition: opacity 0.3s;
 }
 
-.btn-signin:hover{
+.btn-signin:hover {
     opacity: 0.9;
 }
 
-.footer-text{
+.footer-text {
     margin-top: 20px;
     font-size: 12px;
     color: #777;
     margin-bottom: 30px;
 }
 
-.footer-text a{
+.footer-text a {
     color: #3E9C35;
     text-decoration: none;
     font-weight: bold;
 }
 
-.footer-text a:hover{
+.footer-text a:hover {
     text-decoration: underline;
 }
 
 /* =========================================
-   9. HARGA(PRICING)
+   9. HARGA (PRICING)
    ========================================= */
-.pricing-container{
+.pricing-container {
     padding: 80px 20px;
     background-color: #f2f2f2;
     margin-bottom: 50px;
 }
 
-.pricing-grid{
+.pricing-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
@@ -562,7 +568,7 @@ h2{
     margin: 40px auto 0;
 }
 
-.pricing-card{
+.pricing-card {
     background: #fff;
     padding: 40px;
     border-radius: 20px;
@@ -574,16 +580,16 @@ h2{
     margin-bottom: 100px;
 }
 
-.pricing-card.featured{
+.pricing-card.featured {
     border: 2px solid #3e9c35;
     transform: scale(1.05);
 }
 
-.description-pricing{
+.description-pricing {
     margin-bottom: 50px;
 }
 
-.badge{
+.badge {
     position: absolute;
     top: -15px;
     left: 50%;
@@ -596,38 +602,38 @@ h2{
     font-weight: bold;
 }
 
-.price{
+.price {
     font-size: 32px;
     font-weight: bold;
     color: #333;
     margin: 20px 0 5px;
 }
 
-.price span{
+.price span {
     font-size: 16px;
     color: #888;
 }
 
-.price-detail{
+.price-detail {
     font-size: 14px;
     margin-bottom: 25px;
 }
 
-.feature-list{
+.feature-list {
     list-style: none;
     padding: 0;
     margin-bottom: 30px;
     text-align: left;
 }
 
-.feature-list li{
+.feature-list li {
     padding: 10px 0;
     font-size: 14px;
     color: #555;
     border-bottom: 1px solid #f2f2f2;
 }
 
-.btn-pricing{
+.btn-pricing {
     width: 100%;
     padding: 12px;
     border-radius: 10px;
@@ -639,30 +645,30 @@ h2{
     transition: 0.3s;
 }
 
-.btn-pricing:hover{
+.btn-pricing:hover {
     background: #f2f2f2;
 }
 
-.featured-btn{
+.featured-btn {
     background: linear-gradient(to right, #3e9c35, #9CDE35);
     color: white;
     border: none;
 }
 
-.featured-btn:hover{
+.featured-btn:hover {
     background: linear-gradient(to right, #378b2f, #8ccf2a);
 }
 
 /* =========================================
    10. FOOTER
    ========================================= */
-.footer{
+.footer {
     padding: 20px 20px 0 20px;
     color: white;
     text-align: center;
 }
 
-.copyright{
+.copyright {
     margin-top: 0;
     padding-bottom: 10px;
     font-size: 14px;
@@ -670,7 +676,7 @@ h2{
     line-height: 1;
 }
 
-.copyright1{
+.copyright1 {
     margin-top: 0;
     font-size: 12px;
     margin-bottom: 0 !important;
@@ -681,7 +687,7 @@ h2{
 /* =========================================================================
    11. DASHBOARD PERUSAHAAN & SIDEBAR LAYOUT
    ========================================================================= */
-.sidebar{
+.sidebar {
     width: 260px;
     background-color: #3E9C35;
     color: white;
@@ -691,21 +697,21 @@ h2{
     height: 100vh;
     left: -260px; 
     top: 0;
-    z-index: 100;
+    z-index: 99999 !important;
     padding: 0;
     transition: left 0.3s ease; 
 }
 
-.sidebar.active{
+.sidebar.active {
     left: 0;
 }
 
-.sidebar-footer{
+.sidebar-footer {
     margin-top: auto;
     padding-bottom: 20px;
 }
 
-.brand{
+.brand {
     padding: 20px 25px; 
     height: 70px; 
     display: flex;
@@ -715,11 +721,11 @@ h2{
     box-sizing: border-box;
 }
 
-.brand h2 span{
+.brand h2 span {
     color: #9CDE35;
 }
 
-.nav-menu{
+.nav-menu {
     display: flex;
     flex-direction: column;
     padding: 0; 
@@ -727,7 +733,7 @@ h2{
     margin-top: 100px;
 }
 
-.nav-item{
+.nav-item {
     display: flex;
     align-items: center;
     padding: 15px 25px; 
@@ -740,21 +746,21 @@ h2{
     box-sizing: border-box;
 }
 
-.nav-item i{
+.nav-item i {
     margin-right: 15px;
     font-size: 1.2rem;
     width: 25px;
 }
 
 .nav-item:hover, 
-.nav-item.active{
+.nav-item.active {
     background-color: #9CDE35;
     color: white;
     border-radius: 0; 
 }
 
 .nav-menu .nav-logout,
-.sidebar-footer .nav-logout{
+.sidebar-footer .nav-logout {
     color: #ffffff;
     display: flex;
     align-items: center;
@@ -764,23 +770,23 @@ h2{
     transition: all 0.3s ease;
 }
 
-.sidebar-footer .nav-logout i{
+.sidebar-footer .nav-logout i {
     color: #ffffff;
 }
 
-.sidebar-footer .nav-logout:hover{
+.sidebar-footer .nav-logout:hover {
     background-color: #c53030;
     color: #ffffff;            
 }
 
-.sidebar-footer .nav-logout:hover i{
+.sidebar-footer .nav-logout:hover i {
     color: #ffffff;            
 }
 
 /* =========================================================================
    12. MAIN CONTENT, TOPBAR, & SEARCH FEATURE
    ========================================================================= */
-.main-content{
+.main-content {
     flex: 1;
     margin-left: 0; 
     display: flex;
@@ -789,11 +795,11 @@ h2{
     transition: margin-left 0.3s ease; 
 }
 
-.main-content.sidebar-active{
+.main-content.sidebar-active {
     margin-left: 260px;
 }
 
-.topbar{
+.topbar {
     background-color: white;
     height: 70px;
     display: flex;
@@ -801,13 +807,13 @@ h2{
     align-items: center;
     padding: 0 30px;
     border-bottom: 1px solid #e0e0e0;
-    position: sticky;
+    position: sticky !important;
     top: 0;
     width: 100%;
-    z-index: 90;
+    z-index: 9999;
 }
 
-.toggle-btn{
+.toggle-btn {
     font-size: 1.4rem;
     cursor: pointer;
     color: #333;
@@ -815,22 +821,22 @@ h2{
     transition: color 0.3s ease;
 }
 
-.toggle-btn:hover{
+.toggle-btn:hover {
     color: #3E9C35;
 }
 
-.topbar-right{
+.topbar-right {
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
-.user-name{
+.user-name {
     font-weight: 600;
     color: #333;
 }
 
-.search-wrapper{
+.search-wrapper {
     display: flex;
     align-items: center;
     position: relative;
@@ -841,13 +847,13 @@ h2{
     border: 1px solid transparent;
 }
 
-.search-wrapper:focus-within{
+.search-wrapper:focus-within {
     border-color: #3E9C35;
     background-color: white;
     box-shadow: 0 0 5px rgba(60, 162, 60, 0.15);
 }
 
-.search-input{
+.search-input {
     width: 0;
     opacity: 0;
     border: none;
@@ -858,27 +864,27 @@ h2{
     padding: 0;
 }
 
-.search-wrapper.open .search-input{
+.search-wrapper.open .search-input {
     width: 170px;
     opacity: 1;
     padding-right: 10px;
 }
 
-.search-toggle{
+.search-toggle {
     cursor: pointer;
     font-size: 1.2rem;
     color: #555;
     transition: color 0.3s;
 }
 
-.search-toggle:hover{
+.search-toggle:hover {
     color: #3E9C35;
 }
 
 /* =========================================================================
    13. DASHBOARD MAIN GRID CONFIGURATION
    ========================================================================= */
-.content-body{
+.content-body {
     padding: 30px 50px;
     box-sizing: border-box;
     flex: 1;
@@ -886,16 +892,16 @@ h2{
     display: block;
 }
 
-.dashboard-container{
+.dashboard-container {
     overflow-x: hidden;
 }
 
-.dashboard-title{
+.dashboard-title {
     margin-bottom: 20px;
     color: #333;
 }
 
-.dashboard-grid{
+.dashboard-grid {
     display: flex;
     flex-wrap: wrap;
     gap: 24px;
@@ -908,30 +914,31 @@ h2{
 /* =========================================================================
    14. CARD COMPONENT: DATA PERUSAHAAN (ATAS FULL BARIS)
    ========================================================================= */
-.card-info .card-header-title,
-.card-stats-container .card-header-title{
+.card-header-title {
     display: flex;
     align-items: center;
     height: 40px;
     border-bottom: 2px solid #edf2f7;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
+    padding-bottom: 30px;
+    padding-top: 40px;
+    margin-bottom: 18px;
 }
 
-.card-info .card-header-title h4,
-.card-stats-container .card-header-title h4{
-    margin: 0 !important;
-    padding: 0 !important;
-    line-height: 1;       
-    color: #333;
-    font-size: 15px;
-    width: 100%;
+.form-title {
+    display: flex;
+    align-items: center;
+    height: 40px;
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 30px;
+    padding-top: 40px;
+    margin-bottom: 18px;
 }
 
-.card-info{
+.card-info {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     padding: 25px;
+    padding-top: 0;
     border-radius: 12px;
     flex: 0 0 100%;
     max-width: 100%; 
@@ -940,11 +947,11 @@ h2{
     box-sizing: border-box;
 }
 
-.form-group-info{
+.form-group-info {
     margin-bottom: 30px;
 }
 
-.form-group-info label{
+.form-group-info label {
     font-weight: bold;
     color: #718096;
     display: block;
@@ -953,18 +960,18 @@ h2{
     letter-spacing: 0.5px;
 }
 
-.text-company-name{
+.text-company-name {
     font-size: 18px;
     color: #3e9c35;
     font-weight: bold;
 }
 
-.text-company-value{
+.text-company-value {
     color: #2d3748;
     font-size: 14px;
 }
 
-.text-coordinate{
+.text-coordinate {
     color: #2d3748;
     font-size: 14px;
     font-family: monospace;
@@ -976,21 +983,21 @@ h2{
     border: 1px solid #edf2f7;
 }
 
-.text-radius{
+.text-radius {
     color: #2d3748;
     font-size: 14px;
     font-weight: bold;
 }
 
-.icon-radius{
-    color: #3182ce;
+.icon-radius {
+    color: #3e9c35; 
 }
 
-.btn-ubah{
+.btn-ubah {
     text-decoration: none; 
     display: inline-block; 
     text-align: center;
-    background: linear-gradient(to right,#3e9c35, #9CDE35);
+    background: linear-gradient(to right, #3e9c35, #9CDE35);
     color: #ffffff;
     padding: 8px 16px;
     border-radius: 5px;
@@ -1001,8 +1008,8 @@ h2{
     margin-top: 10px;
 }
 
-.btn-ubah:hover{
-    background: linear-gradient(to right,#317d2a, #7db12a);
+.btn-ubah:hover {
+    background: linear-gradient(to right, #317d2a, #7db12a);
     transform: translateY(-1px);
     color: #f2f2f2;
 }
@@ -1010,10 +1017,11 @@ h2{
 /* =========================================================================
    15. CARD COMPONENT: AKTIVITAS & GRAFIK (BAWAH SEJAJAR BERDUA)
    ========================================================================= */
-.card-stats-container{
+.card-stats-container {
     background: #ffffff;
     border: 1px solid #e2e8f0;
     padding: 25px;
+    padding-top: 0;
     border-radius: 12px;
     flex: 1 1 calc(50% - 12px);
     max-width: 550px;
@@ -1021,32 +1029,34 @@ h2{
     box-sizing: border-box;
 }
 
-.presence-list{
+.presence-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 30px !important;
+    width: 100%;
+    padding: 5px 0;
 }
 
-.presence-item{
+.presence-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px;
+    padding: 14px 18px;
     background-color: #f7fafc;
     border-radius: 8px;
-    border-left: 4px solid #48bb78;
+    border-left: 4px solid #3E9C35;
     transition: transform 0.2s ease;
 }
 
-.presence-item:hover{
+.presence-item:hover {
     transform: translateX(3px);
 }
 
-.presence-badge{
+.presence-badge {
     width: 38px;
     height: 38px;
-    background-color: #e6fffa;
-    color: #319795;
+    background-color: #ecffcd;
+    color: #3e9c35;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -1055,31 +1065,31 @@ h2{
     flex-shrink: 0;
 }
 
-.presence-details{
+.presence-details {
     display: flex;
     flex-direction: column;
 }
 
-.p-name{
+.p-name {
     font-size: 14px;
     font-weight: 600;
     color: #2d3748;
 }
 
-.p-time{
+.p-time {
     font-size: 12px;
     color: #718096;
     margin-top: 3px;
 }
 
-.status-badge{
+.status-badge {
     color: #3E9C35;
     text-transform: uppercase;
     font-size: 11px;
     letter-spacing: 0.5px;
 }
 
-.text-empty-presence{
+.text-empty-presence {
     font-size: 13px;
     color: #a0aec0;
     text-align: center;
@@ -1090,7 +1100,7 @@ h2{
 /* =========================================================================
    16. MISC / ALERT SYSTEM
    ========================================================================= */
-.alert-incomplete{
+.alert-incomplete {
     background: #fff5f5;
     border: 1px solid #feb2b2;
     padding: 20px;
@@ -1100,17 +1110,17 @@ h2{
     color: #c53030;
 }
 
-.alert-incomplete h4{
+.alert-incomplete h4 {
     margin-top: 0;
 }
 
-.alert-incomplete p{
+.alert-incomplete p {
     font-size: 14px;
     color: #742a2a;
     line-height: 1.5;
 }
 
-.btn-fill-form{
+.btn-fill-form {
     display: inline-block;
     background: #c53030;
     color: #fff;
@@ -1123,21 +1133,13 @@ h2{
     transition: background 0.2s ease;
 }
 
-.btn-fill-form:hover{
+.btn-fill-form:hover {
     background: #9b2c2c;
 }
 
 /* =========================================================================
    17. EXTENSION: FITUR GRAFIK REKAPITULASI
    ========================================================================= */
-.dashboard-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-    align-items: flex-start;
-    width: 100%;
-}
-
 .chart-wrapper {
     width: 100%;
     max-width: 240px;
@@ -1150,6 +1152,7 @@ h2{
    18. EXTENSION: COMPONENT DATA TABLE (FOR biodata.php)
    ========================================================================= */
 .content-header {
+    margin-top: 25px;
     margin-bottom: 25px;
     text-align: left;
 }
@@ -1165,16 +1168,20 @@ h2{
     background: #ffffff;
     border: 1px solid #e2e8f0;
     padding: 25px;
+    padding-top: 0;
     border-radius: 12px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     overflow-x: auto;
     width: 100%;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 .data-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
+    background-color: #fff;
 }
 
 .data-table th, 
@@ -1198,7 +1205,6 @@ h2{
     background-color: #f8fafc;
 }
 
-/* Helper Utility Classes */
 .text-bold {
     font-weight: 600;
     color: #1a202c;
@@ -1214,8 +1220,8 @@ h2{
 }
 
 .badge-level {
-    background-color: #e6fffa;
-    color: #319795;
+    background-color: #f2fbe9;
+    color: #3e9c35;
     padding: 4px 10px;
     border-radius: 6px;
     font-size: 12px;
@@ -1230,20 +1236,12 @@ h2{
     background: #ffffff;
     border: 1px solid #e2e8f0;
     padding: 25px;
+    padding-top: 0;
     border-radius: 12px;
     margin-bottom: 30px;
     width: 100%;
     margin-top: 30px;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-}
-
-.form-title {
-    font-size: 16px;
-    font-weight: 600;
-    color: #2d3748;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #edf2f7;
-    padding-bottom: 10px;
 }
 
 .form-grid {
@@ -1294,7 +1292,7 @@ h2{
 }
 
 .btn-submit {
-    background: linear-gradient(to right,#378b2f, #8ccf2a);
+    background: linear-gradient(to right, #378b2f, #8ccf2a);
     color: white;
     padding: 12px 24px;
     border: none;
@@ -1309,7 +1307,7 @@ h2{
 }
 
 .btn-submit:hover {
-    background: linear-gradient(to right,#2c7026, #76ae23);
+    background: linear-gradient(to right, #2c7026, #76ae23);
     transform: translateY(-1px);
     transition: all 0.3s ease;
 }
@@ -1324,8 +1322,8 @@ h2{
 }
 
 .btn-action-edit {
-    background-color: #ebf8ff;
-    color: #2b6cb0;
+    background-color: #f2fbe9;
+    color: #3e9c35;
     padding: 6px 12px;
     border-radius: 6px;
     font-size: 13px;
@@ -1334,14 +1332,14 @@ h2{
     display: inline-flex;
     align-items: center;
     gap: 5px !important;
-    border: 1px solid #bee3f8;
+    border: 1px solid #c5eca6;
     transition: all 0.2s ease;
 }
 
 .btn-action-edit:hover {
-    background-color: #2b6cb0;
+    background-color: #3e9c35;
     color: white;
-    border-color: #2b6cb0;
+    border-color: #3e9c35;
 }
 
 .btn-cancel {
@@ -1381,11 +1379,11 @@ h2{
     margin-right: 5px;
 }
 
-.icon-status{
+.icon-status {
     margin-right: 5px;
 }
 
-.icon-location{
+.icon-location {
     margin-right: 5px;
 }
 
@@ -1430,7 +1428,7 @@ h2{
 }
 
 .salary-item .val-tunjangan {
-    color: #3182ce;
+    color: #3e9c35;
 }
 
 .salary-item .val-bonus {
@@ -1499,7 +1497,7 @@ h2{
 }
 
 .presence-today-item .val-pulang {
-    color: #3182ce;
+    color: #3e9c35;
 }
 
 .presence-today-item.item-dashed {
@@ -1556,7 +1554,8 @@ h2{
     flex-direction: column !important;
 }
 
-.salary-list, .presence-list {
+.salary-list, 
+.presence-list {
     flex: 1 !important;
     display: flex !important;
     flex-direction: column !important;
@@ -1629,7 +1628,7 @@ h2{
 }
 
 .val-tunjangan {
-    color: #3182ce !important;
+    color: #3e9c35 !important;
 }
 
 .val-potongan {
@@ -1690,9 +1689,193 @@ h2{
 }
 
 .title-tunjangan {
-    color: #3182ce;
+    color: #3e9c35;
 }
 
 .title-potongan {
     color: #e53e3e;
+}
+
+/* =========================================================================
+   25. PRESENSI INTERACTIVE BUTTONS & BADGES
+   ========================================================================= */
+.btn-action-presensi {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.btn-masuk {
+    background-color: #3e9c35;
+    color: #ffffff;
+}
+
+.btn-masuk:hover {
+    background-color: #317d2a;
+    transform: translateY(-1px);
+}
+
+.btn-keluar {
+    background-color: #ef4444;
+    color: #ffffff;
+}
+
+.btn-keluar:hover {
+    background-color: #dc2626;
+    transform: translateY(-1px);
+}
+
+.badge-status-done {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: #64748b;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background-color: #f1f5f9;
+    padding: 6px 12px;
+    border-radius: 20px;
+}
+
+.badge-status-done i {
+    color: #3e9c35;
+}
+
+.badge-today {
+    background-color: #f2fbe9;
+    color: #3e9c35;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 4px;
+    margin-left: 6px;
+    border: 1px solid #c5eca6;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.btn-toggle-blue {
+    background-color: #3e9c35;
+    color: #ffffff;
+}
+
+.btn-toggle-blue:hover {
+    background-color: #317d2a;
+    transform: translateY(-1px);
+}
+
+.dropdown-form-container {
+    background-color: #f8fafc !important; 
+    padding: 20px !important; 
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.form-presensi-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.form-row-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 15px;
+    text-align: left;
+}
+
+.form-group-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group-item label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.form-control-style {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    background-color: #ffffff;
+    transition: border-color 0.2s ease;
+}
+
+.form-control-style:focus {
+    border-color: #3e9c35;
+    box-shadow: 0 0 0 3px rgba(62, 156, 53, 0.15);
+}
+
+@media (max-width: 600px) {
+    .form-row-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.error-row-cell {
+    padding: 20px;
+    color: #dc2626;
+    text-align: center;
+    background-color: #fee2e2;
+    border: 1px solid #f87171;
+}
+
+.error-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    font-family: monospace;
+    font-size: 14px;
+}
+
+.badge-status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 11px;
+    display: inline-block;
+}
+
+.badge-dibayar {
+    background-color: #d1fae5;
+    color: #3e9c35;
+}
+
+.badge-belum {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.btn-bayar {
+    padding: 5px 12px;
+    font-size: 11px;
+    text-decoration: none;
+    display: inline-block;
+    background-color: #10b981;
+}
+
+.btn-batal {
+    color: #ef4444;
+    font-size: 11px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.icon-edit-mode{
+    padding-right: 10px;
 }

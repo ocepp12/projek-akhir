@@ -37,6 +37,11 @@
                         <i class="fa-solid fa-chart-line"></i> Penjualan
                     </a>
                 </nav>
+                <div class="sidebar-footer">
+                    <a href="logout.php" class="nav-item nav-logout" onclick="return confirm('Apakah anda yakin ingin logout?');">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </div>
             </aside>
 
             <main class="main-content">

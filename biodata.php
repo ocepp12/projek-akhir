@@ -131,6 +131,11 @@ $result_table = mysqli_query($koneksi, $query_table);
                     <a href="gaji.php" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Gaji</a>
                     <a href="penjualan.php" class="nav-item"><i class="fa-solid fa-chart-line"></i> Penjualan</a>
                 </nav>
+                <div class="sidebar-footer">
+                    <a href="logout.php" class="nav-item nav-logout" onclick="return confirm('Apakah anda yakin ingin logout?');">
+                        <i class="fa-solid fa-right-from-bracket"></i> Logout
+                    </a>
+                </div>
             </aside>
 
             <main class="main-content sidebar-active">
@@ -155,7 +160,9 @@ $result_table = mysqli_query($koneksi, $query_table);
                 <div class="content-body">
                     
                     <div class="table-container">
-                        <h4 class="form-title"><i class="fa-solid fa-users"></i> Daftar Karyawan Aktif</h4>
+                        <div class="card-header-title">
+                            <h3> Daftar Karyawan </h3>
+                        </div>
                         <table class="data-table">
                             <thead>
                                 <tr>
@@ -299,7 +306,9 @@ $result_table = mysqli_query($koneksi, $query_table);
                     </div>
 
                     <div class="form-container" id="form-karyawan">
-                        <h4 class="form-title"><i class="fa-solid fa-user-plus"></i> Tambah Karyawan Baru</h4>
+                        <div class="card-header-title">
+                            <h3> Tambah Karyawan Baru </h3>
+                        </div>
                         <form action="biodata.php" method="POST" id="formKaryawan">
                             <input type="hidden" name="action" value="tambah">
 

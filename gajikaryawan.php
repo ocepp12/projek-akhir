@@ -107,16 +107,16 @@ $id_tunjangan_user = $data_user['id_tunjangan'] ?? '';
                 </header>
 
                 <div class="content-body">
-                    <div class="content-header">
-                        <h3>Rincian Gaji & Tunjangan Anda</h3>
-                    </div>
+
 
                     <div class="table-container">
                         <table class="data-table">
+                            <div class="card-header-title">
+                                <h3>Rincian Gaji & Tunjangan Anda</h3>
+                            </div>
                             <thead>
                                 <tr>
-                                    <th>No</th>
-                                    <th>ID Gaji</th>
+                                    <th>Bulan</th>
                                     <th>Gaji Pokok</th>
                                     <th>Total Tunjangan</th>
                                     <th>Total Potongan</th>
@@ -131,7 +131,23 @@ $id_tunjangan_user = $data_user['id_tunjangan'] ?? '';
                                           WHERE g.id_tunjangan = '$id_tunjangan_user'";
                                 
                                 $result = mysqli_query($conn, $query);
-                                $no = 1;
+                                $no = 1; // Variabel $no tetap dipertahankan HANYA untuk membuat ID Unik pada tombol Toggle Detail
+
+                                // Mapping Nama Bulan (Mengubah visual ID Gaji 1 menjadi Januari 2026, dst)
+                                $nama_bulan = [
+                                    1 => 'Januari 2026',
+                                    2 => 'Februari 2026',
+                                    3 => 'Maret 2026',
+                                    4 => 'April 2026',
+                                    5 => 'Mei 2026',
+                                    6 => 'Juni 2026',
+                                    7 => 'Juli 2026',
+                                    8 => 'Agustus 2026',
+                                    9 => 'September 2026',
+                                    10 => 'Oktober 2026',
+                                    11 => 'November 2026',
+                                    12 => 'Desember 2026'
+                                ];
 
                                 if ($result && mysqli_num_rows($result) > 0) {
                                     while($row = mysqli_fetch_assoc($result)) {
@@ -164,9 +180,13 @@ $id_tunjangan_user = $data_user['id_tunjangan'] ?? '';
                                         // ID unik untuk baris detail
                                         $detail_id = "detail-" . $no;
 
+                                        // Konversi ID Gaji ke Teks Bulan
+                                        $id_gaji_sekarang = $row['id_gaji'];
+                                        $bulan_tampil = isset($nama_bulan[$id_gaji_sekarang]) ? $nama_bulan[$id_gaji_sekarang] : "Periode ke-" . $id_gaji_sekarang;
+
                                         echo "<tr>";
-                                        echo "<td>" . $no . "</td>";
-                                        echo "<td class='text-bold'>" . htmlspecialchars($row['id_gaji']) . "</td>";
+                                        // Kolom `<td>` untuk $no dihapus di sini
+                                        echo "<td class='text-bold'>" . $bulan_tampil . "</td>";
                                         echo "<td>Rp " . number_format($gapok, 0, ',', '.') . "</td>";
                                         echo "<td><span class='val-tunjangan'>Rp " . number_format($total_tunjangan, 0, ',', '.') . "</span></td>";
                                         echo "<td><span class='val-potongan'>Rp " . number_format($total_potongan, 0, ',', '.') . "</span></td>";
@@ -178,7 +198,8 @@ $id_tunjangan_user = $data_user['id_tunjangan'] ?? '';
 
                                         // --- BARIS DETAIL ---
                                         echo "<tr id='$detail_id' class='detail-row'>";
-                                        echo "<td colspan='7' class='cell-padding-large'>";
+                                        // Colspan diubah dari 7 menjadi 6 menyesuaikan jumlah kolom di <thead>
+                                        echo "<td colspan='6' class='cell-padding-large'>"; 
                                         echo "  <div class='detail-container'>";
                                         
                                         // Kolom Rincian Tunjangan
@@ -227,7 +248,7 @@ $id_tunjangan_user = $data_user['id_tunjangan'] ?? '';
                                     }
                                 } else {
                                     echo "<tr>
-                                            <td colspan='7' class='text-center text-muted cell-empty-state'>
+                                            <td colspan='6' class='text-center text-muted cell-empty-state'>
                                                 <i class='fa-solid fa-folder-open icon-empty-folder'></i>
                                                 Belum ada data rincian gaji untuk Anda.
                                             </td>
@@ -252,4 +273,4 @@ $id_tunjangan_user = $data_user['id_tunjangan'] ?? '';
 </html>
 <?php
 ob_end_flush();
-?>
+?>x

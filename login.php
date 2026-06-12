@@ -33,7 +33,7 @@
                         <i class="fa-regular fa-eye" id="togglePassword" style="cursor: pointer;"></i>
                     </div>
                     <div class="forgot-wrapper">
-                        <a href="#" class="forgot">Forgot password?</a>
+                        <a href="lupa_password.php?type=perusahaan" class="forgot">Lupa password?</a>
                     </div>
                 </div>
 

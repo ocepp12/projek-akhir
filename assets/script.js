@@ -3,74 +3,99 @@
  * File: assets/script.js
  */
 
-// =================================================================
-// 1. FITUR UTAMA: ABSENSI ONLINE (GEOLOCATION & AJAX FETCH)
-// =================================================================
+let jenisAbsenAktif = ''; 
 
-/**
- * Menginisialisasi proses pengambilan koordinat GPS pengguna
- */
-function ambilLokasi() {
-    const pesan = document.getElementById("pesan");
-    
+function toggleEditRow(rowId) {
+    var editRow = document.getElementById(rowId);
+    if (editRow) {
+        if (editRow.style.display === "none") {
+            editRow.style.display = "table-row";
+        } else {
+            editRow.style.display = "none";
+        }
+        editRow.classList.toggle('show');
+    }
+}
+
+function ambilLokasi(jenis) {
+    jenisAbsenAktif = jenis;
+
     if (!navigator.geolocation) {
-        pesan.innerHTML = "Geolocation tidak didukung oleh browser ini.";
+        alert("Browser perangkat Anda tidak mendukung pelacakan Geolocation GPS.");
         return;
     }
 
-    pesan.innerHTML = "Sedang mengambil lokasi... Mohon tunggu.";
+    console.log("Membuka pelacakan GPS...");
+    
+    // Disable sementara button biar ga di-spam klik
+    const btnMasuk = document.querySelector('.btn-masuk');
+    const btnKeluar = document.querySelector('.btn-keluar');
+    if(btnMasuk) btnMasuk.disabled = true;
+    if(btnKeluar) btnKeluar.disabled = true;
+    
     navigator.geolocation.getCurrentPosition(showPosition, showError, {
-        enableHighAccuracy: true
+        enableHighAccuracy: true 
     });
 }
 
-/**
- * Berhasil mengambil lokasi, lalu mengirimkan koordinat ke server via AJAX
- * @param {Object} position - Objek koordinat dari browser
- */
 function showPosition(position) {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
-    const pesan = document.getElementById("pesan");
-    
-    pesan.innerHTML = `Lokasi Ditemukan!<br>Lat: ${lat}<br>Lng: ${lng}<br><br>Sedang mengirim data ke server...`;
 
-    // Mengirim data koordinat ke proses.php secara background (tanpa reload)
-    fetch('proses.php', {
+    let statusPresensi = '';
+    let catatan = '';
+
+    // Deteksi tipe form yang diisi
+    if (jenisAbsenAktif === 'masuk') {
+        statusPresensi = document.getElementById('sttsPresensi-masuk').value;
+        catatan = document.getElementById('catatan-masuk').value;
+    } else if (jenisAbsenAktif === 'keluar') {
+        statusPresensi = 'Hadir'; 
+        catatan = document.getElementById('catatan-keluar').value;
+    }
+
+    // Eksekusi Payload ke PHP
+    fetch('presensikaryawan.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: `latitude=${lat}&longitude=${lng}`
+        body: `action=absen_geo&latitude=${lat}&longitude=${lng}&jenis_absen=${jenisAbsenAktif}&sttsPresensi=${encodeURIComponent(statusPresensi)}&catatan=${encodeURIComponent(catatan)}`
     })
-    .then(response => {
-        if (!response.ok) throw new Error('Gagal terhubung ke server');
-        return response.text();
-    })
+    .then(response => response.json())
     .then(data => {
-        pesan.innerHTML = data;
+        if (data.status === 'sukses') {
+            alert(data.pesan);
+            window.location.reload();
+        } else {
+            alert(data.pesan);
+            // Re-enable button kalau gagal
+            pulihkanTombol();
+        }
     })
     .catch(error => {
-        pesan.innerHTML = `Terjadi kesalahan: ${error.message}`;
+        console.error('Error:', error);
+        alert("Terjadi kesalahan jaringan/sistem.");
+        pulihkanTombol();
     });
 }
 
-/**
- * Menangani error jika proses pengambilan GPS gagal
- * @param {Object} error - Objek error dari browser
- */
+function pulihkanTombol() {
+    const btnMasuk = document.querySelector('.btn-masuk');
+    const btnKeluar = document.querySelector('.btn-keluar');
+    if(btnMasuk) btnMasuk.disabled = false;
+    if(btnKeluar) btnKeluar.disabled = false;
+}
+
 function showError(error) {
-    const pesan = document.getElementById("pesan");
+    pulihkanTombol();
     switch(error.code) {
         case error.PERMISSION_DENIED:
-            pesan.innerHTML = "User menolak permintaan lokasi.";
+            alert("Pengguna menolak permintaan Geolocation. Aktifkan izin lokasi di browser Anda.");
             break;
         case error.POSITION_UNAVAILABLE:
-            pesan.innerHTML = "Informasi lokasi tidak tersedia.";
+            alert("Informasi lokasi tidak tersedia atau tidak stabil.");
             break;
         case error.TIMEOUT:
-            pesan.innerHTML = "Permintaan waktu mengambil lokasi habis.";
-            break;
-        case error.UNKNOWN_ERROR:
-            pesan.innerHTML = "Terjadi kesalahan yang tidak diketahui.";
+            alert("Pencarian koordinat memakan waktu terlalu lama (Sinyal Lemah).");
             break;
     }
 }
@@ -216,7 +241,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         }
                     },
-                    cutout: '60%' // Mengatur ketebalan bolongan tengah donat (makin besar % makin tipis)
+                    cutout: '50%' // Mengatur ketebalan bolongan tengah donat (makin besar % makin tipis)
                 }
             });
         }

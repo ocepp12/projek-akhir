@@ -78,7 +78,7 @@ $total_gaji = $gaji_pokok + $tunjangan;
 
 
 // =========================================================================
-// SCRIPT AMBIL DATA PRESENSI HARI INI (KOTAK 3) - REPLACEMENT NON-JS
+// SCRIPT AMBIL DATA PRESENSI HARI INI (KOTAK 3) - SINKRON DATABASE
 // =========================================================================
 $tgl_hari_ini = date('Y-m-d');
 $jam_masuk    = '-- : --';
@@ -86,15 +86,22 @@ $jam_pulang   = '-- : --';
 $status_absen = 'Belum Absen';
 $color_status = '#a0aec0'; // Warna abu-abu default bawaan sistem
 
-// Query memeriksa log presensi karyawan bersangkutan di tanggal hari ini
-// (Silakan sesuaikan nama tabel/kolom jika berbeda dengan rancangan database lo)
-$query_presensi = mysqli_query($conn, "SELECT * FROM presensi WHERE id_karyawan = '$id_karyawan' AND tanggal = '$tgl_hari_ini'");
+// Query memeriksa log presensi karyawan bersangkutan di tanggal hari ini (Nama kolom disesuaikan tabel: tglPresensi)
+$query_presensi = mysqli_query($conn, "SELECT * FROM presensi WHERE id_karyawan = '$id_karyawan' AND tglPresensi = '$tgl_hari_ini'");
 
 if ($query_presensi && mysqli_num_rows($query_presensi) > 0) {
     $data_presensi = mysqli_fetch_assoc($query_presensi);
-    $jam_masuk    = !empty($data_presensi['jam_masuk']) ? date('H:i', strtotime($data_presensi['jam_masuk'])) : '-- : --';
-    $jam_pulang   = !empty($data_presensi['jam_pulang']) ? date('H:i', strtotime($data_presensi['jam_pulang'])) : '-- : --';
-    $status_absen = $data_presensi['status'] ?? 'Hadir';
+    
+    // Sinkronisasi dengan nama field database asli (jamMasuk, jamKeluar, sttsPresensi)
+    $jam_masuk = !empty($data_presensi['jamMasuk']) ? date('H:i', strtotime($data_presensi['jamMasuk'])) : '-- : --';
+    
+    if (!empty($data_presensi['jamKeluar']) && $data_presensi['jamKeluar'] != '00:00:00' && $data_presensi['jamKeluar'] != '0000-00-00 00:00:00') {
+        $jam_pulang = date('H:i', strtotime($data_presensi['jamKeluar']));
+    } else {
+        $jam_pulang = '-- : --';
+    }
+    
+    $status_absen = $data_presensi['sttsPresensi'] ?? 'Hadir';
     
     // Logika pewarnaan status teks agar dinamis menyesuaikan keadaan absen
     if (strcasecmp($status_absen, 'Tepat Waktu') == 0 || strcasecmp($status_absen, 'Hadir') == 0) {
@@ -185,7 +192,7 @@ if ($query_presensi && mysqli_num_rows($query_presensi) > 0) {
                         
                         <div class="card-info">
                             <div class="card-header-title">
-                                <h4>Data kamu</h4>
+                                <h3>Data kamu</h3>
                             </div>
 
                             <div class="form-group-info">
@@ -220,7 +227,7 @@ if ($query_presensi && mysqli_num_rows($query_presensi) > 0) {
 
                         <div class="card-stats-container">
                             <div class="card-header-title">
-                                <h4>Ringkasan Gaji Bulan Ini</h4>
+                                <h3>Ringkasan Gaji Bulan Ini</h3>
                             </div>
                             
                             <div class="salary-list">
@@ -251,7 +258,7 @@ if ($query_presensi && mysqli_num_rows($query_presensi) > 0) {
                         
                         <div class="card-stats-container">
                             <div class="card-header-title">
-                                <h4>Presensi Hari Ini</h4>
+                                <h3>Presensi Hari Ini</h3>
                             </div>
                             
                             <div class="presence-today-list">

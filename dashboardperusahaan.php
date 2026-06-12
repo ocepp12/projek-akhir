@@ -63,9 +63,8 @@ $lokasi = [
     'radius'    => $data['radius'] ?? '0'
 ];
 
-//Presensi
-$query_presensi = mysqli_query($conn, "SELECT p.id_karyawan, p.jamMasuk, p.sttsPresensi 
-                                       FROM presensi p
+// Presensi (DIPERBAIKI: Manggil p.* dan ky.* supaya nama kebawa)
+$query_presensi = mysqli_query($conn, "SELECT p.*, ky.* FROM presensi p
                                        JOIN userkaryawan ky ON p.id_karyawan = ky.id_karyawan
                                        WHERE ky.id_perusahaan = '$id_perusahaan'
                                        ORDER BY p.id_presensi DESC LIMIT 3");
@@ -183,7 +182,7 @@ if ($query_grafik) {
                             
                             <div class="card-info">
                                 <div class="card-header-title">
-                                    <h4>Data Perusahaan</h4>
+                                    <h3>Data Perusahaan</h3>
                                 </div>
 
                                 <div class="form-group-info">
@@ -224,7 +223,7 @@ if ($query_grafik) {
 
                             <div class="card-stats-container">
                                 <div class="card-header-title">
-                                    <h4>Aktivitas Presensi Terbaru</h4>
+                                    <h3>Aktivitas Presensi Terbaru</h3>
                                 </div>
                                 
                                 <div class="presence-list">
@@ -237,7 +236,10 @@ if ($query_grafik) {
                                                     <i class="fa-solid fa-user-check"></i>
                                                 </div>
                                                 <div class="presence-details">
-                                                    <span class="p-name">Karyawan ID: <?= htmlspecialchars($row_p['id_karyawan'] ?? '-'); ?></span>
+                                                    <span class="p-name">
+                                                        <i class="fa-solid fa-user"></i> <?= htmlspecialchars($row_p['nama_karyawan'] ?? $row_p['nmaKaryawan'] ?? $row_p['nama'] ?? 'Nama Tidak Terdefinisi'); ?>
+                                                    </span>
+                                                    
                                                     <span class="p-time">
                                                         <i class="fa-regular fa-clock"></i> <?= htmlspecialchars($row_p['jamMasuk'] ?? '--:--'); ?> WIB
                                                         • <b class="status-badge"><?= htmlspecialchars($row_p['sttsPresensi'] ?? '-'); ?></b>
@@ -251,7 +253,7 @@ if ($query_grafik) {
                             
                             <div class="card-stats-container">
                                 <div class="card-header-title">
-                                    <h4>Komposisi Jabatan</h4>
+                                    <h3>Komposisi Jabatan</h3>
                                 </div>
                                 
                                 <div class="chart-wrapper">

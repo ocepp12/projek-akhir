@@ -35,10 +35,10 @@
                     
                 <div class="input-group">
                     <label for="id_log">ID JABATAN</label>
-                    <input type="text" name="id_jabatan" id="id_log" placeholder="Id Jabatan" required>
+                    <input type="text" name="id_jabatan" id="id_log" placeholder="1/2/3" required>
                 </div>
                     <div class="forgot-wrapper">
-                        <a href="#" class="forgot">Forgot password?</a>
+                        <a href="lupa_password.php?type=karyawan" class="forgot">Lupa password?</a>
                     </div>
                 </div>
 
