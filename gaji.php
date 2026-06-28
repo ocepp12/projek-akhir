@@ -226,11 +226,11 @@ $error_db = mysqli_error($koneksi);
                 <header class="topbar">
                     <div class="toggle-btn"><i class="fa-solid fa-bars"></i></div>
                     <div class="topbar-right">
-                        <form method="GET" action="gaji.php" class="search-wrapper">
+                        <form method="GET" action="gaji.php" >
                             <input type="hidden" name="filter_bulan" value="<?= htmlspecialchars($filter_bulan) ?>">
                             <input type="hidden" name="filter_tahun" value="<?= htmlspecialchars($filter_tahun) ?>">
                             <input type="text" name="search_nama" class="search-input" placeholder="Cari nama karyawan..." value="<?= htmlspecialchars($search_nama) ?>">
-                            <button type="submit" style="background:none; border:none;"><i class="fa-solid fa-magnifying-glass icon-btn"></i></button>
+                            <button type="submit" style="background:none; border:none;"></button>
                         </form>
                         <span class="user-name">
                             <?php 
@@ -244,11 +244,9 @@ $error_db = mysqli_error($koneksi);
 
                 <div class="content-body">
                     <div class="table-container">
-                        
-                        <div class="form-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 10px;">
-                            <h3 style="margin: 0;">Riwayat Rincian Gaji & Status Pembayaran</h3>
-                            
-                            <form method="GET" action="gaji.php" style="display: flex; gap: 10px; align-items: center;">
+                        <h3 style="margin: 0; ">Riwayat Rincian Gaji & Status Pembayaran</h3>
+                        <div class="form-title" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
+                            <form method="GET" action="gaji.php" style="display: flex; gap: 20px; align-items: center;">
                                 <input type="hidden" name="search_nama" value="<?= htmlspecialchars($search_nama) ?>">
                                 
                                 <select name="filter_bulan" class="form-control" style="width: auto; padding: 6px 10px; border-radius: 5px;">

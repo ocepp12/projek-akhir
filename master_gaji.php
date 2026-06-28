@@ -90,7 +90,27 @@ $master_level   = mysqli_query($koneksi, "SELECT * FROM levelkaryawan ORDER BY n
             </aside>
 
             <main class="main-content sidebar-active">
-                <div class="content-body" style="margin-top: 50px;">
+                <header class="topbar">
+                    <div class="toggle-btn">
+                        <i class="fa-solid fa-bars"></i>
+                    </div>
+                    <div class="topbar-right">
+                        
+                        <span class="user-name">
+                            <?php 
+                            date_default_timezone_set('Asia/Jakarta'); 
+                            $hari = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+                            $bulan = ["", "Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+                            
+                            $indeks_hari = date('w');
+                            $indeks_bulan = date('n');
+                            
+                            echo $hari[$indeks_hari] . ", " . date('j') . " " . $bulan[$indeks_bulan] . " " . date('Y'); 
+                            ?>
+                        </span>
+                    </div>
+                </header>
+                <div class="content-body">
                     
                     <div class="table-container">
                         <div class="form-title"><h3>Daftar Aturan Gaji Pokok & Potongan Kehadiran</h3></div>

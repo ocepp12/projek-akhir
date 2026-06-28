@@ -128,10 +128,6 @@ $result_rekap = mysqli_query($conn, $query_rekap);
                         <i class="fa-solid fa-bars"></i>
                     </div>
                     <div class="topbar-right">
-                        <div class="search-wrapper">
-                            <input type="text" class="search-input" placeholder="Cari...">
-                            <i class="fa-solid fa-magnifying-glass icon-btn search-toggle"></i>
-                        </div>
                         
                         <span class="user-name">
                             <?php 

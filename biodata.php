@@ -173,8 +173,8 @@ $result_data = mysqli_query($koneksi, $query_tampil);
                 <a href="dashboardperusahaan.php" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
                 <a href="presensi1.php" class="nav-item"><i class="fa-solid fa-square-check"></i> Presensi</a>
                 <a href="biodata.php" class="nav-item active"><i class="fa-solid fa-id-card"></i> Data Karyawan</a>
-                <a href="gaji.php" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Gaji Bulanan</a>
-                <a href="master_gaji.php" class="nav-item"><i class="fa-solid fa-gears"></i> Master Aturan Gaji</a>
+                <a href="gaji.php" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Gaji</a>
+                <a href="master_gaji.php" class="nav-item"><i class="fa-solid fa-gears"></i> Manajemen Gaji</a>
             </nav>
             <div class="sidebar-footer">
                 <a href="logout.php" class="nav-item nav-logout" onclick="return confirm('Yakin ingin logout?');"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
