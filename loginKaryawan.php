@@ -32,11 +32,7 @@
                         <input type="password" name="password" id="password_log" placeholder="Password" required>
                         <i class="fa-regular fa-eye" id="togglePassword" style="cursor: pointer;"></i>
                     </div>
-                    
-                <div class="input-group">
-                    <label for="id_log">ID JABATAN</label>
-                    <input type="text" name="id_jabatan" id="id_log" placeholder="1/2/3" required>
-                </div>
+                
                     <div class="forgot-wrapper">
                         <a href="lupa_password.php?type=karyawan" class="forgot">Lupa password?</a>
                     </div>

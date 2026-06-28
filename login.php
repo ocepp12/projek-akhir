@@ -38,11 +38,6 @@
                 </div>
 
                 <button type="submit" name="masuk" class="btn-signin">Masuk</button>
-                
-                <p class="footer-text">Belum punya akun? <a href="daftar.php">Daftar Sekarang</a></p>
-                <div class="footer">
-                    <p class="copyright1">&copy; 2026 Payroll & Sales. All rights reserved.</p>
-                </div>
             </form>
         </div>
     </div>

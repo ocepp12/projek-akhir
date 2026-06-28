@@ -11,13 +11,13 @@ if(isset($_POST['masuk'])){
 
     $nmakaryawan = trim(mysqli_real_escape_string($conn, $_POST['nmaKaryawan']));
     $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $id_jabatan = mysqli_real_escape_string($conn, $_POST['id_jabatan']);
 
     // VALIDASI KOSONG
-     if($nmakaryawan == '' or $password == '' or $id_jabatan == ''){
+     if($nmakaryawan == '' or $password == ''){
 
         echo "<script>
-                alert('Masukkan nama, Id Jabatan dan password!');
+                alert('Masukkan nama dan password!');
+                window.location.href = 'loginKaryawan.php';
               </script>";
 
     } else {
@@ -61,6 +61,7 @@ if(isset($_POST['masuk'])){
 
                 echo "<script>
                         alert('Password salah!');
+                        window.location.href = 'loginKaryawan.php';
                       </script>";
             }
         }

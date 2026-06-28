@@ -36,10 +36,6 @@
 <!-- Teks Pembuka -->
     <h1>Kelola Payroll, Penjualan oleh Sales & Absensi Dengan Kami</h1>
     <p>Optimalkan efisiensi operasional bisnis Anda dengan sistem manajemen payroll, penjualan yang dilakukan oleh sales dan absensi yang terintegrasi. Kami menghadirkan solusi digital yang akurat untuk membantu Anda mengelola data karyawan, perhitungan gaji, hingga pemantauan kehadiran secara real-time dalam satu platform yang aman dan mudah digunakan.</p>
-
-        <a href="daftar.php" class="daftar-link">
-            <button class="button-daftar" type="button">Daftar Sekarang</button>
-        </a>
         <a href="https://wa.me/6285724258310" target="_blank" class="wa-button">
             <button class="button-wa" type="button">
                 <i class="fab fa-whatsapp"></i> Hubungi Sekarang</button>

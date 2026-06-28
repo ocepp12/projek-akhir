@@ -18,7 +18,7 @@ if (!$conn) {
 // Mulai sesi
 session_start();
 $errors = [];
-
+/*
 // Ambil data dan sanitasi dari form
 if (isset($_POST['register'])){
     $email      = mysqli_real_escape_string($conn, $_POST['username']);
@@ -77,6 +77,7 @@ if (isset($_POST['register'])){
                 </script>";
     }
 } // Tutup If Isset Register
+ */
 if (isset($_POST['masuk'])){
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password_p = mysqli_real_escape_string($conn, $_POST['password_p']);

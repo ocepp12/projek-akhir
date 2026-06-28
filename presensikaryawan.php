@@ -133,17 +133,17 @@ if (isset($_POST['action']) && $_POST['action'] == 'absen_geo') {
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
         <script src="assets/script.js" defer></script> 
     </head>
     <body>
         <div class="dashboard-container">
-            <aside class="sidebar">
+            <aside class="sidebar active">
                 <a href="dashboardkaryawan.php" class="brand"><img src="assets/logoputih.svg" class="logo" alt="logo"></a>
                 <nav class="nav-menu">
                     <a href="dashboardkaryawan.php" class="nav-item"><i class="fa-solid fa-house"></i> Dashboard</a>
                     <a href="presensikaryawan.php" class="nav-item active"><i class="fa-solid fa-square-check"></i> Presensi</a>
                     <a href="gajikaryawan.php" class="nav-item"><i class="fa-solid fa-calendar-days"></i> Gaji</a>
-                    <a href="ordersales.php" class="nav-item"><i class="fa-solid fa-chart-line"></i> Penjualan</a>
                 </nav>
                 <div class="sidebar-footer">
                     <a href="logout.php" class="nav-item nav-logout" onclick="return confirm('Apakah anda yakin ingin logout?');">
@@ -152,7 +152,7 @@ if (isset($_POST['action']) && $_POST['action'] == 'absen_geo') {
                 </div>
             </aside>
 
-            <main class="main-content">
+            <main class="main-content sidebar-active">
                 <header class="topbar">
                     <div class="toggle-btn"><i class="fa-solid fa-bars"></i></div>
                     <div class="topbar-right">

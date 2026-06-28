@@ -108,7 +108,7 @@ if ($query_grafik) {
     <body>
         <div class="dashboard-container">
             
-            <aside class="sidebar">
+            <aside class="sidebar active">
                 <a href="dashboardperusahaan.php" class="brand">
                     <img src="assets/logoputih.svg" class="logo" alt="logo">
                 </a>
@@ -126,8 +126,8 @@ if ($query_grafik) {
                     <a href="gaji.php" class="nav-item">
                         <i class="fa-solid fa-calendar-days"></i> Gaji
                     </a>
-                    <a href="penjualan.php" class="nav-item">
-                        <i class="fa-solid fa-chart-line"></i> Penjualan
+                    <a href="master_gaji.php" class="nav-item">
+                        <i class="fa-solid fa-gears"></i> Manajemen Gaji
                     </a>
                 </nav>
                 <div class="sidebar-footer">
@@ -137,7 +137,7 @@ if ($query_grafik) {
                 </div>
             </aside>
 
-            <main class="main-content">
+            <main class="main-content sidebar-active">
                 
                 <header class="topbar">
                     <div class="toggle-btn">

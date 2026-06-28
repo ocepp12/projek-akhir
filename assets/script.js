@@ -247,3 +247,11 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 });
+
+/* Untuk menampilkan  dan memunculkan form edit*/
+function toggleEditForm(rowId) {
+    var editRow = document.getElementById(rowId);
+    if(editRow) {
+    editRow.classList.toggle('show');
+    }
+}
