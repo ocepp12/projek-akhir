@@ -63,10 +63,11 @@ p {
 }
 
 .logo {
-    width: 200px;
+    width: 150px;
     height: auto;
     position: relative;
     z-index: 2;
+    margin: 0 auto;
 }
 
 nav {
@@ -151,7 +152,7 @@ nav li a:hover {
     border-radius: 10px;
     font-weight: bold;
     transition: 0.5s ease;
-    margin-bottom: 100px;
+    margin-bottom: 50px;
 }
 
 .button-daftar:hover {
@@ -170,7 +171,7 @@ nav li a:hover {
 }
 
 .button-wa {
-    background: #3e3e3e;
+    background: #25D366;
     display: block;
     margin: 30px auto;
     width: fit-content;
@@ -266,7 +267,7 @@ nav li a:hover {
     padding: 40px;
     max-width: 1200px;
     margin: 0 auto;
-    margin-bottom: 100px;
+    margin-bottom: 20px;
 }
 
 .reverse {
@@ -558,6 +559,7 @@ h2 {
     padding: 80px 20px;
     background-color: #f2f2f2;
     margin-bottom: 50px;
+    margin-top: 20px;
 }
 
 .pricing-grid {
@@ -578,6 +580,7 @@ h2 {
     position: relative;
     border: 2px solid #f2f2f2;
     margin-bottom: 100px;
+    cursor: pointer;
 }
 
 .pricing-card.featured {
@@ -699,7 +702,8 @@ h2 {
     top: 0;
     z-index: 99999 !important;
     padding: 0;
-    transition: left 0.3s ease; 
+    transition: left 0.3s ease;
+    align-items: center;
 }
 
 .sidebar.active {
@@ -776,7 +780,8 @@ h2 {
 
 .sidebar-footer .nav-logout:hover {
     background-color: #c53030;
-    color: #ffffff;            
+    color: #ffffff;
+    border-radius: 5px;      
 }
 
 .sidebar-footer .nav-logout:hover i {

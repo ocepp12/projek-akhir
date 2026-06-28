@@ -21,19 +21,19 @@
                 </a>
                 
                 <nav class="nav-menu">
-                    <a href="dashboardperusahaan.php" class="nav-item">
+                    <a href="dashboardkaryawan.php" class="nav-item">
                         <i class="fa-solid fa-house"></i> Dashboard
                     </a>
-                    <a href="presensi1.php" class="nav-item">
+                    <a href="presensikaryawan.php" class="nav-item">
                         <i class="fa-solid fa-square-check"></i> Presensi
                     </a>
                     <a href="biodata.php" class="nav-item">
                         <i class="fa-solid fa-id-card"></i> Data Karyawan
                     </a>
-                    <a href="gaji.php" class="nav-item">
+                    <a href="gajikaryawan.php" class="nav-item">
                         <i class="fa-solid fa-calendar-days"></i> Gaji
                     </a>
-                    <a href="penjualan.php" class="nav-item">
+                    <a href="ordersales.php" class="nav-item">
                         <i class="fa-solid fa-chart-line"></i> Penjualan
                     </a>
                 </nav>

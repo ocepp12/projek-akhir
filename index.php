@@ -23,8 +23,8 @@
         <nav>
             <ul>
                 <li><a href="index.php">Beranda</a></li>
-                <li><a href="#">Tentang</a></li>
-                <li><a href="#">Harga</a></li>
+                <li><a href="#fitur">Fitur</a></li>
+                <li><a href="#harga">Harga</a></li>
             </ul>
         </nav>
 
@@ -34,8 +34,8 @@
     </div>
 
 <!-- Teks Pembuka -->
-    <h1>Kelola Payroll, Penjualan oleh Sales & Absensi Dengan Kami</h1>
-    <p>Optimalkan efisiensi operasional bisnis Anda dengan sistem manajemen payroll, penjualan yang dilakukan oleh sales dan absensi yang terintegrasi. Kami menghadirkan solusi digital yang akurat untuk membantu Anda mengelola data karyawan, perhitungan gaji, hingga pemantauan kehadiran secara real-time dalam satu platform yang aman dan mudah digunakan.</p>
+    <h1>Kelola Payroll & Absensi Karyawan Dengan Kami</h1>
+    <p>Optimalkan efisiensi operasional bisnis Anda dengan sistem manajemen payroll dan absensi yang terintegrasi. Kami menghadirkan solusi digital yang akurat untuk membantu Anda mengelola data karyawan, perhitungan gaji, hingga pemantauan kehadiran secara real-time dalam satu platform yang aman dan mudah digunakan.</p>
 
         <a href="daftar.php" class="daftar-link">
             <button class="button-daftar" type="button">Daftar Sekarang</button>
@@ -45,70 +45,8 @@
                 <i class="fab fa-whatsapp"></i> Hubungi Sekarang</button>
         </a>
 
-<!-- Slider Gambar -->
-    <div class="swiper mySwiper">
-        <div class="swiper-wrapper">
-            <div class="swiper-slide"><img src="assets/Dashboard.png" class="mockup" alt="gambar"></div>
-            <div class="swiper-slide"><img src="assets/Presensi.png" class="mockup" alt="gambar"></div>
-            <div class="swiper-slide"><img src="assets/Presensi1.png" class="mockup" alt="gambar"></div>
-            <div class="swiper-slide"><img src="assets/Biodata.png" class="mockup" alt="gambar"></div>
-            <div class="swiper-slide"><img src="assets/Gaji.png" class="mockup" alt="gambar"></div>
-        </div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            <div class="swiper-pagination"></div>
-    </div>
-
-<!-- Fitur Fitur dan Penjelasan Fitur -->
-    <div class="container-utama">
-        <div class="kolom-teks">
-            <h1>Urus Penggajian Lebih Mudah & Cepat</h1>
-            <p>Catat semua elemen gaji yang diperlukan untuk memenuhi kebutuhan karyawan dengan cepat dan akurat. Anda dapat memilih tunjangan karyawan sesuai dengan kebutuhan bisnis. Bukan hanya itu, anda juga bisa memasukan pinjaman karyawan, bonus penjualan sesuai dengan performa karyawan yang diintegrasikan dengan penjualan dan potongan kehadiran yang sudah terintegrasi dengan presensi. Perhitungan gaji secara otomatis menyesuaikan dengan data karyawan, sehingga setiap periode tercatat dengan tepat.</p>
-        </div>
-        <div class="kolom-gambar">
-            <img src="assets/1.jpg" class="gambar" alt="gambar">
-        </div>
-    </div>
-        <div class="container-utama reverse">
-        <div class="kolom-teks">
-            <h1>Efisiensi Penjualan dari Sales Anda</h1>
-            <p>Pastikan Penawaran Penjualan Anda tercatat dengan rapi dan mudah diakses untuk setiap transaksi. Kelola setiap Pesanan Penjualan dari sales dengan mulus dan efisien sehingga bisnis cepat berkembang. Buat faktur penjualan dengan mudah hanya dengan memverifikasi pesanan yang sudah disesuaikan hanya dengan beberapa klik.</p>
-        </div>
-        <div class="kolom-gambar">
-            <img src="assets/2.jpg" class="gambar" alt="gambar">
-        </div>
-    </div>
-    <div class="container-utama">
-        <div class="kolom-teks">
-            <h1>Ciptakan pengelolaan SDM Lebih Baik</h1>
-            <p>Pastikan setiap karyawan memiliki data yang tercatat dengan rapi, jelas, dan akurat. Cocokkan data karyawan dan sistem Anda dengan cepat sehingga semua karyawan tercatat dengan tepat. Sesuaikan jabatan dan level karyawan dengan mudah hanya dengan beberapa klik saja.</p>
-        </div>
-        <div class="kolom-gambar">
-            <img src="assets/3.jpg" class="gambar" alt="gambar">
-        </div>
-    </div>
-    <div class="container-utama reverse">
-        <div class="kolom-teks">
-            <h1>Buat Laporan Gaji dengan Mudah</h1>
-            <p>Ketahui pengeluaran gaji secara menyeluruh dari data yang tersaji jelas. Selain melihat pengeluaran gaji secara keseluruhan, Anda juga bisa melihat pengeluaran dari setiap elemen gaji seperti bonus penjualan dan tunjangan BPJS.</p>
-        </div>
-        <div class="kolom-gambar">
-            <img src="assets/4.jpg" class="gambar" alt="gambar">
-        </div>
-    </div>
-    <div class="container-utama">
-        <div class="kolom-teks">
-            <h1>Layanan Lengkap untuk Presensi</h1>
-            <p>Urus presensi karyawan tanpa ribet! Presensi ini dilengkapi dengan poto dan lokasi yang sudah tersistem. Dapatkan rekap presensi terperinci berdasarkan inputan dari karyawan untuk memantau dan menganalisis kedisiplinan dengan mudah. Nikmati kemudahan perhitungan presensi yang langsung terintegrasi dengan perhitungan gaji sehingga jadi lebih cepat tanpa kesalahan.</p>
-        </div>
-        <div class="kolom-gambar">
-            <img src="assets/5.jpg" class="gambar" alt="gambar">
-        </div>
-    </div>
-    </div>
-
 <!-- Harga -->
-    <div class="pricing-container">
+    <div class="pricing-container" id="harga">
     <h1>Pilih Paket yang Sesuai untuk Bisnis Anda</h1>
     <p class="description-pricing">Kami menyediakan berbagai pilihan paket yang fleksibel untuk mendukung pertumbuhan operasional perusahaan Anda secara efisien.</p>
 
@@ -119,7 +57,7 @@
             <p class="price-detail">Untuk UMKM & Bisnis Baru</p>
             <ul class="feature-list">
                 <li>Maksimal 5 Karyawan</li>
-                <li>Laporan Penjualan Dasar</li>
+                <li>Laporan Penggajian Dasar</li>
                 <li>Presensi Geolocation</li>
                 <li>Akses ESS Portal</li>
             </ul>
@@ -154,6 +92,47 @@
         </div>
     </div>
 
+<!-- Fitur Fitur dan Penjelasan Fitur -->
+    <div class="container-utama" id="fitur">
+        <div class="kolom-teks">
+            <h1>Urus Penggajian Lebih Mudah & Cepat</h1>
+            <p>Catat semua elemen gaji yang diperlukan untuk memenuhi kebutuhan karyawan dengan cepat dan akurat. Anda dapat memilih tunjangan karyawan sesuai dengan kebutuhan bisnis. Bukan hanya itu, anda juga bisa memasukan pinjaman karyawan, bonus penjualan sesuai dengan performa karyawan yang diintegrasikan dengan penjualan dan potongan kehadiran yang sudah terintegrasi dengan presensi. Perhitungan gaji secara otomatis menyesuaikan dengan data karyawan, sehingga setiap periode tercatat dengan tepat.</p>
+        </div>
+        <div class="kolom-gambar">
+            <img src="assets/1.jpg" class="gambar" alt="gambar">
+        </div>
+    </div>
+    <div class="container-utama">
+        <div class="kolom-teks">
+            <h1>Ciptakan pengelolaan SDM Lebih Baik</h1>
+            <p>Pastikan setiap karyawan memiliki data yang tercatat dengan rapi, jelas, dan akurat. Cocokkan data karyawan dan sistem Anda dengan cepat sehingga semua karyawan tercatat dengan tepat. Sesuaikan jabatan dan level karyawan dengan mudah hanya dengan beberapa klik saja.</p>
+        </div>
+        <div class="kolom-gambar">
+            <img src="assets/3.jpg" class="gambar" alt="gambar">
+        </div>
+    </div>
+    <div class="container-utama reverse">
+        <div class="kolom-teks">
+            <h1>Buat Laporan Gaji dengan Mudah</h1>
+            <p>Ketahui pengeluaran gaji secara menyeluruh dari data yang tersaji jelas. Selain melihat pengeluaran gaji secara keseluruhan, Anda juga bisa melihat pengeluaran dari setiap elemen gaji seperti bonus penjualan dan tunjangan BPJS.</p>
+        </div>
+        <div class="kolom-gambar">
+            <img src="assets/4.jpg" class="gambar" alt="gambar">
+        </div>
+    </div>
+    <div class="container-utama">
+        <div class="kolom-teks">
+            <h1>Layanan Lengkap untuk Presensi</h1>
+            <p>Urus presensi karyawan tanpa ribet! Presensi ini dilengkapi dengan poto dan lokasi yang sudah tersistem. Dapatkan rekap presensi terperinci berdasarkan inputan dari karyawan untuk memantau dan menganalisis kedisiplinan dengan mudah. Nikmati kemudahan perhitungan presensi yang langsung terintegrasi dengan perhitungan gaji sehingga jadi lebih cepat tanpa kesalahan.</p>
+        </div>
+        <div class="kolom-gambar">
+            <img src="assets/5.jpg" class="gambar" alt="gambar">
+        </div>
+    </div>
+    </div>
+
+
+
 <!-- FAQ -->
     <div class="faq-container">
         <h1>Pertanyaan yang sering ditanyakan</h1>
@@ -161,15 +140,7 @@
         <div class="grid">
             <details name="faq">
                 <summary>Bagaimana sistem menghitung gaji bersih (net pay) karyawan? <span class="icon"></span></summary>
-                <p>Sistem melakukan kalkulasi otomatis dengan mengintegrasikan data kehadiran, pencapaian penjualan, dan parameter pajak yang berlaku. Formulasi yang digunakan adalah sebagai berikut: Gaji Bersih = (Gaji Pokok + Tunjangan + Komisi Sales) - (Potongan Pajak + Potongan Absensi) Seluruh komponen ini dihitung secara presisi untuk meminimalisir risiko kesalahan input manual.</p>
-            </details>
-            <details name="faq">
-                <summary>Bagaimana integrasi antara data penjualan dan modul penggajian? <span class="icon"></span></summary>
-                <p>Setiap transaksi penjualan yang telah terverifikasi oleh sistem secara otomatis akan dikonversi menjadi poin komisi berdasarkan persentase yang telah ditetapkan. Data ini akan ditarik ke dalam modul payroll sebelum tanggal penutupan buku (cut-off) untuk memastikan insentif terbayarkan tepat waktu.</p>
-            </details>
-            <details name="faq">
-                <summary>Apakah tersedia fitur untuk memantau target penjualan (KPI) secara berkala? <span class="icon"></span></summary>
-                <p>Sistem menyediakan dasbor analitik yang menampilkan grafik performa penjualan secara real-time. Melalui fitur ini, manajemen dapat memantau pencapaian target individu maupun tim, serta mengevaluasi efektivitas strategi penjualan yang sedang berjalan.</p>
+                <p>Sistem melakukan kalkulasi otomatis dengan mengintegrasikan data kehadiran dan parameter pajak yang berlaku. Formulasi yang digunakan adalah sebagai berikut: Gaji Bersih = (Gaji Pokok + Tunjangan Karyawan) - (Potongan Pajak + Potongan Absensi) Seluruh komponen ini dihitung secara presisi untuk meminimalisir risiko kesalahan input manual.</p>
             </details>
             <details name="faq">
                 <summary>Bagaimana prosedur penanganan koreksi data gaji atau absensi? <span class="icon"></span></summary>
@@ -180,16 +151,8 @@
                 <p>Sistem telah dilengkapi dengan fitur ekspor data Bank Bulk Transfer. Fitur ini memungkinkan admin untuk mengunduh file rekonsiliasi yang sesuai dengan standar format berbagai bank terkemuka, guna memfasilitasi proses pembayaran gaji massal secara efisien.</p>
             </details>
             <details name="faq">
-                <summary>Bagaimana sistem mengelola skema komisi progresif bagi tenaga penjual? <span class="icon"></span></summary>
-                <p>Sistem memiliki fleksibilitas untuk dikonfigurasi dengan skema komisi bertingkat (tiered commission). Artinya, sistem dapat membedakan persentase bonus bagi karyawan yang mencapai target standar dengan mereka yang berhasil melampaui target (over-achievement).</p>
-            </details>
-            <details name="faq">
                 <summary>Apakah karyawan dapat mengakses rincian pendapatan mereka secara mandiri? <span class="icon"></span></summary>
                 <p>Karyawan diberikan akses ke portal Employee Self-Service (ESS). Melalui portal ini, setiap karyawan dapat memantau riwayat penjualan pribadi, memeriksa akumulasi komisi, serta mengunduh slip gaji dalam format PDF secara mandiri dan transparan.</p>
-            </details>
-            <details name="faq">
-                <summary>Bagaimana sistem mengelola administrasi dan pemotongan iuran BPJS? <span class="icon"></span></summary>
-                <p>TSistem ini telah mengintegrasikan pengelolaan administrasi BPJS Kesehatan dan BPJS Ketenagakerjaan secara otomatis ke dalam modul penggajian guna menjamin kepatuhan terhadap regulasi pemerintah. Seluruh kalkulasi persentase iuran, baik yang menjadi beban perusahaan maupun potongan bagi karyawan, dihitung berdasarkan ambang batas upah terbaru yang berlaku sehingga meminimalisir kesalahan perhitungan manual. Selain itu, sistem secara otomatis merinci komponen jaminan seperti Jaminan Hari Tua, Jaminan Pensiun, hingga Jaminan Kecelakaan Kerja ke dalam laporan bulanan yang siap digunakan untuk proses rekonsiliasi data pada aplikasi pemerintah. Admin juga diberikan akses untuk memperbarui parameter nilai iuran melalui panel konfigurasi apabila terjadi perubahan kebijakan di masa mendatang, memastikan sistem tetap relevan tanpa memerlukan modifikasi pada struktur kode utama.</p>
             </details>
         </div>
     </div>

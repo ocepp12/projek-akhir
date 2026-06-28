@@ -304,8 +304,7 @@ $error_db = mysqli_error($koneksi);
                                     while($row = mysqli_fetch_assoc($result)) {
                                         $gapok = (int)$row['gapok'];
                                         
-                                        $total_tunjangan = (int)$row['makan'] + (int)$row['transport'] + (int)$row['uangLembur'] + 
-                                                           (int)$row['insentifPenjualan'] + (int)$row['tunJabatan'] + 
+                                        $total_tunjangan = (int)$row['makan'] + (int)$row['transport'] + (int)$row['uangLembur'] + (int)$row['tunJabatan'] + 
                                                            (int)$row['kompensasi'] + (int)$row['THR'] + (int)$row['BPJS'] + (int)$row['BAT'];
                                         
                                         $total_potongan = (int)$row['potPajak'] + (int)$row['potKehadiran'] + (int)$row['pinjaman'];

@@ -105,34 +105,6 @@ function showError(error) {
 // INTERAKSI UI & KOMPONEN (Dijalankan Setelah DOM Selesai Dimuat)
 // =================================================================
 document.addEventListener("DOMContentLoaded", function () {
-
-    // 2. FITUR UTAMA: CAROUSEL/SLIDER BANNER (SWIPER INITIATION)
-    if (document.querySelector('.swiper')) {
-        new Swiper(".swiper", {
-            slidesPerView: 1,
-            spaceBetween: 20,
-            loop: true,
-            autoplay: {
-                delay: 5000,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: ".swiper-button-next",
-                prevEl: ".swiper-button-prev",
-            },
-            pagination: {
-                el: ".swiper-pagination",
-                clickable: true,
-            },
-            breakpoints: {
-                768: {
-                    slidesPerView: 2,
-                    spaceBetween: 40,
-                }
-            }
-        });
-    }
-
     // 3. FITUR UTAMA: RESPONSIVE TOGGLE SIDEBAR
     const toggleBtn = document.querySelector('.toggle-btn');
     const sidebar = document.querySelector('.sidebar');
@@ -245,5 +217,49 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
         }
+    }
+});
+
+// =================================================================
+// FITUR TAMBAHAN: INTERAKSI KLIK KARTU HARGA (PRICING)
+// =================================================================
+document.addEventListener("DOMContentLoaded", function () {
+    const pricingCards = document.querySelectorAll('.pricing-card');
+
+    if (pricingCards.length > 0) {
+        pricingCards.forEach(card => {
+            card.addEventListener('click', function () {
+                
+                // 1. Hapus class 'featured' dari semua kartu
+                pricingCards.forEach(c => {
+                    c.classList.remove('featured');
+                    
+                    const btn = c.querySelector('.btn-pricing');
+                    if (btn) btn.classList.remove('featured-btn');
+                });
+
+                // 2. Tambahkan class 'featured' ke kartu yang sedang diklik
+                this.classList.add('featured');
+                
+                const activeBtn = this.querySelector('.btn-pricing');
+                if (activeBtn) activeBtn.classList.add('featured-btn');
+
+                // 3. Atur kemunculan badge "Terpopuler"
+                // Cari elemen badge di manapun ia berada saat ini
+                const badgeElement = document.querySelector('.badge'); 
+                if (badgeElement) {
+                    const namaPaket = this.querySelector('h3').innerText.trim();
+                    
+                    if (namaPaket === 'Profesional') {
+                        // Jika paket Profesional, pindahkan badge ke kartu ini dan tampilkan
+                        this.prepend(badgeElement);
+                        badgeElement.style.display = ''; // Menghapus efek hidden, kembali ke bawaan CSS
+                    } else {
+                        // Jika selain Profesional, sembunyikan badge-nya
+                        badgeElement.style.display = 'none';
+                    }
+                }
+            });
+        });
     }
 });
