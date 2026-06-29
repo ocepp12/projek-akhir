@@ -17,10 +17,10 @@ if (isset($_SESSION['loginKaryawan']) || isset($_SESSION['id_karyawan'])) {
 // 4. Hapus semua variabel session yang tersimpan
 session_unset();
 
-// 5. Hancurkan/pemberangusan session total dari memori server
+// 5. Hancurkan session total dari server
 session_destroy();
 
-// 6. Tendang user ke halaman yang sudah ditentukan di atas
+// 6. Alihkan user ke halaman yang sudah ditentukan
 header("Location: " . $halaman_tujuan);
 exit;
 ?>

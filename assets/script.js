@@ -1,6 +1,5 @@
 /**
- * SISTEM INFORMASI ABSENSI & DASHBOARD UTAMA
- * File: assets/script.js
+ *ABSENSI & DASHBOARD UTAMA
  */
 
 let jenisAbsenAktif = ''; 
@@ -27,7 +26,7 @@ function ambilLokasi(jenis) {
 
     console.log("Membuka pelacakan GPS...");
     
-    // Disable sementara button biar ga di-spam klik
+    // Disable sementara button agar tidak dispam klik
     const btnMasuk = document.querySelector('.btn-masuk');
     const btnKeluar = document.querySelector('.btn-keluar');
     if(btnMasuk) btnMasuk.disabled = true;
@@ -102,7 +101,7 @@ function showError(error) {
 
 
 // =================================================================
-// INTERAKSI UI & KOMPONEN (Dijalankan Setelah DOM Selesai Dimuat)
+// INTERAKSI UI & KOMPONEN
 // =================================================================
 document.addEventListener("DOMContentLoaded", function () {
     // 3. FITUR UTAMA: RESPONSIVE TOGGLE SIDEBAR
@@ -114,34 +113,6 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleBtn.addEventListener('click', function () {
             sidebar.classList.toggle('active');
             mainContent.classList.toggle('sidebar-active');
-        });
-    }
-
-    // 4. FITUR UTAMA: ELEGAN ANIMASI PENCARIAN (SEARCH BAR)
-    const searchWrapper = document.querySelector('.search-wrapper');
-    const searchToggle = document.querySelector('.search-toggle');
-    const searchInput = document.querySelector('.search-input');
-
-    if (searchToggle && searchWrapper && searchInput) {
-        // Klik icon kaca pembesar untuk buka/tutup input search
-        searchToggle.addEventListener('click', function () {
-            searchWrapper.classList.toggle('open');
-            
-            // Jika terbuka, kursor otomatis fokus ke dalam kotak input
-            if (searchWrapper.classList.contains('open')) {
-                searchInput.focus();
-            }
-        });
-
-        // Deteksi tombol Enter untuk eksekusi pencarian data
-        searchInput.addEventListener('keypress', function (e) {
-            if (e.key === 'Enter' && this.value.trim() !== '') {
-                alert(`Mencari data untuk: ${this.value}`);
-                
-                // Reset form setelah pencarian dijalankan
-                searchWrapper.classList.remove('open');
-                this.value = ''; 
-            }
         });
     }
 
@@ -188,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
             const ctx = canvasGrafik.getContext('2d');
             new Chart(ctx, {
-                type: 'doughnut', // Tipe donat (bisa diganti 'pie' kalau mau bulat penuh)
+                type: 'doughnut',
                 data: {
                     labels: labelsData,
                     datasets: [{
@@ -203,63 +174,19 @@ document.addEventListener("DOMContentLoaded", function () {
                     responsive: true,
                     plugins: {
                         legend: {
-                            position: 'bottom', // Keterangan label dipindah ke bawah grafik
+                            position: 'bottom',
                             labels: {
                                 font: {
-                                    family: 'Inherit', /* Mengikuti font default halaman */
+                                    family: 'Inherit',
                                     size: 12
                                 },
                                 padding: 15
                             }
                         }
                     },
-                    cutout: '50%' // Mengatur ketebalan bolongan tengah donat (makin besar % makin tipis)
+                    cutout: '50%' // Mengatur ketebalan bolongan tengah donat
                 }
             });
         }
-    }
-});
-
-// =================================================================
-// FITUR TAMBAHAN: INTERAKSI KLIK KARTU HARGA (PRICING)
-// =================================================================
-document.addEventListener("DOMContentLoaded", function () {
-    const pricingCards = document.querySelectorAll('.pricing-card');
-
-    if (pricingCards.length > 0) {
-        pricingCards.forEach(card => {
-            card.addEventListener('click', function () {
-                
-                // 1. Hapus class 'featured' dari semua kartu
-                pricingCards.forEach(c => {
-                    c.classList.remove('featured');
-                    
-                    const btn = c.querySelector('.btn-pricing');
-                    if (btn) btn.classList.remove('featured-btn');
-                });
-
-                // 2. Tambahkan class 'featured' ke kartu yang sedang diklik
-                this.classList.add('featured');
-                
-                const activeBtn = this.querySelector('.btn-pricing');
-                if (activeBtn) activeBtn.classList.add('featured-btn');
-
-                // 3. Atur kemunculan badge "Terpopuler"
-                // Cari elemen badge di manapun ia berada saat ini
-                const badgeElement = document.querySelector('.badge'); 
-                if (badgeElement) {
-                    const namaPaket = this.querySelector('h3').innerText.trim();
-                    
-                    if (namaPaket === 'Profesional') {
-                        // Jika paket Profesional, pindahkan badge ke kartu ini dan tampilkan
-                        this.prepend(badgeElement);
-                        badgeElement.style.display = ''; // Menghapus efek hidden, kembali ke bawaan CSS
-                    } else {
-                        // Jika selain Profesional, sembunyikan badge-nya
-                        badgeElement.style.display = 'none';
-                    }
-                }
-            });
-        });
     }
 });

@@ -2,17 +2,17 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// 1. Koneksi ke database lu
+// 1. Koneksi ke database
 $conn = mysqli_connect("localhost", "root", "", "sistempenggajian");
 if (!$conn) {
     die("Koneksi gagal: " . mysqli_connect_error());
 }
 
-// Ambil tipe user dari URL (default-nya perusahaan)
+// Ambil tipe user dari URL
 $type = isset($_GET['type']) ? $_GET['type'] : 'perusahaan';
 $pesan = "";
 
-// 2. Logika ketika tombol "Simpan Password Baru" diklik
+// 2. Ketika tombol "Simpan Password Baru" diklik
 if (isset($_POST['reset_password'])) {
     
     if ($type == 'perusahaan') {
@@ -20,7 +20,7 @@ if (isset($_POST['reset_password'])) {
         $nama_perusahaan = trim(mysqli_real_escape_string($conn, $_POST['input_2']));
         $password_baru = mysqli_real_escape_string($conn, $_POST['password_baru']);
 
-        // Cek apakah email & nama perusahaan ada dan cocok di DB
+        // Cek apakah email & nama perusahaan ada dan cocok di database
         $query_cek = "SELECT * FROM perusahaan WHERE email = '$email' AND nmaperusahaan = '$nama_perusahaan' LIMIT 1";
         $result = mysqli_query($conn, $query_cek);
 
@@ -42,7 +42,7 @@ if (isset($_POST['reset_password'])) {
         $id_jabatan = trim(mysqli_real_escape_string($conn, $_POST['input_2']));
         $password_baru = mysqli_real_escape_string($conn, $_POST['password_baru']);
 
-        // Cek apakah nama karyawan & id_jabatan cocok di DB
+        // Cek apakah nama karyawan & id_jabatan cocok di database
         $query_cek = "SELECT * FROM userkaryawan WHERE nmakaryawan = '$nmakaryawan' AND id_jabatan = '$id_jabatan' LIMIT 1";
         $result = mysqli_query($conn, $query_cek);
 

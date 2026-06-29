@@ -25,7 +25,7 @@ if (!isset($_SESSION['loginKaryawan'])) {
 
 $id_karyawan = mysqli_real_escape_string($conn, $_SESSION['id_karyawan'] ?? '');
 $hari_ini = date('Y-m-d');
-// Gunakan format full datetime untuk insert ke DB agar kompatibel dgn tipe data DATETIME
+// Gunakan format full datetime untuk insert ke database agar kompatibel dgn tipe data DATETIME
 $waktu_sekarang = date('Y-m-d H:i:s'); 
 
 if (!function_exists('hitungJarak')) {
@@ -249,11 +249,11 @@ if (isset($_POST['action']) && $_POST['action'] == 'absen_geo') {
                                         $status = htmlspecialchars($row['sttsPresensi']);
                                         $catatan_tabel = !empty($row['catatan']) ? htmlspecialchars($row['catatan']) : '-';
 
-                                        // PENGECEKAN VALIDASI JAM DARI DATABASE (Anti 00:00:00 & Filter Tanggal)
+                                        // PENGECEKAN VALIDASI JAM DARI DATABASE
                                         $jamMasukValid = isValidTime($row['jamMasuk']);
                                         $jamKeluarValid = isValidTime($row['jamKeluar']);
 
-                                        // Format waktu menjadi H:i:s murni (Buang tanggalnya)
+                                        // Format waktu menjadi H:i:s murni
                                         $jamMasukCetak = $jamMasukValid ? date('H:i:s', strtotime($row['jamMasuk'])) : '-';
                                         $jamKeluarCetak = $jamKeluarValid ? date('H:i:s', strtotime($row['jamKeluar'])) : '-';
 
@@ -284,9 +284,9 @@ if (isset($_POST['action']) && $_POST['action'] == 'absen_geo') {
                                         echo "<tr>";
                                         echo "<td class='text-bold'>{$tgl} " . ($row['tglPresensi'] == $hari_ini ? "<span class='badge-today'>Hari Ini</span>" : "") . "</td>";
                                         echo "<td><span class='{$statusClass}'>{$status}</span></td>";
-                                        echo "<td>{$jamMasukCetak}</td>";  // <--- Tanggal udah hilang!
-                                        echo "<td>{$jamKeluarCetak}</td>"; // <--- Tanggal udah hilang!
-                                        echo "<td><span class='text-muted' style='font-size: 0.9em; font-weight: 500;'>{$teks_waktu_kerja}</span></td>"; // <--- Perhitungan 100% jalan
+                                        echo "<td>{$jamMasukCetak}</td>";
+                                        echo "<td>{$jamKeluarCetak}</td>";
+                                        echo "<td><span class='text-muted' style='font-size: 0.9em; font-weight: 500;'>{$teks_waktu_kerja}</span></td>";
                                         echo "<td>{$catatan_tabel}</td>";
                                         
                                         echo "<td>";

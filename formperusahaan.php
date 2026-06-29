@@ -1,17 +1,15 @@
 <?php
-ob_start(); // supaya tidak terjadi tampilan kedipan error yang sekilas
-// Tampilkan error jika ada masalah lain agar tidak ngeblank
+ob_start();
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Koneksi ke database
 $host = 'localhost';
 $user = 'root';
 $pass = "";
 $db   = 'sistempenggajian';
 $conn = mysqli_connect($host, $user, $pass, $db);
 
-// Cek koneksi berhasil atau tidak
 if (!$conn) {
     die("Koneksi gagal: " . mysqli_connect_error());
 }
@@ -29,7 +27,7 @@ $perusahaan = mysqli_fetch_assoc($query);
 // Jika sudah isi, langsung lempar ke dashboard
 if (!empty($perusahaan['nmaperusahaan'])) {
     header("Location: dashboardperusahaan.php");
-    exit; // Menghentikan kode di bawah agar tidak sempat terbaca
+    exit;
 }
 ?>
 <!DOCTYPE html>
@@ -99,5 +97,5 @@ if (!empty($perusahaan['nmaperusahaan'])) {
     </body>
 </html>
 <?php
-ob_end_flush(); //fungsinya sama seperti ob_start yang diatas
+ob_end_flush();
 ?>
