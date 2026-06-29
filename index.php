@@ -24,7 +24,7 @@
             <ul>
                 <li><a href="index.php">Beranda</a></li>
                 <li><a href="#fitur">Fitur</a></li>
-                <li><a href="#harga">Harga</a></li>
+                <li><a href="#kontak">Kontak</a></li>
             </ul>
         </nav>
 
@@ -37,60 +37,10 @@
     <h1>Kelola Payroll & Absensi Karyawan Dengan Kami</h1>
     <p>Optimalkan efisiensi operasional bisnis Anda dengan sistem manajemen payroll dan absensi yang terintegrasi. Kami menghadirkan solusi digital yang akurat untuk membantu Anda mengelola data karyawan, perhitungan gaji, hingga pemantauan kehadiran secara real-time dalam satu platform yang aman dan mudah digunakan.</p>
 
-        <a href="daftar.php" class="daftar-link">
-            <button class="button-daftar" type="button">Daftar Sekarang</button>
-        </a>
         <a href="https://wa.me/6285724258310" target="_blank" class="wa-button">
             <button class="button-wa" type="button">
                 <i class="fab fa-whatsapp"></i> Hubungi Sekarang</button>
         </a>
-
-<!-- Harga -->
-    <div class="pricing-container" id="harga">
-    <h1>Pilih Paket yang Sesuai untuk Bisnis Anda</h1>
-    <p class="description-pricing">Kami menyediakan berbagai pilihan paket yang fleksibel untuk mendukung pertumbuhan operasional perusahaan Anda secara efisien.</p>
-
-    <div class="pricing-grid">
-        <div class="pricing-card">
-            <h3>Standar</h3>
-            <div class="price">Gratis</div>
-            <p class="price-detail">Untuk UMKM & Bisnis Baru</p>
-            <ul class="feature-list">
-                <li>Maksimal 5 Karyawan</li>
-                <li>Laporan Penggajian Dasar</li>
-                <li>Presensi Geolocation</li>
-                <li>Akses ESS Portal</li>
-            </ul>
-            <a href="daftar.php"><button class="btn-pricing">Mulai Sekarang</button></a>
-        </div>
-
-        <div class="pricing-card featured">
-            <div class="badge">Terpopuler</div>
-            <h3>Profesional</h3>
-            <div class="price">Rp 250.000<span>/bulan</span></div>
-            <p class="price-detail">Untuk Bisnis Berkembang</p>
-            <ul class="feature-list">
-                <li>Karyawan Tidak Terbatas</li>
-                <li>Integrasi Payroll & BPJS</li>
-                <li>Sistem Komisi Progresif</li>
-                <li>Ekspor Bank Bulk Transfer</li>
-            </ul>
-            <a href="daftar.php"><button class="btn-pricing featured-btn">Mulai Sekarang</button></a>
-        </div>
-
-        <div class="pricing-card">
-            <h3>Enterprise</h3>
-            <div class="price">Custom</div>
-            <p class="price-detail">Untuk Skala Perusahaan Besar</p>
-            <ul class="feature-list">
-                <li>Multi-Cabang & Cabang Luar Negeri</li>
-                <li>Integrasi API Kustom</li>
-                <li>Dukungan Prioritas 24/7</li>
-                <li>Konsolidasi Laporan Pajak</li>
-            </ul>
-            <a href="https://wa.me/6285724258310"><button class="btn-pricing">Hubungi Kami</button></a>
-        </div>
-    </div>
 
 <!-- Fitur Fitur dan Penjelasan Fitur -->
     <div class="container-utama" id="fitur">
@@ -156,12 +106,9 @@
             </details>
         </div>
     </div>
-        <a href="daftar.php" class="daftar-link">
-            <button class="button-daftar" type="button">Daftar Sekarang</button>
-        </a>
 
 <!-- Sosial Media -->
-    <div class="social-section">
+    <div class="social-section" id="kontak">
         <h2>Sosial Media Kami</h2>
         <div class="social-icons">
             <a href="#"><i class="fab fa-facebook-f"></i></a>
